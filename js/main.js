@@ -132,27 +132,64 @@ function loadPhotoGallery() {
   // 清空现有内容
   photoGallery.innerHTML = '';
   
-  // 为每个图片创建元素
-  photoFiles.forEach((fileName, index) => {
-    const photoDiv = document.createElement('div');
-    photoDiv.className = 'relative group overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in';
-    photoDiv.style.animationDelay = `${index * 0.05}s`;
+  // 获取当前路径的基础URL，确保在GitHub Pages上正常工作
+  const getBaseUrl = () => {
+    const isGitHubPages = window.location.hostname.includes('github.io');
+    if (isGitHubPages) {
+      // GitHub Pages环境
+      const pathParts = window.location.pathname.split('/');
+      // 移除最后一个空元素和文件名
+      pathParts.pop();
+      return window.location.origin + pathParts.join('/') + '/';
+    }
+    // 本地环境或其他环境
+    return './';
+  };
+  
+  const baseUrl = getBaseUrl();
+  
+  // 添加调试信息
+    console.log('当前环境:', window.location.hostname);
+    console.log('基础URL:', baseUrl);
+    console.log('开始加载照片，共', photoFiles.length, '张');
     
-    const img = document.createElement('img');
-    img.src = `images/${fileName}`;
-    img.alt = `婚纱照 ${index + 1}`;
-    img.className = 'w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110';
-    img.loading = 'lazy';
+    // 为每个图片创建元素
+    photoFiles.forEach((fileName, index) => {
+      const photoDiv = document.createElement('div');
+      photoDiv.className = 'relative group overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in';
+      photoDiv.style.animationDelay = `${index * 0.05}s`;
+      
+      const img = document.createElement('img');
+      img.src = baseUrl + `images/${fileName}`;
+      img.alt = `婚纱照 ${index + 1}`;
+      img.className = 'w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110';
+      img.loading = 'lazy';
     
-    // 添加错误处理
+    // 添加错误处理和重试机制
+    let retryCount = 0;
+    const maxRetries = 2;
+    
     img.onerror = function() {
-      this.style.display = 'none';
-      photoDiv.style.display = 'none';
+      retryCount++;
+      if (retryCount <= maxRetries) {
+        // 尝试其他路径格式
+        if (retryCount === 1) {
+          img.src = `images/${fileName}`; // 尝试相对路径
+        } else if (retryCount === 2) {
+          img.src = `/images/${fileName}`; // 尝试根路径
+        }
+      } else {
+        // 最终失败，隐藏元素
+        console.warn(`图片加载失败: ${fileName}`);
+        this.style.display = 'none';
+        photoDiv.style.display = 'none';
+      }
     };
     
     // 添加加载完成处理
     img.onload = function() {
       this.classList.add('loaded');
+      console.log(`图片加载成功: ${fileName}`);
     };
     
     photoDiv.appendChild(img);
