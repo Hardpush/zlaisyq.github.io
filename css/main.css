@@ -1,0 +1,61 @@
+/* Tailwind配置需要保留在HTML中或单独配置，这里只放自定义样式 */
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .text-shadow-lg {
+    text-shadow: 0 4px 8px rgba(0,0,0,0.25);
+  }
+  .bg-gradient-love {
+    background: linear-gradient(135deg, #ff8096 0%, #994dff 100%);
+  }
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-in-out forwards;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* 自定义动画 */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 全局样式补充 */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 时间线响应式调整 */
+@media (max-width: 768px) {
+  .timeline-node:nth-child(even) .timeline-content {
+    order: 2;
+  }
+  .timeline-node:nth-child(even) .timeline-img {
+    order: 1;
+  }
+}
