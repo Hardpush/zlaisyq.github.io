@@ -136,19 +136,28 @@ function loadPhotoGallery() {
   // 获取当前路径的基础URL，确保在GitHub Pages上正常工作
   const getBaseUrl = () => {
     const hostname = window.location.hostname;
-    console.log('检测到主机名:', hostname);
+    const protocol = window.location.protocol;
+    const port = window.location.port;
+    const pathname = window.location.pathname;
+    
+    console.log('=== 环境检测 ===');
+    console.log('协议:', protocol);
+    console.log('主机名:', hostname);
+    console.log('端口:', port);
+    console.log('路径:', pathname);
     
     if (hostname.includes('github.io')) {
       // GitHub Pages环境
-      const pathParts = window.location.pathname.split('/');
+      const pathParts = pathname.split('/');
       pathParts.pop(); // 移除文件名
       const baseUrl = window.location.origin + pathParts.join('/') + '/';
       console.log('GitHub Pages环境，基础URL:', baseUrl);
       return baseUrl;
-    } else if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname.includes('192.168.')) {
-      // 本地环境
-      console.log('本地环境，使用相对路径');
-      return './';
+    } else if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname.includes('192.168.') || hostname === '') {
+      // 本地环境 - 使用绝对路径确保正确
+      const baseUrl = window.location.origin + pathname.replace(/\/[^\/]*$/, '/') + 'images/';
+      console.log('本地环境，基础URL:', baseUrl);
+      return baseUrl;
     } else {
       // 生产环境（自定义域名）
       console.log('生产环境，使用根路径');
@@ -165,9 +174,28 @@ function loadPhotoGallery() {
   console.log('开始加载照片，共', photoFiles.length, '张');
   
   // 测试第一张图片的完整路径
-  const firstImageUrl = baseUrl + `images/${photoFiles[0]}`;
+  const firstImageUrl = baseUrl.includes('images/') ? baseUrl + photoFiles[0] : baseUrl + `images/${photoFiles[0]}`;
   console.log('第一张图片URL:', firstImageUrl);
   
+  // 直接测试几个可能的路径
+  const possiblePaths = [
+    `./images/${photoFiles[0]}`,
+    `images/${photoFiles[0]}`,
+    `${window.location.origin}${window.location.pathname.replace(/\/[^\/]*$/, '/')}images/${photoFiles[0]}`,
+    firstImageUrl
+  ];
+  
+  console.log('=== 测试可能的图片路径 ===');
+  possiblePaths.forEach((path, index) => {
+    const testImg = new Image();
+    testImg.onload = function() {
+      console.log(`✅ 路径 ${index + 1} 成功:`, path);
+    };
+    testImg.onerror = function() {
+      console.error(`❌ 路径 ${index + 1} 失败:`, path);
+    };
+    testImg.src = path;
+  });
   // 创建测试图片来验证路径
   const testImg = new Image();
   testImg.onload = function() {
@@ -179,33 +207,51 @@ function loadPhotoGallery() {
   };
   testImg.src = firstImageUrl;
   
-  // 最简单的加载方式：直接创建所有图片元素
+  // 优化的图片加载方式：添加占位符和渐进式显示
   photoFiles.forEach((fileName, index) => {
     const photoDiv = document.createElement('div');
     photoDiv.className = 'relative group overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300';
     
+    // 添加加载占位符
+    const placeholder = document.createElement('div');
+    placeholder.className = 'absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center';
+    placeholder.innerHTML = `
+      <div class="text-center">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-love-500"></div>
+        <div class="text-xs text-gray-500 mt-2">加载中...</div>
+      </div>
+    `;
+    photoDiv.appendChild(placeholder);
+    
     const img = document.createElement('img');
-    const fullUrl = baseUrl + `images/${fileName}`;
+    const fullUrl = baseUrl.includes('images/') ? baseUrl + fileName : baseUrl + `images/${fileName}`;
     img.src = fullUrl;
     img.alt = `婚纱照 ${index + 1}`;
-    img.className = 'w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110';
-    // 移除懒加载，图片立即加载
+    img.className = 'w-full h-64 object-cover transition-all duration-500 group-hover:scale-110 opacity-0';
+    img.loading = 'lazy'; // 启用懒加载，优化GitHub Pages性能
     
     console.log(`创建图片 ${index + 1}: ${fullUrl}`);
     
-    // 详细的成功和错误处理
+    // 成功加载时的处理
     img.addEventListener('load', function() {
       console.log(`✅ 图片加载成功: ${fileName}`);
+      placeholder.style.display = 'none';
+      setTimeout(() => {
+        this.classList.remove('opacity-0');
+        this.classList.add('opacity-100');
+      }, 100);
     });
     
+    // 加载失败时的处理
     img.addEventListener('error', function() {
       console.error(`❌ 图片加载失败: ${fileName}`);
-      console.error(`失败的URL: ${this.src}`);
-      this.style.display = 'none';
-      photoDiv.innerHTML = `<div class="w-full h-64 bg-red-100 flex flex-col items-center justify-center text-red-600">
-        <div class="text-sm mb-2">加载失败</div>
-        <div class="text-xs">${fileName}</div>
-      </div>`;
+      placeholder.innerHTML = `
+        <div class="text-center text-red-600">
+          <div class="text-lg mb-2">😔</div>
+          <div class="text-sm">加载失败</div>
+          <div class="text-xs mt-1">${fileName}</div>
+        </div>
+      `;
     });
     
     photoDiv.appendChild(img);

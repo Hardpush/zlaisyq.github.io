@@ -71,14 +71,7 @@ img {
   height: auto;
 }
 
-img[loading="lazy"] {
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-img[loading="lazy"].loaded {
-  opacity: 1;
-}
+/* 移除懒加载的opacity限制，让图片正常显示 */
 
 
 
@@ -113,7 +106,53 @@ img[loading="lazy"].loaded {
   animation: fadeIn 0.5s ease-in;
 }
 
-/* 移除复杂动画，提升性能 */
+/* 优化的加载动画和过渡效果 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.opacity-0 {
+  opacity: 0;
+}
+
+.opacity-100 {
+  opacity: 1;
+}
+
+/* 加载占位符动画 */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* 旋转加载动画 */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
 
 /* 照片墙响应式设计 */
 @media (max-width: 768px) {
