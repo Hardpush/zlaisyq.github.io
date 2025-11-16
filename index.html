@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>我们的一周年纪念</title>
+<<<<<<< HEAD
   <!-- 外部资源 -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -14,11 +15,106 @@
   <script src="js/main.js" defer></script>
   <link rel="stylesheet" href="css/main.css">
 </head>
+=======
+  <!-- 引入外部资源 -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+  
+  <!-- Tailwind配置 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            love: {
+              100: '#ffe6ea',
+              200: '#ffccd5',
+              300: '#ffb3c0',
+              400: '#ff99ab',
+              500: '#ff8096',
+              600: '#ff6681',
+              700: '#ff4d6d',
+              800: '#ff3358',
+              900: '#ff1a43',
+            },
+            romance: {
+              100: '#f0e6ff',
+              200: '#e1ccff',
+              300: '#d3b3ff',
+              400: '#c499ff',
+              500: '#b680ff',
+              600: '#a766ff',
+              700: '#994dff',
+              800: '#8a33ff',
+              900: '#7c1aff',
+            }
+          },
+          fontFamily: {
+            romantic: ['Segoe UI', 'Roboto', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  
+  <!-- 自定义样式 -->
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .text-shadow-lg {
+        text-shadow: 0 4px 8px rgba(0,0,0,0.25);
+      }
+      .bg-gradient-love {
+        background: linear-gradient(135deg, #ff8096 0%, #994dff 100%);
+      }
+      .animate-float {
+        animation: float 6s ease-in-out infinite;
+      }
+      .animate-fade-in {
+        animation: fadeIn 0.8s ease-in-out forwards;
+      }
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+      .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    }
+    
+    /* 自定义动画 */
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+>>>>>>> 3bd965544d859d11c6f6ef599119dd83c51cec9f
 <body class="font-romantic bg-gray-50 text-gray-800 overflow-x-hidden">
   <!-- 粒子背景容器 -->
   <div id="particles-js" class="fixed top-0 left-0 w-full h-full pointer-events-none"></div>
 
   <!-- 导航栏 -->
+<<<<<<< HEAD
   <nav id="navbar" class="fixed w-full bg-white/90 backdrop-blur-sm py-3 shadow-sm transition-all duration-300 z-40">
     <div class="container mx-auto px-4 flex justify-between items-center">
       <a href="#" class="text-2xl font-bold text-love-500">爱的纪念</a>
@@ -32,10 +128,26 @@
       </div>
       <!-- 移动端菜单按钮 -->
       <button id="mobile-menu-button" class="md:hidden text-gray-700">
+=======
+  <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 bg-white/80 backdrop-blur-md shadow-sm">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <a href="#hero" class="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-love">
+        我们的爱情故事
+      </a>
+      <div class="hidden md:flex space-x-8">
+        <a href="#countdown" class="nav-link hover:text-romance-600 transition-colors">倒计时</a>
+        <a href="#timeline" class="nav-link hover:text-romance-600 transition-colors">时间线</a>
+        <a href="#photos" class="nav-link hover:text-romance-600 transition-colors">照片集</a>
+        <a href="#messages" class="nav-link hover:text-romance-600 transition-colors">祝福墙</a>
+        <a href="#future" class="nav-link hover:text-romance-600 transition-colors">未来计划</a>
+      </div>
+      <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
+>>>>>>> 3bd965544d859d11c6f6ef599119dd83c51cec9f
         <i class="fa fa-bars text-xl"></i>
       </button>
     </div>
     <!-- 移动端菜单 -->
+<<<<<<< HEAD
     <div id="mobile-menu" class="md:hidden hidden bg-white shadow-md py-4 px-4">
       <div class="flex flex-col space-y-3">
         <a href="#home" class="hover:text-love-500 transition-colors">首页</a>
@@ -43,11 +155,21 @@
         <a href="#photos" class="hover:text-love-500 transition-colors">照片集</a>
         <a href="#messages" class="hover:text-love-500 transition-colors">祝福墙</a>
         <a href="#future" class="hover:text-love-500 transition-colors">未来计划</a>
+=======
+    <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg absolute w-full">
+      <div class="container mx-auto px-4 py-3 flex flex-col space-y-4">
+        <a href="#countdown" class="py-2 hover:text-romance-600 transition-colors">倒计时</a>
+        <a href="#timeline" class="py-2 hover:text-romance-600 transition-colors">时间线</a>
+        <a href="#photos" class="py-2 hover:text-romance-600 transition-colors">照片集</a>
+        <a href="#messages" class="py-2 hover:text-romance-600 transition-colors">祝福墙</a>
+        <a href="#future" class="py-2 hover:text-romance-600 transition-colors">未来计划</a>
+>>>>>>> 3bd965544d859d11c6f6ef599119dd83c51cec9f
       </div>
     </div>
   </nav>
 
   <!-- 首屏区域 -->
+<<<<<<< HEAD
   <section id="home" class="pt-24 pb-16 md:pt-32 md:pb-24 bg-gradient-love/10">
     <div class="container mx-auto px-4 text-center">
       <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6 text-shadow-lg">我们的一周年纪念</h1>
@@ -79,10 +201,65 @@
       <a href="#timeline" class="inline-block bg-love-500 text-white px-8 py-3 rounded-full hover:bg-love-600 transition-colors shadow-lg animate-float">
         回顾我们的故事 <i class="fa fa-arrow-down ml-2"></i>
       </a>
+=======
+  <section id="hero" class="relative min-h-screen flex items-center justify-center pt-16">
+    <div class="absolute inset-0 bg-gradient-to-b from-romance-100/80 to-love-100/80 z-0"></div>
+    <div class="container mx-auto px-4 z-10 text-center">
+      <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-bold text-white text-shadow-lg mb-6 leading-tight animate-fade-in">
+        我们在一起的<br><span class="bg-clip-text text-transparent bg-gradient-love">365天</span>
+      </h1>
+      <p class="text-[clamp(1rem,3vw,1.5rem)] text-gray-700 mb-10 max-w-2xl mx-auto animate-fade-in" style="animation-delay: 0.2s">
+        从2024年11月16日到永远，记录我们爱情的每一个珍贵瞬间
+      </p>
+      <div class="animate-fade-in" style="animation-delay: 0.4s">
+        <a href="#countdown" class="inline-block bg-romance-600 hover:bg-romance-700 text-white font-medium py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+          查看我们的故事
+        </a>
+      </div>
+      <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <a href="#countdown" class="text-gray-600 hover:text-romance-600">
+          <i class="fa fa-angle-down text-3xl"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 倒计时区域 -->
+  <section id="countdown" class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-gray-800 mb-4">爱情倒计时</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">距离我们的一周年纪念日还有多少天</p>
+      </div>
+      
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+        <div class="bg-romance-100 rounded-xl p-6 text-center transform transition-all hover:scale-105 hover:shadow-lg">
+          <div id="days" class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-romance-800">00</div>
+          <div class="text-romance-600 font-medium">天</div>
+        </div>
+        <div class="bg-romance-100 rounded-xl p-6 text-center transform transition-all hover:scale-105 hover:shadow-lg">
+          <div id="hours" class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-romance-800">00</div>
+          <div class="text-romance-600 font-medium">时</div>
+        </div>
+        <div class="bg-romance-100 rounded-xl p-6 text-center transform transition-all hover:scale-105 hover:shadow-lg">
+          <div id="minutes" class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-romance-800">00</div>
+          <div class="text-romance-600 font-medium">分</div>
+        </div>
+        <div class="bg-romance-100 rounded-xl p-6 text-center transform transition-all hover:scale-105 hover:shadow-lg">
+          <div id="seconds" class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-romance-800">00</div>
+          <div class="text-romance-600 font-medium">秒</div>
+        </div>
+      </div>
+      
+      <div class="mt-12 text-center">
+        <p class="text-gray-700">我们的纪念日: <span class="font-bold text-romance-700">2025年11月16日</span></p>
+      </div>
+>>>>>>> 3bd965544d859d11c6f6ef599119dd83c51cec9f
     </div>
   </section>
 
   <!-- 时间线区域 -->
+<<<<<<< HEAD
   <section id="timeline" class="py-16 md:py-24 bg-white">
     <div class="container mx-auto px-4">
       <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">我们的爱情时间线</h2>
@@ -140,6 +317,82 @@
             <h3 class="text-xl font-semibold text-love-500 mb-2">第一次旅行</h3>
             <p class="text-gray-700">我们一起去了海边，看日出日落，踩在沙滩上的脚印，是我们爱的见证。</p>
             <p class="text-sm text-gray-500 mt-1">2025-02-14</p>
+=======
+  <section id="timeline" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-gray-800 mb-4">我们的爱情时间线</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">记录我们从相遇、相知到相爱的美好历程</p>
+      </div>
+      
+      <div class="relative max-w-4xl mx-auto">
+        <!-- 时间线中轴线 -->
+        <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-romance-300 to-love-300"></div>
+        
+        <!-- 时间线节点1: 相遇 -->
+        <div class="relative mb-20">
+          <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 md:pr-12 mb-8 md:mb-0 md:text-right order-2 md:order-1">
+              <h3 class="text-2xl font-bold text-romance-700 mb-2">初次相遇</h3>
+              <p class="text-gray-600 mb-3">那是一个普通的日子，但因为你的出现而变得特别。从那一刻起，我知道我的生命中将多一个重要的人。</p>
+              <div class="text-romance-500 font-medium">2024年11月16日</div>
+            </div>
+            <div class="z-10 flex items-center justify-center w-16 h-16 rounded-full bg-romance-600 text-white shadow-lg order-1 md:order-2">
+              <i class="fa fa-heart text-2xl"></i>
+            </div>
+            <div class="md:w-1/2 md:pl-12 order-3">
+              <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all hover:shadow-xl hover:scale-105">
+                <img src="https://picsum.photos/id/237/600/400" alt="相遇的回忆" class="w-full h-48 object-cover">
+                <div class="p-6">
+                  <p class="text-gray-700 italic">"遇见你是我这辈子最幸运的事。"</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 时间线节点2: 求婚 -->
+        <div class="relative mb-20">
+          <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 md:pr-12 mb-8 md:mb-0 order-2">
+              <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all hover:shadow-xl hover:scale-105">
+                <img src="https://picsum.photos/id/1062/600/400" alt="求婚的回忆" class="w-full h-48 object-cover">
+                <div class="p-6">
+                  <p class="text-gray-700 italic">"我愿意，永远都愿意。"</p>
+                </div>
+              </div>
+            </div>
+            <div class="z-10 flex items-center justify-center w-16 h-16 rounded-full bg-love-600 text-white shadow-lg order-1">
+              <i class="fa fa-gem text-2xl"></i>
+            </div>
+            <div class="md:w-1/2 md:pl-12 md:text-left order-3">
+              <h3 class="text-2xl font-bold text-love-700 mb-2">浪漫求婚</h3>
+              <p class="text-gray-600 mb-3">在那个特殊的日子，你单膝跪地，问我是否愿意共度一生。我的眼泪和笑容都是最真实的回答。</p>
+              <div class="text-love-500 font-medium">2025年6月29日</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 时间线节点3: 订婚 -->
+        <div class="relative">
+          <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 md:pr-12 mb-8 md:mb-0 md:text-right order-2 md:order-1">
+              <h3 class="text-2xl font-bold text-romance-700 mb-2">订婚之约</h3>
+              <p class="text-gray-600 mb-3">在亲友的见证下，我们交换了戒指，许下了对未来的承诺。这是我们爱情旅程中的又一个重要里程碑。</p>
+              <div class="text-romance-500 font-medium">2025年10月2日</div>
+            </div>
+            <div class="z-10 flex items-center justify-center w-16 h-16 rounded-full bg-romance-800 text-white shadow-lg order-1 md:order-2">
+              <i class="fa fa-ring text-2xl"></i>
+            </div>
+            <div class="md:w-1/2 md:pl-12 order-3">
+              <div class="bg-white rounded-xl shadow-lg overflow-hidden transform transition-all hover:shadow-xl hover:scale-105">
+                <img src="https://picsum.photos/id/1082/600/400" alt="订婚的回忆" class="w-full h-48 object-cover">
+                <div class="p-6">
+                  <p class="text-gray-700 italic">"从此，我们的故事又翻开了崭新的一页。"</p>
+                </div>
+              </div>
+            </div>
+>>>>>>> 3bd965544d859d11c6f6ef599119dd83c51cec9f
           </div>
         </div>
       </div>
@@ -147,6 +400,7 @@
   </section>
 
   <!-- 照片集区域 -->
+<<<<<<< HEAD
   <section id="photos" class="py-16 md:py-24 bg-gray-50">
     <div class="container mx-auto px-4">
       <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">我们的甜蜜瞬间</h2>
@@ -245,11 +499,93 @@
       <div class="text-center mt-12">
         <button id="load-more-btn" class="inline-block border border-love-500 text-love-500 px-6 py-2 rounded-full hover:bg-love-50 hover:transition-colors">
           加载更多祝福
+=======
+  <section id="photos" class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-gray-800 mb-4">我们的照片集</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">每一张照片都是我们爱情的见证，记录了我们共同度过的美好时光</p>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <!-- 照片1 -->
+        <div class="relative group overflow-hidden rounded-xl shadow-lg">
+          <img src="https://picsum.photos/id/26/600/800" alt="我们的回忆" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+            <div class="p-6 text-white">
+              <h3 class="text-xl font-bold mb-2">第一次约会</h3>
+              <p class="text-sm">那一天，我们聊了很多很多</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 照片2 -->
+        <div class="relative group overflow-hidden rounded-xl shadow-lg">
+          <img src="https://picsum.photos/id/96/600/800" alt="我们的回忆" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+            <div class="p-6 text-white">
+              <h3 class="text-xl font-bold mb-2">一起旅行</h3>
+              <p class="text-sm">探索未知的世界，有你在身边</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 照片3 -->
+        <div class="relative group overflow-hidden rounded-xl shadow-lg">
+          <img src="https://picsum.photos/id/65/600/800" alt="我们的回忆" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+            <div class="p-6 text-white">
+              <h3 class="text-xl font-bold mb-2">温馨的午后</h3>
+              <p class="text-sm">在阳光下，享受彼此的陪伴</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 照片4 -->
+        <div class="relative group overflow-hidden rounded-xl shadow-lg">
+          <img src="https://picsum.photos/id/1005/600/800" alt="我们的回忆" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+            <div class="p-6 text-white">
+              <h3 class="text-xl font-bold mb-2">求婚时刻</h3>
+              <p class="text-sm">我愿意，永远都愿意</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 照片5 -->
+        <div class="relative group overflow-hidden rounded-xl shadow-lg">
+          <img src="https://picsum.photos/id/1011/600/800" alt="我们的回忆" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+            <div class="p-6 text-white">
+              <h3 class="text-xl font-bold mb-2">订婚派对</h3>
+              <p class="text-sm">和亲友一起分享我们的喜悦</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 照片6 -->
+        <div class="relative group overflow-hidden rounded-xl shadow-lg">
+          <img src="https://picsum.photos/id/1025/600/800" alt="我们的回忆" class="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+            <div class="p-6 text-white">
+              <h3 class="text-xl font-bold mb-2">未来的憧憬</h3>
+              <p class="text-sm">我们的故事，未完待续...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 添加照片按钮 -->
+      <div class="text-center mt-12">
+        <button id="add-photo-btn" class="inline-flex items-center justify-center bg-romance-600 hover:bg-romance-700 text-white font-medium py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+          <i class="fa fa-plus mr-2"></i> 添加更多照片
+>>>>>>> 3bd965544d859d11c6f6ef599119dd83c51cec9f
         </button>
       </div>
     </div>
   </section>
 
+<<<<<<< HEAD
   <!-- 未来计划区域 -->
   <section id="future" class="py-16 md:py-24 bg-white">
     <div class="container mx-auto px-4">
@@ -290,6 +626,225 @@
           </div>
           <h3 class="text-xl font-semibold mb-2 text-gray-900">订婚仪式</h3>
           <p class="text-gray-700">计划在两周年纪念日举办一个小型的订婚仪式，邀请亲朋好友一起见证我们的幸福时刻。</p>
+=======
+  <!-- 祝福墙区域 -->
+  <section id="messages" class="py-20 bg-gray-50">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-gray-800 mb-4">我们的祝福墙</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">来自亲友的祝福，是我们爱情路上最珍贵的礼物</p>
+      </div>
+      
+      <div class="max-w-4xl mx-auto">
+        <!-- 祝福表单 -->
+        <div class="bg-white rounded-xl shadow-lg p-8 mb-12">
+          <h3 class="text-xl font-bold text-gray-800 mb-4">留下你的祝福</h3>
+          <form id="message-form" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label for="name" class="block text-gray-700 font-medium mb-2">你的名字</label>
+                <input type="text" id="name" name="name" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-romance-500 focus:border-transparent" required>
+              </div>
+              <div>
+                <label for="relationship" class="block text-gray-700 font-medium mb-2">你与我们的关系</label>
+                <select id="relationship" name="relationship" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-romance-500 focus:border-transparent">
+                  <option value="friend">朋友</option>
+                  <option value="family">家人</option>
+                  <option value="colleague">同事</option>
+                  <option value="other">其他</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label for="message" class="block text-gray-700 font-medium mb-2">你的祝福</label>
+              <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-romance-500 focus:border-transparent" required></textarea>
+            </div>
+            <div>
+              <button type="submit" class="inline-block bg-romance-600 hover:bg-romance-700 text-white font-medium py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
+                发送祝福
+              </button>
+            </div>
+          </form>
+        </div>
+        
+        <!-- 祝福列表 -->
+        <div id="messages-list" class="space-y-6">
+          <!-- 示例祝福1 -->
+          <div class="bg-white rounded-xl shadow-lg p-6 transform transition-all hover:shadow-xl">
+            <div class="flex items-center mb-4">
+              <img src="https://picsum.photos/id/64/100/100" alt="用户头像" class="w-12 h-12 rounded-full object-cover mr-4">
+              <div>
+                <h4 class="font-bold text-gray-800">李小明</h4>
+                <p class="text-sm text-gray-500">朋友 · 2025年9月15日</p>
+              </div>
+            </div>
+            <p class="text-gray-700">恭喜你们走过了一年的美好时光！看着你们从相识到相爱，再到订婚，真的很为你们开心。愿你们永远像现在这样甜蜜幸福，白头偕老！</p>
+          </div>
+          
+          <!-- 示例祝福2 -->
+          <div class="bg-white rounded-xl shadow-lg p-6 transform transition-all hover:shadow-xl">
+            <div class="flex items-center mb-4">
+              <img src="https://picsum.photos/id/65/100/100" alt="用户头像" class="w-12 h-12 rounded-full object-cover mr-4">
+              <div>
+                <h4 class="font-bold text-gray-800">王佳琪</h4>
+                <p class="text-sm text-gray-500">闺蜜 · 2025年9月10日</p>
+              </div>
+            </div>
+            <p class="text-gray-700">亲爱的，看到你找到这么好的归宿，我真的太激动了！记得第一次见你和他在一起，你脸上洋溢的幸福是藏不住的。祝你们一周年快乐，永远幸福！</p>
+          </div>
+          
+          <!-- 示例祝福3 -->
+          <div class="bg-white rounded-xl shadow-lg p-6 transform transition-all hover:shadow-xl">
+            <div class="flex items-center mb-4">
+              <img src="https://picsum.photos/id/91/100/100" alt="用户头像" class="w-12 h-12 rounded-full object-cover mr-4">
+              <div>
+                <h4 class="font-bold text-gray-800">张阿姨</h4>
+                <p class="text-sm text-gray-500">邻居 · 2025年9月5日</p>
+              </div>
+            </div>
+            <p class="text-gray-700">看着你们俩从认识到订婚，真是郎才女貌，天作之合！祝你们的爱情像美酒一样，越陈越香。期待你们的婚礼，一定要幸福啊！</p>
+          </div>
+        </div>
+        
+        <!-- 加载更多按钮 -->
+        <div class="text-center mt-12">
+          <button id="load-more-btn" class="inline-flex items-center justify-center bg-white hover:bg-gray-50 text-gray-700 font-medium py-3 px-8 rounded-full shadow hover:shadow-lg transition-all">
+            <i class="fa fa-refresh mr-2"></i> 加载更多祝福
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 未来计划区域 -->
+  <section id="future" class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16">
+        <h2 class="text-[clamp(1.8rem,4vw,3rem)] font-bold text-gray-800 mb-4">我们的未来计划</h2>
+        <p class="text-gray-600 max-w-2xl mx-auto">共同规划我们的未来，一起实现更多梦想</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+        <!-- 婚礼计划 -->
+        <div class="bg-gradient-to-br from-romance-50 to-love-50 rounded-xl shadow-lg p-8 transform transition-all hover:shadow-xl">
+          <div class="w-16 h-16 bg-romance-100 rounded-full flex items-center justify-center mb-6">
+            <i class="fa fa-heart text-2xl text-romance-600"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-4">婚礼计划</h3>
+          <p class="text-gray-600 mb-6">我们计划在2026年春天举办一场温馨浪漫的婚礼，邀请亲朋好友一起见证我们的幸福时刻。</p>
+          
+          <div class="space-y-4">
+            <div class="flex items-center">
+              <div class="w-24 text-gray-700 font-medium">日期</div>
+              <div class="flex-1">
+                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                  <div class="bg-romance-600 h-2.5 rounded-full" style="width: 75%"></div>
+                </div>
+                <p class="text-sm text-gray-500 mt-1">已确定: 2026年4月15日</p>
+              </div>
+            </div>
+            
+            <div class="flex items-center">
+              <div class="w-24 text-gray-700 font-medium">场地</div>
+              <div class="flex-1">
+                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                  <div class="bg-romance-600 h-2.5 rounded-full" style="width: 60%"></div>
+                </div>
+                <p class="text-sm text-gray-500 mt-1">正在筛选中</p>
+              </div>
+            </div>
+            
+            <div class="flex items-center">
+              <div class="w-24 text-gray-700 font-medium">宾客</div>
+              <div class="flex-1">
+                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                  <div class="bg-romance-600 h-2.5 rounded-full" style="width: 40%"></div>
+                </div>
+                <p class="text-sm text-gray-500 mt-1">邀请名单准备中</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 旅行计划 -->
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl shadow-lg p-8 transform transition-all hover:shadow-xl">
+          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
+            <i class="fa fa-plane text-2xl text-blue-600"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-4">蜜月旅行</h3>
+          <p class="text-gray-600 mb-6">我们梦想中的蜜月旅行将在意大利进行，探索这个充满艺术与浪漫的国度。</p>
+          
+          <div class="grid grid-cols-3 gap-4 mb-6">
+            <div class="bg-white rounded-lg p-4 text-center shadow-sm">
+              <img src="https://picsum.photos/id/1031/200/200" alt="罗马" class="w-full h-24 object-cover rounded mb-2">
+              <p class="font-medium text-gray-800">罗马</p>
+            </div>
+            <div class="bg-white rounded-lg p-4 text-center shadow-sm">
+              <img src="https://picsum.photos/id/1033/200/200" alt="威尼斯" class="w-full h-24 object-cover rounded mb-2">
+              <p class="font-medium text-gray-800">威尼斯</p>
+            </div>
+            <div class="bg-white rounded-lg p-4 text-center shadow-sm">
+              <img src="https://picsum.photos/id/1036/200/200" alt="佛罗伦萨" class="w-full h-24 object-cover rounded mb-2">
+              <p class="font-medium text-gray-800">佛罗伦萨</p>
+            </div>
+          </div>
+          
+          <p class="text-gray-700 font-medium">计划时间: 2026年5月</p>
+        </div>
+        
+        <!-- 共同目标 -->
+        <div class="bg-gradient-to-br from-green-50 to-teal-50 rounded-xl shadow-lg p-8 transform transition-all hover:shadow-xl">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
+            <i class="fa fa-home text-2xl text-green-600"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-4">我们的家</h3>
+          <p class="text-gray-600 mb-6">我们计划在未来两年内购置一套属于我们自己的房子，打造一个温馨的家。</p>
+          
+          <div class="space-y-4">
+            <div class="flex items-start">
+              <div class="flex-shrink-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center mt-1">
+                <i class="fa fa-check text-white text-xs"></i>
+              </div>
+              <div class="ml-4">
+                <h4 class="font-medium text-gray-800">储蓄计划</h4>
+                <p class="text-sm text-gray-500">已开始为购房首付进行定期储蓄</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="flex-shrink-0 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center mt-1">
+                <i class="fa fa-check text-white text-xs"></i>
+              </div>
+              <div class="ml-4">
+                <h4 class="font-medium text-gray-800">区域考察</h4>
+                <p class="text-sm text-gray-500">正在研究合适的居住区域和学区</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+              <div class="flex-shrink-0 w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center mt-1">
+                <span class="text-gray-500 text-xs">3</span>
+              </div>
+              <div class="ml-4">
+                <h4 class="font-medium text-gray-800">看房计划</h4>
+                <p class="text-sm text-gray-500">计划在2025年底开始看房</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 爱情数据 -->
+        <div class="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl shadow-lg p-8 transform transition-all hover:shadow-xl">
+          <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-6">
+            <i class="fa fa-bar-chart text-2xl text-yellow-600"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-800 mb-4">我们的爱情数据</h3>
+          <p class="text-gray-600 mb-6">用数据记录我们爱情的点点滴滴</p>
+          
+          <div>
+            <canvas id="love-chart" width="400" height="200"></canvas>
+          </div>
+>>>>>>> 3bd965544d859d11c6f6ef599119dd83c51cec9f
         </div>
       </div>
     </div>
@@ -297,6 +852,7 @@
 
   <!-- 页脚 -->
   <footer class="bg-gray-900 text-white py-12">
+<<<<<<< HEAD
     <div class="container mx-auto px-4 text-center">
       <h2 class="text-2xl font-bold mb-4">我们的一周年纪念</h2>
       <p class="text-gray-400 mb-6">© 2025 爱的纪念 | 时光不老，我们不散</p>
@@ -305,20 +861,79 @@
         <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-wechat text-xl"></i></a>
         <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-instagram text-xl"></i></a>
         <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-facebook text-xl"></i></a>
+=======
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4">关于我们</h3>
+          <p class="text-gray-400">我们的爱情故事开始于2024年11月16日，这个网站记录了我们在一起的点点滴滴和对未来的美好憧憬。</p>
+        </div>
+        
+        <div>
+          <h3 class="text-xl font-bold mb-4">重要日期</h3>
+          <ul class="space-y-2 text-gray-400">
+            <li class="flex items-center">
+              <i class="fa fa-heart text-love-500 mr-2"></i>
+              <span>相识: 2024年11月16日</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fa fa-gem text-love-500 mr-2"></i>
+              <span>求婚: 2025年6月29日</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fa fa-ring text-love-500 mr-2"></i>
+              <span>订婚: 2025年10月2日</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fa fa-calendar text-love-500 mr-2"></i>
+              <span>婚礼: 2026年4月15日 (计划)</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-xl font-bold mb-4">联系方式</h3>
+          <ul class="space-y-2 text-gray-400">
+            <li class="flex items-center">
+              <i class="fa fa-envelope mr-2"></i>
+              <span>love@ourstory.com</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fa fa-weixin mr-2"></i>
+              <span>OurLoveStory2024</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fa fa-instagram mr-2"></i>
+              <span>our_love_story</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 mt-10 pt-6 text-center text-gray-500">
+        <p>&copy; 2025 我们的爱情故事. 保留所有权利.</p>
+>>>>>>> 3bd965544d859d11c6f6ef599119dd83c51cec9f
       </div>
     </div>
   </footer>
 
   <!-- 照片上传模态框 -->
   <div id="photo-modal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center hidden">
+<<<<<<< HEAD
     <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-xl font-semibold text-gray-900">上传甜蜜瞬间</h3>
+=======
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+      <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+        <h3 class="text-xl font-bold text-gray-800">添加照片</h3>
+>>>>>>> 3bd965544d859d11c6f6ef599119dd83c51cec9f
         <button id="close-modal-btn" class="text-gray-500 hover:text-gray-700">
           <i class="fa fa-times text-xl"></i>
         </button>
       </div>
       
+<<<<<<< HEAD
       <div id="photo-preview-container" class="mb-6 hidden">
         <img id="photo-preview" alt="照片预览" class="w-full h-64 object-cover rounded-lg">
         <button id="remove-photo-btn" class="mt-2 text-red-500 hover:text-red-700 text-sm">
@@ -338,10 +953,356 @@
           取消
         </button>
         <button id="save-photo-btn" class="flex-1 bg-love-500 text-white py-2 rounded-lg hover:bg-love-600 transition-colors">
+=======
+      <div class="p-6">
+        <div class="space-y-6">
+          <div>
+            <label class="block text-gray-700 font-medium mb-2">上传照片</label>
+            <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-romance-500 transition-colors">
+              <i class="fa fa-cloud-upload text-4xl text-gray-400 mb-4"></i>
+              <p class="text-gray-600 mb-2">拖放照片到这里，或者点击上传</p>
+              <p class="text-sm text-gray-500">支持 JPG, PNG 格式，最大 5MB</p>
+              <input type="file" id="photo-upload" class="hidden" accept="image/*">
+              <button id="browse-photo-btn" class="mt-4 inline-block bg-romance-600 hover:bg-romance-700 text-white font-medium py-2 px-6 rounded-full shadow transition-all">
+                选择照片
+              </button>
+            </div>
+          </div>
+          
+          <div id="photo-preview-container" class="hidden">
+            <label class="block text-gray-700 font-medium mb-2">照片预览</label>
+            <div class="relative">
+              <img id="photo-preview" src="" alt="照片预览" class="w-full h-auto rounded-lg">
+              <button id="remove-photo-btn" class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/70 transition-colors">
+                <i class="fa fa-times"></i>
+              </button>
+            </div>
+          </div>
+          
+          <div>
+            <label for="photo-caption" class="block text-gray-700 font-medium mb-2">照片描述</label>
+            <textarea id="photo-caption" rows="3" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-romance-500 focus:border-transparent" placeholder="例如：我们的第一次约会"></textarea>
+          </div>
+          
+          <div>
+            <label for="photo-date" class="block text-gray-700 font-medium mb-2">拍摄日期</label>
+            <input type="date" id="photo-date" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-romance-500 focus:border-transparent">
+          </div>
+        </div>
+      </div>
+      
+      <div class="p-6 border-t border-gray-200 flex justify-end">
+        <button id="cancel-photo-btn" class="mr-4 px-6 py-2 border border-gray-300 rounded-full text-gray-700 hover:bg-gray-50 transition-colors">
+          取消
+        </button>
+        <button id="save-photo-btn" class="px-6 py-2 bg-romance-600 hover:bg-romance-700 text-white rounded-full shadow transition-colors">
+>>>>>>> 3bd965544d859d11c6f6ef599119dd83c51cec9f
           保存照片
         </button>
       </div>
     </div>
   </div>
+<<<<<<< HEAD
+=======
+
+  <!-- JavaScript -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    // 初始化粒子背景
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: "#ff8096" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5, random: true },
+        size: { value: 3, random: true },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: "#994dff",
+          opacity: 0.4,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 1,
+          direction: "none",
+          random: true,
+          straight: false,
+          out_mode: "out",
+          bounce: false
+        }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "grab" },
+          onclick: { enable: true, mode: "push" },
+          resize: true
+        },
+        modes: {
+          grab: { distance: 140, line_linked: { opacity: 1 } },
+          push: { particles_nb: 3 }
+        }
+      },
+      retina_detect: true
+    });
+
+    // 导航栏滚动效果
+    window.addEventListener('scroll', function() {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('py-2', 'shadow-md');
+        navbar.classList.remove('py-3', 'shadow-sm');
+      } else {
+        navbar.classList.add('py-3', 'shadow-sm');
+        navbar.classList.remove('py-2', 'shadow-md');
+      }
+    });
+
+    // 移动端菜单切换
+    document.getElementById('mobile-menu-button').addEventListener('click', function() {
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        
+        // 关闭移动端菜单
+        document.getElementById('mobile-menu').classList.add('hidden');
+        
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // 倒计时功能
+    function updateCountdown() {
+      const anniversaryDate = new Date('2025-11-16T00:00:00');
+      const now = new Date();
+      const diff = anniversaryDate - now;
+      
+      if (diff <= 0) {
+        document.getElementById('days').textContent = '00';
+        document.getElementById('hours').textContent = '00';
+        document.getElementById('minutes').textContent = '00';
+        document.getElementById('seconds').textContent = '00';
+        return;
+      }
+      
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      
+      document.getElementById('days').textContent = days.toString().padStart(2, '0');
+      document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+      document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+      document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+    }
+    
+    // 初始化倒计时并每秒更新
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // 照片上传模态框
+    const photoModal = document.getElementById('photo-modal');
+    const addPhotoBtn = document.getElementById('add-photo-btn');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+    const cancelPhotoBtn = document.getElementById('cancel-photo-btn');
+    const browsePhotoBtn = document.getElementById('browse-photo-btn');
+    const photoUpload = document.getElementById('photo-upload');
+    const photoPreviewContainer = document.getElementById('photo-preview-container');
+    const photoPreview = document.getElementById('photo-preview');
+    const removePhotoBtn = document.getElementById('remove-photo-btn');
+    const savePhotoBtn = document.getElementById('save-photo-btn');
+    
+    // 打开模态框
+    addPhotoBtn.addEventListener('click', function() {
+      photoModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    });
+    
+    // 关闭模态框
+    function closeModal() {
+      photoModal.classList.add('hidden');
+      document.body.style.overflow = '';
+      
+      // 重置表单
+      photoUpload.value = '';
+      photoPreviewContainer.classList.add('hidden');
+      photoPreview.src = '';
+      document.getElementById('photo-caption').value = '';
+      document.getElementById('photo-date').value = '';
+    }
+    
+    closeModalBtn.addEventListener('click', closeModal);
+    cancelPhotoBtn.addEventListener('click', closeModal);
+    
+    // 点击模态框外部关闭
+    photoModal.addEventListener('click', function(e) {
+      if (e.target === photoModal) {
+        closeModal();
+      }
+    });
+    
+    // 浏览照片
+    browsePhotoBtn.addEventListener('click', function() {
+      photoUpload.click();
+    });
+    
+    // 照片预览
+    photoUpload.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file && file.type.match('image.*')) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+          photoPreview.src = e.target.result;
+          photoPreviewContainer.classList.remove('hidden');
+        }
+        
+        reader.readAsDataURL(file);
+      }
+    });
+    
+    // 移除照片
+    removePhotoBtn.addEventListener('click', function() {
+      photoUpload.value = '';
+      photoPreviewContainer.classList.add('hidden');
+      photoPreview.src = '';
+    });
+    
+    // 保存照片
+    savePhotoBtn.addEventListener('click', function() {
+      const caption = document.getElementById('photo-caption').value;
+      const date = document.getElementById('photo-date').value;
+      
+      if (!photoUpload.files.length) {
+        alert('请选择一张照片');
+        return;
+      }
+      
+      // 这里只是模拟保存，实际应用中应该发送到服务器
+      alert(`照片已保存：\n描述: ${caption}\n日期: ${date}`);
+      closeModal();
+    });
+
+    // 祝福表单提交
+    document.getElementById('message-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('name').value;
+      const relationship = document.getElementById('relationship').value;
+      const message = document.getElementById('message').value;
+      
+      // 这里只是模拟提交，实际应用中应该发送到服务器
+      alert(`祝福已发送：\n姓名: ${name}\n关系: ${relationship}\n祝福: ${message}`);
+      
+      // 重置表单
+      this.reset();
+      
+      // 模拟添加新祝福到列表
+      const messagesList = document.getElementById('messages-list');
+      const relationshipText = {
+        'friend': '朋友',
+        'family': '家人',
+        'colleague': '同事',
+        'other': '其他'
+      }[relationship];
+      
+      const today = new Date();
+      const dateText = `${today.getFullYear()}年${today.getMonth() + 1}月${today.getDate()}日`;
+      
+      const newMessage = `
+        <div class="bg-white rounded-xl shadow-lg p-6 transform transition-all hover:shadow-xl animate-fade-in">
+          <div class="flex items-center mb-4">
+            <img src="https://picsum.photos/id/${Math.floor(Math.random() * 100)}/100/100" alt="用户头像" class="w-12 h-12 rounded-full object-cover mr-4">
+            <div>
+              <h4 class="font-bold text-gray-800">${name}</h4>
+              <p class="text-sm text-gray-500">${relationshipText} · ${dateText}</p>
+            </div>
+          </div>
+          <p class="text-gray-700">${message}</p>
+        </div>
+      `;
+      
+      messagesList.insertAdjacentHTML('afterbegin', newMessage);
+    });
+
+    // 加载更多祝福
+    document.getElementById('load-more-btn').addEventListener('click', function() {
+      this.innerHTML = '<i class="fa fa-spinner fa-spin mr-2"></i> 加载中...';
+      
+      // 模拟加载延迟
+      setTimeout(() => {
+        this.innerHTML = '<i class="fa fa-refresh mr-2"></i> 加载更多祝福';
+        
+        // 这里应该从服务器加载更多祝福
+        alert('已加载所有祝福');
+      }, 1000);
+    });
+
+    // 爱情数据图表
+    const ctx = document.getElementById('love-chart').getContext('2d');
+    const loveChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['相识', '1个月', '3个月', '6个月', '订婚', '现在'],
+        datasets: [{
+          label: '幸福指数',
+          data: [60, 75, 85, 90, 95, 98],
+          borderColor: '#994dff',
+          backgroundColor: 'rgba(153, 77, 255, 0.1)',
+          tension: 0.4,
+          fill: true
+        }, {
+          label: '共同兴趣',
+          data: [40, 55, 65, 75, 80, 88],
+          borderColor: '#ff8096',
+          backgroundColor: 'rgba(255, 128, 150, 0.1)',
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+          }
+        },
+        scales: {
+          y: {
+            min: 0,
+            max: 100,
+            ticks: {
+              stepSize: 20
+            }
+          }
+        }
+      }
+    });
+
+    // 页面加载动画
+    window.addEventListener('load', function() {
+      document.body.classList.add('loaded');
+    });
+  </script>
+>>>>>>> 3bd965544d859d11c6f6ef599119dd83c51cec9f
 </body>
 </html>
