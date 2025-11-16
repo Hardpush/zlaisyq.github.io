@@ -1,5 +1,11 @@
 /* Tailwind配置需要保留在HTML中或单独配置，这里只放自定义样式 */
 @layer utilities {
+  /* 密码验证动画 */
+  .animate-shake {
+    animation: shake 0.5s ease-in-out;
+  }
+  
+  .text-shadow {
   .text-shadow {
     text-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
@@ -14,6 +20,9 @@
   }
   .animate-fade-in {
     animation: fadeIn 0.8s ease-in-out forwards;
+  }
+  .animate-shake {
+    animation: shake 0.5s ease-in-out;
   }
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
@@ -45,9 +54,48 @@
   }
 }
 
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
 /* 全局样式补充 */
 html {
   scroll-behavior: smooth;
+}
+
+/* 图片优化样式 */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+img[loading="lazy"].loaded {
+  opacity: 1;
 }
 
 /* 时间线响应式调整 */
@@ -59,3 +107,41 @@ html {
     order: 1;
   }
 }
+
+/* 减少动画对性能的影响 */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 密码验证震动动画 */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
+/*
+🔐 密码保护功能说明：
+
+默认密码：love520
+
+修改密码方法：
+1. 打开 js/main.js 文件
+2. 找到 correctPassword 变量
+3. 修改为您的密码
+
+💡 提示：
+- 密码保存在浏览器会话中
+- 关闭浏览器后需要重新输入
+- 建议使用有意义的密码
+*/
