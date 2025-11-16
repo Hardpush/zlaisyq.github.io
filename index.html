@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>我们的一周年纪念 - 时光不老，我们不散</title>
-  <meta name="description" content="记录我们爱情一周年纪念的美好时光，包含时间线、照片集、祝福墙等珍贵回忆">
-  <meta name="keywords" content="一周年纪念,爱情纪念,纪念日,情侣,甜蜜回忆">
+  <title>张乐与石云青的婚纱照 - 照片墙</title>
+  <meta name="description" content="张乐与石云青的婚纱照照片墙，记录我们美好婚礼的珍贵瞬间">
+  <meta name="keywords" content="婚纱照,照片墙,婚礼纪念,爱情见证,美好时光">
   <meta name="author" content="爱的纪念">
   
   <!-- Open Graph 标签 -->
@@ -18,7 +18,6 @@
   <!-- 外部资源 -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   
   <!-- 预加载关键资源 -->
@@ -78,331 +77,32 @@
     <!-- 粒子背景容器 -->
     <div id="particles-js" class="fixed top-0 left-0 w-full h-full pointer-events-none"></div>
 
-  <!-- 导航栏 -->
-  <nav id="navbar" class="fixed w-full bg-white/90 backdrop-blur-sm py-3 shadow-sm transition-all duration-300 z-40">
-    <div class="container mx-auto px-4 flex justify-between items-center">
-      <a href="#" class="text-2xl font-bold text-love-500">爱的纪念</a>
-      <!-- 桌面端菜单 -->
-      <div class="hidden md:flex space-x-8">
-        <a href="#home" class="hover:text-love-500 transition-colors">首页</a>
-        <a href="#timeline" class="hover:text-love-500 transition-colors">时间线</a>
-        <a href="#photos" class="hover:text-love-500 transition-colors">照片集</a>
-        <a href="#messages" class="hover:text-love-500 transition-colors">祝福墙</a>
-        <a href="#future" class="hover:text-love-500 transition-colors">未来计划</a>
-      </div>
-      <!-- 移动端菜单按钮 -->
-      <button id="mobile-menu-button" class="md:hidden text-gray-700">
-        <i class="fa fa-bars text-xl"></i>
-      </button>
-    </div>
-    <!-- 移动端菜单 -->
-    <div id="mobile-menu" class="md:hidden hidden bg-white shadow-md py-4 px-4">
-      <div class="flex flex-col space-y-3">
-        <a href="#home" class="hover:text-love-500 transition-colors">首页</a>
-        <a href="#timeline" class="hover:text-love-500 transition-colors">时间线</a>
-        <a href="#photos" class="hover:text-love-500 transition-colors">照片集</a>
-        <a href="#messages" class="hover:text-love-500 transition-colors">祝福墙</a>
-        <a href="#future" class="hover:text-love-500 transition-colors">未来计划</a>
+    <!-- 标题区域 -->
+    <div class="pt-24 pb-8 bg-gradient-love/10">
+      <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6 text-shadow-lg">张乐与石云青的婚纱照</h1>
+        <p class="text-xl md:text-2xl text-gray-700 mb-10">每一张照片都是爱的见证</p>
       </div>
     </div>
-  </nav>
 
-  <!-- 首屏区域 -->
-  <section id="home" class="pt-24 pb-16 md:pt-32 md:pb-24 bg-gradient-love/10">
-    <div class="container mx-auto px-4 text-center">
-      <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6 text-shadow-lg">张乐与石云青的专属空间</h1>
-      <p class="text-xl md:text-2xl text-gray-700 mb-10">时光不老，我们不散</p>
-      
-      <!-- 倒计时模块 -->
-      <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg mb-12">
-        <h2 class="text-2xl font-semibold mb-4 text-love-500">距离一周年还有</h2>
-        <div class="flex justify-between items-center">
-          <div class="w-20 h-20 bg-love-100 rounded-full flex flex-col items-center justify-center">
-            <span id="days" class="text-3xl font-bold text-love-500">00</span>
-            <span class="text-xs text-gray-600">天</span>
-          </div>
-          <div class="w-20 h-20 bg-love-100 rounded-full flex flex-col items-center justify-center">
-            <span id="hours" class="text-3xl font-bold text-love-500">00</span>
-            <span class="text-xs text-gray-600">时</span>
-          </div>
-          <div class="w-20 h-20 bg-love-100 rounded-full flex flex-col items-center justify-center">
-            <span id="minutes" class="text-3xl font-bold text-love-500">00</span>
-            <span class="text-xs text-gray-600">分</span>
-          </div>
-          <div class="w-20 h-20 bg-love-100 rounded-full flex flex-col items-center justify-center">
-            <span id="seconds" class="text-3xl font-bold text-love-500">00</span>
-            <span class="text-xs text-gray-600">秒</span>
-          </div>
+    <!-- 照片墙区域 -->
+    <section class="py-8 md:py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        
+        <!-- 照片网格容器 -->
+        <div id="photo-gallery" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+          <!-- 照片将通过JavaScript动态加载 -->
         </div>
       </div>
+    </section>
 
-      <a href="#timeline" class="inline-block bg-love-500 text-white px-8 py-3 rounded-full hover:bg-love-600 transition-colors shadow-lg animate-float">
-        回顾我们的故事 <i class="fa fa-arrow-down ml-2"></i>
-      </a>
-    </div>
-  </section>
-
-  <!-- 时间线区域 -->
-  <section id="timeline" class="py-16 md:py-24 bg-white">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">我们的爱情时间线</h2>
-      
-      <div class="relative max-w-4xl mx-auto">
-        <!-- 时间线轴线 -->
-        <div class="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-love-200"></div>
-        
-        <!-- 时间线节点1 -->
-        <div class="mb-12 relative flex flex-col md:flex-row items-center">
-          <div class="md:w-1/2 md:pr-12 md:text-right mb-6 md:mb-0">
-            <h3 class="text-xl font-semibold text-love-500 mb-2">初次相遇</h3>
-            <p class="text-gray-700">在一个阳光明媚的午后，我们在咖啡馆偶然相遇，眼神交汇的瞬间，故事就此开始。</p>
-            <p class="text-sm text-gray-500 mt-1">2024-11-16</p>
-          </div>
-          <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-love-500 rounded-full border-4 border-white shadow"></div>
-          <div class="md:w-1/2 md:pl-12">
-            <img src="https://picsum.photos/seed/first-meeting/400/300.jpg" alt="初次相遇的美好瞬间" class="w-full h-48 object-cover rounded-lg shadow-md loading="lazy">
-          </div>
-        </div>
-        
-        <!-- 时间线节点2 -->
-        <div class="mb-12 relative flex flex-col md:flex-row items-center">
-          <div class="md:w-1/2 md:pr-12 order-2 md:order-1">
-            <img src="https://picsum.photos/seed/first-date/400/300.jpg" alt="第一次约会的甜蜜时刻" class="w-full h-48 object-cover rounded-lg shadow-md loading="lazy">
-          </div>
-          <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-love-500 rounded-full border-4 border-white shadow"></div>
-          <div class="md:w-1/2 md:pl-12 mb-6 md:mb-0 order-1 md:order-2 md:text-left">
-            <h3 class="text-xl font-semibold text-love-500 mb-2">第一次约会</h3>
-            <p class="text-gray-700">我们一起去了游乐园，从过山车到旋转木马，笑声回荡在每个角落，甜蜜在心中蔓延。</p>
-            <p class="text-sm text-gray-500 mt-1">2024-12-01</p>
-          </div>
-        </div>
-        
-        <!-- 时间线节点3 -->
-        <div class="mb-12 relative flex flex-col md:flex-row items-center">
-          <div class="md:w-1/2 md:pr-12 md:text-right mb-6 md:mb-0">
-            <h3 class="text-xl font-semibold text-love-500 mb-2">确认关系</h3>
-            <p class="text-gray-700">在跨年的烟火下，他/她勇敢地表白，我们正式成为彼此生命中最重要的人。</p>
-            <p class="text-sm text-gray-500 mt-1">2024-12-31</p>
-          </div>
-          <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-love-500 rounded-full border-4 border-white shadow"></div>
-          <div class="md:w-1/2 md:pl-12">
-            <img src="https://picsum.photos/seed/relationship-start/400/300.jpg" alt="确认关系的重要时刻" class="w-full h-48 object-cover rounded-lg shadow-md loading="lazy">
-          </div>
-        </div>
-        
-        <!-- 时间线节点4 -->
-        <div class="relative flex flex-col md:flex-row items-center">
-          <div class="md:w-1/2 md:pr-12 order-2 md:order-1">
-            <img src="https://picsum.photos/seed/first-trip/400/300.jpg" alt="第一次旅行的美好回忆" class="w-full h-48 object-cover rounded-lg shadow-md loading="lazy">
-          </div>
-          <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-love-500 rounded-full border-4 border-white shadow"></div>
-          <div class="md:w-1/2 md:pl-12 mb-6 md:mb-0 order-1 md:order-2 md:text-left">
-            <h3 class="text-xl font-semibold text-love-500 mb-2">第一次旅行</h3>
-            <p class="text-gray-700">我们一起去了海边，看日出日落，踩在沙滩上的脚印，是我们爱的见证。</p>
-            <p class="text-sm text-gray-500 mt-1">2025-02-14</p>
-          </div>
-        </div>
+    <!-- 页脚 -->
+    <footer class="bg-gray-900 text-white py-8">
+      <div class="container mx-auto px-4 text-center">
+        <h2 class="text-xl font-bold mb-2">张乐与石云青的婚纱照</h2>
+        <p class="text-gray-400">© 2025 爱的纪念 | 时光不老，我们不散</p>
       </div>
-    </div>
-  </section>
-
-  <!-- 照片集区域 -->
-  <section id="photos" class="py-16 md:py-24 bg-gray-50">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">我们的甜蜜瞬间</h2>
-      
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mb-10">
-        <img src="https://picsum.photos/seed/moment1/400/300.jpg" alt="甜蜜瞬间1" class="w-full h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform loading="lazy">
-        <img src="https://picsum.photos/seed/moment2/400/300.jpg" alt="甜蜜瞬间2" class="w-full h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform loading="lazy">
-        <img src="https://picsum.photos/seed/moment3/400/300.jpg" alt="甜蜜瞬间3" class="w-full h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform loading="lazy">
-        <img src="https://picsum.photos/seed/moment4/400/300.jpg" alt="甜蜜瞬间4" class="w-full h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform loading="lazy">
-        <img src="https://picsum.photos/seed/moment5/400/300.jpg" alt="甜蜜瞬间5" class="w-full h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform loading="lazy">
-        <img src="https://picsum.photos/seed/moment6/400/300.jpg" alt="甜蜜瞬间6" class="w-full h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform loading="lazy">
-        <img src="https://picsum.photos/seed/moment7/400/300.jpg" alt="甜蜜瞬间7" class="w-full h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform loading="lazy">
-        <img src="https://picsum.photos/seed/moment8/400/300.jpg" alt="甜蜜瞬间8" class="w-full h-48 object-cover rounded-lg shadow-md hover:scale-105 transition-transform loading="lazy">
-      </div>
-      
-      <div class="text-center">
-        <button id="add-photo-btn" class="inline-block bg-love-500 text-white px-6 py-2 rounded-full hover:bg-love-600 transition-colors shadow-md">
-          <i class="fa fa-plus mr-2"></i> 添加照片
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- 幸福指数图表区域 -->
-  <section class="py-16 md:py-24 bg-white">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">我们的幸福指数</h2>
-      
-      <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-        <canvas id="love-chart" height="300"></canvas>
-      </div>
-    </div>
-  </section>
-
-  <!-- 祝福墙区域 -->
-  <section id="messages" class="py-16 md:py-24 bg-gray-50">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">爱的祝福墙</h2>
-      
-      <div class="max-w-3xl mx-auto mb-12">
-        <form id="message-form" class="bg-white p-6 rounded-lg shadow-lg">
-          <h3 class="text-xl font-semibold mb-4 text-gray-900">留下你的祝福</h3>
-          <div class="mb-4">
-            <label for="name" class="block text-gray-700 mb-2">昵称</label>
-            <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-love-500" placeholder="请输入你的昵称" required>
-          </div>
-          <div class="mb-4">
-            <label for="message" class="block text-gray-700 mb-2">祝福内容</label>
-            <textarea id="message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-love-500" placeholder="请输入你的祝福" required></textarea>
-          </div>
-          <button type="submit" class="w-full bg-love-500 text-white py-2 rounded-lg hover:bg-love-600 transition-colors">
-            提交祝福
-          </button>
-        </form>
-      </div>
-      
-      <!-- 祝福列表 -->
-      <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- 祝福1 -->
-        <div class="bg-white p-6 rounded-lg shadow-md animate-fade-in">
-          <div class="flex justify-between items-center mb-3">
-            <h4 class="font-semibold text-gray-900">小明</h4>
-            <span class="text-sm text-gray-500">2025-10-01</span>
-          </div>
-          <p class="text-gray-700">祝你们永远幸福快乐，甜甜蜜蜜一辈子！看着你们从相识到相爱，真的很为你们开心～</p>
-        </div>
-        
-        <!-- 祝福2 -->
-        <div class="bg-white p-6 rounded-lg shadow-md animate-fade-in" style="animation-delay: 0.2s">
-          <div class="flex justify-between items-center mb-3">
-            <h4 class="font-semibold text-gray-900">小红</h4>
-            <span class="text-sm text-gray-500">2025-10-05</span>
-          </div>
-          <p class="text-gray-700">一周年快乐！愿你们在未来的日子里，继续相互扶持，创造更多美好的回忆，永远是彼此最温暖的港湾～</p>
-        </div>
-        
-        <!-- 祝福3 -->
-        <div class="bg-white p-6 rounded-lg shadow-md animate-fade-in" style="animation-delay: 0.4s">
-          <div class="flex justify-between items-center mb-3">
-            <h4 class="font-semibold text-gray-900">小李</h4>
-            <span class="text-sm text-gray-500">2025-10-10</span>
-          </div>
-          <p class="text-gray-700">爱情最好的样子就是你们这样吧！互相包容，共同成长，祝一周年快乐，未来可期，一直幸福下去～</p>
-        </div>
-        
-        <!-- 祝福4 -->
-        <div class="bg-white p-6 rounded-lg shadow-md animate-fade-in" style="animation-delay: 0.6s">
-          <div class="flex justify-between items-center mb-3">
-            <h4 class="font-semibold text-gray-900">小张</h4>
-            <span class="text-sm text-gray-500">2025-10-15</span>
-          </div>
-          <p class="text-gray-700">一周年是新的开始，愿你们往后余生，三餐四季，温柔有趣，永远保持初心，相爱到老～</p>
-        </div>
-      </div>
-      
-      <div class="text-center mt-12">
-        <button id="load-more-btn" class="inline-block border border-love-500 text-love-500 px-6 py-2 rounded-full hover:bg-love-50 hover:transition-colors">
-          加载更多祝福
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- 未来计划区域 -->
-  <section id="future" class="py-16 md:py-24 bg-white">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl md:text-4xl font-bold text-center mb-16 text-gray-900">我们的未来计划</h2>
-      
-      <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-        <!-- 计划1 -->
-        <div class="bg-love-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-          <div class="w-12 h-12 bg-love-100 rounded-full flex items-center justify-center mb-4">
-            <i class="fa fa-plane text-xl text-love-500"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-2 text-gray-900">双人旅行</h3>
-          <p class="text-gray-700">计划明年春天去云南旅行，一起去大理看洱海，去丽江逛古城，留下更多美好的旅行回忆。</p>
-        </div>
-        
-        <!-- 计划2 -->
-        <div class="bg-love-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-          <div class="w-12 h-12 bg-love-100 rounded-full flex items-center justify-center mb-4">
-            <i class="fa fa-home text-xl text-love-500"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-2 text-gray-900">共同小家</h3>
-          <p class="text-gray-700">努力工作，一起攒钱，计划在两年内拥有一个属于我们自己的小家，把它布置得温馨又舒适。</p>
-        </div>
-        
-        <!-- 计划3 -->
-        <div class="bg-love-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-          <div class="w-12 h-12 bg-love-100 rounded-full flex items-center justify-center mb-4">
-            <i class="fa fa-graduation-cap text-xl text-love-500"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-2 text-gray-900">共同成长</h3>
-          <p class="text-gray-700">一起学习新技能，他/她想学摄影，我想学烘焙，互相监督，共同进步，成为更好的彼此。</p>
-        </div>
-        
-        <!-- 计划4 -->
-        <div class="bg-love-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-          <div class="w-12 h-12 bg-love-100 rounded-full flex items-center justify-center mb-4">
-            <i class="fa fa-heart text-xl text-love-500"></i>
-          </div>
-          <h3 class="text-xl font-semibold mb-2 text-gray-900">订婚仪式</h3>
-          <p class="text-gray-700">计划在两周年纪念日举办一个小型的订婚仪式，邀请亲朋好友一起见证我们的幸福时刻。</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 页脚 -->
-  <footer class="bg-gray-900 text-white py-12">
-    <div class="container mx-auto px-4 text-center">
-      <h2 class="text-2xl font-bold mb-4">我们的一周年纪念</h2>
-      <p class="text-gray-400 mb-6">© 2025 爱的纪念 | 时光不老，我们不散</p>
-      <div class="flex justify-center space-x-6">
-        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-weibo text-xl"></i></a>
-        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-wechat text-xl"></i></a>
-        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-instagram text-xl"></i></a>
-        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fa fa-facebook text-xl"></i></a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- 照片上传模态框 -->
-  <div id="photo-modal" class="fixed inset-0 bg-black/70 z-50 flex items-center justify-center hidden">
-    <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-semibold text-gray-900">上传甜蜜瞬间</h3>
-        <button id="close-modal-btn" class="text-gray-500 hover:text-gray-700">
-          <i class="fa fa-times text-xl"></i>
-        </button>
-      </div>
-      
-      <div id="photo-preview-container" class="mb-6 hidden">
-        <img id="photo-preview" alt="照片预览" class="w-full h-64 object-cover rounded-lg">
-        <button id="remove-photo-btn" class="mt-2 text-red-500 hover:text-red-700 text-sm">
-          <i class="fa fa-trash mr-1"></i> 移除照片
-        </button>
-      </div>
-      
-      <div class="mb-6">
-        <button id="browse-photo-btn" class="w-full bg-gray-200 text-gray-700 py-3 rounded-lg hover:bg-gray-300 transition-colors">
-          <i class="fa fa-upload mr-2"></i> 选择照片
-        </button>
-        <input type="file" id="photo-upload" accept="image/*" class="hidden">
-      </div>
-      
-      <div class="flex space-x-4">
-        <button id="cancel-photo-btn" class="flex-1 border border-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-50 transition-colors">
-          取消
-        </button>
-        <button id="save-photo-btn" class="flex-1 bg-love-500 text-white py-2 rounded-lg hover:bg-love-600 transition-colors">
-          保存照片
-        </button>
-      </div>
-    </div>
-  </div>
+    </footer>
   </div> <!-- 主网站内容结束 -->
 </body>
 </html>

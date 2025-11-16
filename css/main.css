@@ -1,11 +1,5 @@
 /* Tailwind配置需要保留在HTML中或单独配置，这里只放自定义样式 */
 @layer utilities {
-  /* 密码验证动画 */
-  .animate-shake {
-    animation: shake 0.5s ease-in-out;
-  }
-  
-  .text-shadow {
   .text-shadow {
     text-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
@@ -66,18 +60,6 @@
   }
 }
 
-@keyframes shake {
-  0%, 100% {
-    transform: translateX(0);
-  }
-  10%, 30%, 50%, 70%, 90% {
-    transform: translateX(-5px);
-  }
-  20%, 40%, 60%, 80% {
-    transform: translateX(5px);
-  }
-}
-
 /* 全局样式补充 */
 html {
   scroll-behavior: smooth;
@@ -98,15 +80,7 @@ img[loading="lazy"].loaded {
   opacity: 1;
 }
 
-/* 时间线响应式调整 */
-@media (max-width: 768px) {
-  .timeline-node:nth-child(even) .timeline-content {
-    order: 2;
-  }
-  .timeline-node:nth-child(even) .timeline-img {
-    order: 1;
-  }
-}
+
 
 /* 减少动画对性能的影响 */
 @media (prefers-reduced-motion: reduce) {
@@ -114,6 +88,44 @@ img[loading="lazy"].loaded {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* 照片墙样式 */
+#photo-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem 0;
+}
+
+#photo-gallery img {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+#photo-gallery img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+#photo-gallery .loaded {
+  animation: fadeIn 0.5s ease-in;
+}
+
+/* 照片墙响应式设计 */
+@media (max-width: 768px) {
+  #photo-gallery {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    padding: 1rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  #photo-gallery {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.75rem;
   }
 }
 

@@ -65,6 +65,9 @@ function initMainWebsite() {
   // 初始化图片懒加载
   lazyLoadImages();
   
+  // 加载照片墙
+  loadPhotoGallery();
+  
   // 初始化粒子背景
   particlesJS("particles-js", {
     particles: {
@@ -105,150 +108,55 @@ function initMainWebsite() {
     retina_detect: true
   });
 
-  // 导航栏滚动效果
-  window.addEventListener('scroll', function() {
-    const navbar = document.getElementById('navbar');
-    if (window.scrollY > 50) {
-      navbar.classList.add('py-2', 'shadow-md');
-      navbar.classList.remove('py-3', 'shadow-sm');
-    } else {
-      navbar.classList.add('py-3', 'shadow-sm');
-      navbar.classList.remove('py-2', 'shadow-md');
-    }
-  });
 
-  // 移动端菜单切换
-  const mobileMenuButton = document.getElementById('mobile-menu-button');
-  const mobileMenu = document.getElementById('mobile-menu');
+}
+
+// 加载照片墙功能
+function loadPhotoGallery() {
+  const photoGallery = document.getElementById('photo-gallery');
   
-  mobileMenuButton.addEventListener('click', function() {
-    mobileMenu.classList.toggle('hidden');
-  });
-
-  // 倒计时功能
-  function updateCountdown() {
-    const anniversaryDate = new Date('2025-11-16T00:00:00');
-    const now = new Date();
-    const diff = anniversaryDate - now;
-    
-    if (diff <= 0) {
-      document.getElementById('days').textContent = '00';
-      document.getElementById('hours').textContent = '00';
-      document.getElementById('minutes').textContent = '00';
-      document.getElementById('seconds').textContent = '00';
-      return;
-    }
-    
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    
-    document.getElementById('days').textContent = days.toString().padStart(2, '0');
-    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-  }
+  // images文件夹中的jpg图片列表
+  const photoFiles = [
+    'DSC09096.jpg', 'DSC09099.jpg', 'DSC09122.jpg', 'DSC09125.jpg',
+    'DSC09147.jpg', 'DSC09150.jpg', 'DSC09155.jpg', 'DSC09175.jpg',
+    'DSC09200.jpg', 'DSC09218.jpg', 'DSC09224.jpg', 'DSC09230.jpg',
+    'DSC09241.jpg', 'DSC09259.jpg', 'DSC09261.jpg', 'DSC09262.jpg',
+    'DSC09268.jpg', 'DSC09271.jpg', 'DSC09317.jpg', 'DSC09330.jpg',
+    'DSC09345.jpg', 'DSC09361.jpg', 'DSC09371.jpg', 'DSC09387.jpg',
+    'YJ616911.jpg', 'YJ616939.jpg', 'YJ616940.jpg', 'YJ616942.jpg',
+    'YJ616955.jpg', 'YJ617036.jpg', 'YJ617040.jpg', 'YJ617043.jpg',
+    'YJ617044.jpg', 'YJ617049.jpg', 'YJ617073.jpg', 'YJ617078.jpg',
+    'YJ617111.jpg', 'YJ617285.jpg', 'YJ617294.jpg', 'YJ617303.jpg'
+  ];
   
-  // 初始化倒计时并每秒更新
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
-
-  // 爱情数据图表
-  const ctx = document.getElementById('love-chart').getContext('2d');
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月'],
-      datasets: [{
-        label: '幸福指数',
-        data: [70, 75, 82, 88, 92, 95, 96, 97, 98],
-        borderColor: '#994dff',
-        backgroundColor: 'rgba(153, 77, 255, 0.1)',
-        tension: 0.4,
-        fill: true
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        y: {
-          min: 50,
-          max: 100
-        }
-      }
-    }
-  });
-
-  // 照片模态框功能
-  const photoModal = document.getElementById('photo-modal');
-  const addPhotoBtn = document.getElementById('add-photo-btn');
-  const closeModalBtn = document.getElementById('close-modal-btn');
-  const cancelPhotoBtn = document.getElementById('cancel-photo-btn');
-  const browsePhotoBtn = document.getElementById('browse-photo-btn');
-  const photoUpload = document.getElementById('photo-upload');
-  const photoPreview = document.getElementById('photo-preview');
-  const photoPreviewContainer = document.getElementById('photo-preview-container');
-  const removePhotoBtn = document.getElementById('remove-photo-btn');
-  const savePhotoBtn = document.getElementById('save-photo-btn');
-
-  // 打开模态框
-  addPhotoBtn.addEventListener('click', function() {
-    photoModal.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-  });
-
-  // 关闭模态框
-  function closeModal() {
-    photoModal.classList.add('hidden');
-    document.body.style.overflow = '';
-  }
-
-  closeModalBtn.addEventListener('click', closeModal);
-  cancelPhotoBtn.addEventListener('click', closeModal);
-
-  // 照片预览
-  browsePhotoBtn.addEventListener('click', function() {
-    photoUpload.click();
-  });
-
-  photoUpload.addEventListener('change', function(e) {
-    if (e.target.files && e.target.files[0]) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        photoPreview.src = e.target.result;
-        photoPreviewContainer.classList.remove('hidden');
-      }
-      reader.readAsDataURL(e.target.files[0]);
-    }
-  });
-
-  // 移除照片
-  removePhotoBtn.addEventListener('click', function() {
-    photoPreview.src = '';
-    photoPreviewContainer.classList.add('hidden');
-    photoUpload.value = '';
-  });
-
-  // 保存照片（这里只是模拟，实际项目需要后端支持）
-  savePhotoBtn.addEventListener('click', function() {
-    alert('照片保存功能需要后端支持，此处为模拟');
-    closeModal();
-  });
-
-  // 祝福表单提交
-  const messageForm = document.getElementById('message-form');
-  messageForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert('祝福提交功能需要后端支持，此处为模拟');
-    messageForm.reset();
-  });
-
-  // 加载更多祝福
-  const loadMoreBtn = document.getElementById('load-more-btn');
-  loadMoreBtn.addEventListener('click', function() {
-    alert('加载更多祝福功能需要后端支持，此处为模拟');
+  // 清空现有内容
+  photoGallery.innerHTML = '';
+  
+  // 为每个图片创建元素
+  photoFiles.forEach((fileName, index) => {
+    const photoDiv = document.createElement('div');
+    photoDiv.className = 'relative group overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in';
+    photoDiv.style.animationDelay = `${index * 0.05}s`;
+    
+    const img = document.createElement('img');
+    img.src = `images/${fileName}`;
+    img.alt = `婚纱照 ${index + 1}`;
+    img.className = 'w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110';
+    img.loading = 'lazy';
+    
+    // 添加错误处理
+    img.onerror = function() {
+      this.style.display = 'none';
+      photoDiv.style.display = 'none';
+    };
+    
+    // 添加加载完成处理
+    img.onload = function() {
+      this.classList.add('loaded');
+    };
+    
+    photoDiv.appendChild(img);
+    photoGallery.appendChild(photoDiv);
   });
 }
 
@@ -308,149 +216,4 @@ function lazyLoadImages() {
 document.addEventListener('DOMContentLoaded', function() {
   // 初始化密码保护
   initPasswordProtection();
-  // 导航栏滚动效果
-  window.addEventListener('scroll', function() {
-    const navbar = document.getElementById('navbar');
-    if (window.scrollY > 50) {
-      navbar.classList.add('py-2', 'shadow-md');
-      navbar.classList.remove('py-3', 'shadow-sm');
-    } else {
-      navbar.classList.add('py-3', 'shadow-sm');
-      navbar.classList.remove('py-2', 'shadow-md');
-    }
-  });
-
-  // 移动端菜单切换
-  const mobileMenuButton = document.getElementById('mobile-menu-button');
-  const mobileMenu = document.getElementById('mobile-menu');
-  
-  mobileMenuButton.addEventListener('click', function() {
-    mobileMenu.classList.toggle('hidden');
-  });
-
-  // 倒计时功能
-  function updateCountdown() {
-    const anniversaryDate = new Date('2025-11-16T00:00:00');
-    const now = new Date();
-    const diff = anniversaryDate - now;
-    
-    if (diff <= 0) {
-      document.getElementById('days').textContent = '00';
-      document.getElementById('hours').textContent = '00';
-      document.getElementById('minutes').textContent = '00';
-      document.getElementById('seconds').textContent = '00';
-      return;
-    }
-    
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    
-    document.getElementById('days').textContent = days.toString().padStart(2, '0');
-    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
-  }
-  
-  // 初始化倒计时并每秒更新
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
-
-  // 爱情数据图表
-  const ctx = document.getElementById('love-chart').getContext('2d');
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月'],
-      datasets: [{
-        label: '幸福指数',
-        data: [70, 75, 82, 88, 92, 95, 96, 97, 98],
-        borderColor: '#994dff',
-        backgroundColor: 'rgba(153, 77, 255, 0.1)',
-        tension: 0.4,
-        fill: true
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        y: {
-          min: 50,
-          max: 100
-        }
-      }
-    }
-  });
-
-  // 照片模态框功能
-  const photoModal = document.getElementById('photo-modal');
-  const addPhotoBtn = document.getElementById('add-photo-btn');
-  const closeModalBtn = document.getElementById('close-modal-btn');
-  const cancelPhotoBtn = document.getElementById('cancel-photo-btn');
-  const browsePhotoBtn = document.getElementById('browse-photo-btn');
-  const photoUpload = document.getElementById('photo-upload');
-  const photoPreview = document.getElementById('photo-preview');
-  const photoPreviewContainer = document.getElementById('photo-preview-container');
-  const removePhotoBtn = document.getElementById('remove-photo-btn');
-  const savePhotoBtn = document.getElementById('save-photo-btn');
-
-  // 打开模态框
-  addPhotoBtn.addEventListener('click', function() {
-    photoModal.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-  });
-
-  // 关闭模态框
-  function closeModal() {
-    photoModal.classList.add('hidden');
-    document.body.style.overflow = '';
-  }
-
-  closeModalBtn.addEventListener('click', closeModal);
-  cancelPhotoBtn.addEventListener('click', closeModal);
-
-  // 照片预览
-  browsePhotoBtn.addEventListener('click', function() {
-    photoUpload.click();
-  });
-
-  photoUpload.addEventListener('change', function(e) {
-    if (e.target.files && e.target.files[0]) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        photoPreview.src = e.target.result;
-        photoPreviewContainer.classList.remove('hidden');
-      }
-      reader.readAsDataURL(e.target.files[0]);
-    }
-  });
-
-  // 移除照片
-  removePhotoBtn.addEventListener('click', function() {
-    photoPreview.src = '';
-    photoPreviewContainer.classList.add('hidden');
-    photoUpload.value = '';
-  });
-
-  // 保存照片（这里只是模拟，实际项目需要后端支持）
-  savePhotoBtn.addEventListener('click', function() {
-    alert('照片保存功能需要后端支持，此处为模拟');
-    closeModal();
-  });
-
-  // 祝福表单提交
-  const messageForm = document.getElementById('message-form');
-  messageForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert('祝福提交功能需要后端支持，此处为模拟');
-    messageForm.reset();
-  });
-
-  // 加载更多祝福
-  const loadMoreBtn = document.getElementById('load-more-btn');
-  loadMoreBtn.addEventListener('click', function() {
-    alert('加载更多祝福功能需要后端支持，此处为模拟');
-  });
 });
