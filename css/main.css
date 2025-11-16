@@ -100,7 +100,7 @@ img[loading="lazy"].loaded {
 }
 
 #photo-gallery img {
-  transition: all 0.3s ease;
+  transition: all 0.3s ease, opacity 0.3s ease;
   cursor: pointer;
 }
 
@@ -112,6 +112,8 @@ img[loading="lazy"].loaded {
 #photo-gallery .loaded {
   animation: fadeIn 0.5s ease-in;
 }
+
+/* 移除复杂动画，提升性能 */
 
 /* 照片墙响应式设计 */
 @media (max-width: 768px) {

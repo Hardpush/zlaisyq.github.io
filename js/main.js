@@ -114,8 +114,12 @@ function initMainWebsite() {
 // 加载照片墙功能
 function loadPhotoGallery() {
   const photoGallery = document.getElementById('photo-gallery');
-  
-  // images文件夹中的jpg图片列表
+  if (!photoGallery) return;
+
+  // 清空现有内容
+  photoGallery.innerHTML = '';
+
+  // 照片文件列表
   const photoFiles = [
     'DSC09096.jpg', 'DSC09099.jpg', 'DSC09122.jpg', 'DSC09125.jpg',
     'DSC09147.jpg', 'DSC09150.jpg', 'DSC09155.jpg', 'DSC09175.jpg',
@@ -128,73 +132,104 @@ function loadPhotoGallery() {
     'YJ617044.jpg', 'YJ617049.jpg', 'YJ617073.jpg', 'YJ617078.jpg',
     'YJ617111.jpg', 'YJ617285.jpg', 'YJ617294.jpg', 'YJ617303.jpg'
   ];
-  
-  // 清空现有内容
-  photoGallery.innerHTML = '';
-  
+
   // 获取当前路径的基础URL，确保在GitHub Pages上正常工作
   const getBaseUrl = () => {
-    const isGitHubPages = window.location.hostname.includes('github.io');
-    if (isGitHubPages) {
+    const hostname = window.location.hostname;
+    console.log('检测到主机名:', hostname);
+    
+    if (hostname.includes('github.io')) {
       // GitHub Pages环境
       const pathParts = window.location.pathname.split('/');
-      // 移除最后一个空元素和文件名
-      pathParts.pop();
-      return window.location.origin + pathParts.join('/') + '/';
+      pathParts.pop(); // 移除文件名
+      const baseUrl = window.location.origin + pathParts.join('/') + '/';
+      console.log('GitHub Pages环境，基础URL:', baseUrl);
+      return baseUrl;
+    } else if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname.includes('192.168.')) {
+      // 本地环境
+      console.log('本地环境，使用相对路径');
+      return './';
+    } else {
+      // 生产环境（自定义域名）
+      console.log('生产环境，使用根路径');
+      return './';
     }
-    // 本地环境或其他环境
-    return './';
   };
-  
+
   const baseUrl = getBaseUrl();
+
+  console.log('=== 照片墙调试信息 ===');
+  console.log('当前域名:', window.location.hostname);
+  console.log('当前路径:', window.location.pathname);
+  console.log('基础URL:', baseUrl);
+  console.log('开始加载照片，共', photoFiles.length, '张');
   
-  // 添加调试信息
-    console.log('当前环境:', window.location.hostname);
-    console.log('基础URL:', baseUrl);
-    console.log('开始加载照片，共', photoFiles.length, '张');
+  // 测试第一张图片的完整路径
+  const firstImageUrl = baseUrl + `images/${photoFiles[0]}`;
+  console.log('第一张图片URL:', firstImageUrl);
+  
+  // 创建测试图片来验证路径
+  const testImg = new Image();
+  testImg.onload = function() {
+    console.log('✅ 路径测试成功，图片可以正常加载');
+  };
+  testImg.onerror = function() {
+    console.error('❌ 路径测试失败，请检查图片路径');
+    console.error('尝试的URL:', this.src);
+  };
+  testImg.src = firstImageUrl;
+  
+  // 最简单的加载方式：直接创建所有图片元素
+  photoFiles.forEach((fileName, index) => {
+    const photoDiv = document.createElement('div');
+    photoDiv.className = 'relative group overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300';
     
-    // 为每个图片创建元素
-    photoFiles.forEach((fileName, index) => {
-      const photoDiv = document.createElement('div');
-      photoDiv.className = 'relative group overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in';
-      photoDiv.style.animationDelay = `${index * 0.05}s`;
-      
-      const img = document.createElement('img');
-      img.src = baseUrl + `images/${fileName}`;
-      img.alt = `婚纱照 ${index + 1}`;
-      img.className = 'w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110';
-      img.loading = 'lazy';
+    const img = document.createElement('img');
+    const fullUrl = baseUrl + `images/${fileName}`;
+    img.src = fullUrl;
+    img.alt = `婚纱照 ${index + 1}`;
+    img.className = 'w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110';
+    // 移除懒加载，图片立即加载
     
-    // 添加错误处理和重试机制
-    let retryCount = 0;
-    const maxRetries = 2;
+    console.log(`创建图片 ${index + 1}: ${fullUrl}`);
     
-    img.onerror = function() {
-      retryCount++;
-      if (retryCount <= maxRetries) {
-        // 尝试其他路径格式
-        if (retryCount === 1) {
-          img.src = `images/${fileName}`; // 尝试相对路径
-        } else if (retryCount === 2) {
-          img.src = `/images/${fileName}`; // 尝试根路径
-        }
-      } else {
-        // 最终失败，隐藏元素
-        console.warn(`图片加载失败: ${fileName}`);
-        this.style.display = 'none';
-        photoDiv.style.display = 'none';
-      }
-    };
+    // 详细的成功和错误处理
+    img.addEventListener('load', function() {
+      console.log(`✅ 图片加载成功: ${fileName}`);
+    });
     
-    // 添加加载完成处理
-    img.onload = function() {
-      this.classList.add('loaded');
-      console.log(`图片加载成功: ${fileName}`);
-    };
+    img.addEventListener('error', function() {
+      console.error(`❌ 图片加载失败: ${fileName}`);
+      console.error(`失败的URL: ${this.src}`);
+      this.style.display = 'none';
+      photoDiv.innerHTML = `<div class="w-full h-64 bg-red-100 flex flex-col items-center justify-center text-red-600">
+        <div class="text-sm mb-2">加载失败</div>
+        <div class="text-xs">${fileName}</div>
+      </div>`;
+    });
     
     photoDiv.appendChild(img);
     photoGallery.appendChild(photoDiv);
   });
+  
+  console.log('所有照片元素已创建完成');
+}
+
+// 图片懒加载功能
+function lazyLoadImages() {
+  const images = document.querySelectorAll('img[loading="lazy"]');
+  
+  const imageObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const img = entry.target;
+        img.classList.add('loaded');
+        observer.unobserve(img);
+      }
+    });
+  });
+  
+  images.forEach(img => imageObserver.observe(img));
 }
 
 // Tailwind配置
@@ -230,23 +265,6 @@ tailwind.config = {
       },
     },
   }
-}
-
-// 图片懒加载功能
-function lazyLoadImages() {
-  const images = document.querySelectorAll('img[loading="lazy"]');
-  
-  const imageObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const img = entry.target;
-        img.classList.add('loaded');
-        observer.unobserve(img);
-      }
-    });
-  });
-  
-  images.forEach(img => imageObserver.observe(img));
 }
 
 // 页面加载完成后执行
