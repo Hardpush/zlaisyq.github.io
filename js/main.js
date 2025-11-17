@@ -196,29 +196,20 @@ function loadPhotoGallery() {
     };
     testImg.src = path;
   });
-  // 创建测试图片来验证路径
-  const testImg = new Image();
-  testImg.onload = function() {
-    console.log('✅ 路径测试成功，图片可以正常加载');
-  };
-  testImg.onerror = function() {
-    console.error('❌ 路径测试失败，请检查图片路径');
-    console.error('尝试的URL:', this.src);
-  };
-  testImg.src = firstImageUrl;
   
-  // 优化的图片加载方式：添加占位符和渐进式显示
-  photoFiles.forEach((fileName, index) => {
+  // 智能分批加载：优先加载前12张，其余延迟加载
+  const loadPhoto = (fileName, index) => {
     const photoDiv = document.createElement('div');
     photoDiv.className = 'relative group overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300';
     
-    // 添加加载占位符
+    // 添加优化的加载占位符，显示图片预览信息
     const placeholder = document.createElement('div');
-    placeholder.className = 'absolute inset-0 bg-gray-200 animate-pulse flex items-center justify-center';
+    placeholder.className = 'absolute inset-0 bg-gradient-to-br from-pink-100 to-purple-100 flex items-center justify-center';
     placeholder.innerHTML = `
       <div class="text-center">
-        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-love-500"></div>
-        <div class="text-xs text-gray-500 mt-2">加载中...</div>
+        <div class="inline-block animate-spin rounded-full h-6 w-6 border-b-2 border-love-500 mb-2"></div>
+        <div class="text-xs text-gray-600">婚纱照 ${index + 1}</div>
+        <div class="text-xs text-gray-400">加载中...</div>
       </div>
     `;
     photoDiv.appendChild(placeholder);
@@ -227,19 +218,20 @@ function loadPhotoGallery() {
     const fullUrl = baseUrl.includes('images/') ? baseUrl + fileName : baseUrl + `images/${fileName}`;
     img.src = fullUrl;
     img.alt = `婚纱照 ${index + 1}`;
-    img.className = 'w-full h-64 object-cover transition-all duration-500 group-hover:scale-110 opacity-0';
-    img.loading = 'lazy'; // 启用懒加载，优化GitHub Pages性能
+    img.className = 'w-full h-64 object-cover transition-all duration-500 group-hover:scale-110';
+    // 设置更激进的懒加载策略
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.fetchPriority = index < 4 ? 'high' : 'low'; // 前4张高优先级
     
     console.log(`创建图片 ${index + 1}: ${fullUrl}`);
     
-    // 成功加载时的处理
+    // 进度跟踪已在loadPhoto函数中处理，无需额外代码
     img.addEventListener('load', function() {
       console.log(`✅ 图片加载成功: ${fileName}`);
       placeholder.style.display = 'none';
-      setTimeout(() => {
-        this.classList.remove('opacity-0');
-        this.classList.add('opacity-100');
-      }, 100);
+      this.style.display = 'block';
+      updateProgress(); // 直接更新进度
     });
     
     // 加载失败时的处理
@@ -252,13 +244,87 @@ function loadPhotoGallery() {
           <div class="text-xs mt-1">${fileName}</div>
         </div>
       `;
+      updateProgress(); // 即使失败也要更新进度
     });
     
     photoDiv.appendChild(img);
     photoGallery.appendChild(photoDiv);
+  };
+  
+  // 立即加载前12张图片
+  const priorityPhotos = photoFiles.slice(0, 12);
+  const remainingPhotos = photoFiles.slice(12);
+  
+  console.log(`优先加载前${priorityPhotos.length}张图片，延迟加载其余${remainingPhotos.length}张`);
+  
+  // 加载优先图片
+  priorityPhotos.forEach((fileName, index) => {
+    loadPhoto(fileName, index);
   });
   
+  // 延迟加载其余图片
+  if (remainingPhotos.length > 0) {
+    setTimeout(() => {
+      console.log('开始加载剩余图片...');
+      remainingPhotos.forEach((fileName, index) => {
+        setTimeout(() => {
+          loadPhoto(fileName, index + 12);
+        }, index * 200); // 每200ms加载一张
+      });
+    }, 2000); // 2秒后开始加载剩余图片
+  }
+  
   console.log('所有照片元素已创建完成');
+  
+  // 添加加载进度显示
+  const progressDiv = document.createElement('div');
+  progressDiv.id = 'loading-progress';
+  progressDiv.className = 'fixed bottom-4 right-4 bg-white rounded-lg shadow-lg p-4 z-50';
+  progressDiv.innerHTML = `
+    <div class="text-sm font-medium text-gray-700 mb-2">照片加载进度</div>
+    <div class="w-48 bg-gray-200 rounded-full h-2">
+      <div id="progress-bar" class="bg-gradient-love h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+    </div>
+    <div id="progress-text" class="text-xs text-gray-500 mt-1">0/${photoFiles.length}</div>
+  `;
+  document.body.appendChild(progressDiv);
+  
+  // 更新加载进度
+  let loadedCount = 0;
+  const updateProgress = () => {
+    loadedCount++;
+    const percentage = (loadedCount / photoFiles.length) * 100;
+    document.getElementById('progress-bar').style.width = percentage + '%';
+    document.getElementById('progress-text').textContent = `${loadedCount}/${photoFiles.length}`;
+    
+    if (loadedCount === photoFiles.length) {
+      setTimeout(() => {
+        progressDiv.style.opacity = '0';
+        setTimeout(() => {
+          if (progressDiv.parentNode) {
+            progressDiv.parentNode.removeChild(progressDiv);
+          }
+        }, 300);
+      }, 1000);
+    }
+  };
+  
+  // 创建进度更新函数，确保所有图片都计入进度
+  const trackImageProgress = (img) => {
+    if (img.complete) {
+      updateProgress();
+    } else {
+      img.addEventListener('load', updateProgress);
+      img.addEventListener('error', updateProgress);
+    }
+  };
+  
+  // 延迟检查图片元素，确保它们已经添加到DOM
+  setTimeout(() => {
+    const allImages = document.querySelectorAll('#photo-gallery img');
+    console.log(`找到 ${allImages.length} 张图片，开始跟踪进度`);
+    allImages.forEach(trackImageProgress);
+  }, 100);
 }
 
 // 图片懒加载功能
