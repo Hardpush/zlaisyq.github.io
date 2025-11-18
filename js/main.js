@@ -1,11 +1,38 @@
+// 生产环境配置
+const isProduction = !window.location.hostname.includes('localhost') && !window.location.hostname.includes('127.0.0.1');
+const debugLog = isProduction ? () => {} : console.log;
+
 // 密码验证功能
 function initPasswordProtection() {
+  // 检查Tailwind是否正确加载
+  debugLog('🎨 检查Tailwind CSS状态:');
+  const testElement = document.createElement('div');
+  testElement.className = 'hidden';
+  document.body.appendChild(testElement);
+  const tailwindWorking = testElement.style.display === 'none' || window.getComputedStyle(testElement).display === 'none';
+  document.body.removeChild(testElement);
+  
+  if (!tailwindWorking) {
+    console.warn('⚠️ Tailwind CSS未正确加载，使用备用样式');
+    // 强制应用备用样式
+    document.body.classList.add('tailwind-fallback');
+  } else {
+    debugLog('✅ Tailwind CSS工作正常');
+  }
+  
   const correctPassword = 'love520'; // 可以修改为您想要的密码
   const passwordOverlay = document.getElementById('password-overlay');
   const mainContent = document.getElementById('main-content');
   const passwordForm = document.getElementById('password-form');
   const passwordInput = document.getElementById('password-input');
   const passwordError = document.getElementById('password-error');
+  
+  console.log('🔍 密码验证初始化检查:');
+  console.log('密码覆盖层:', passwordOverlay);
+  console.log('主内容:', mainContent);
+  console.log('密码表单:', passwordForm);
+  console.log('密码输入框:', passwordInput);
+  console.log('错误提示:', passwordError);
   
   // 检查是否已经验证过密码
   const isAuthenticated = sessionStorage.getItem('authenticated') === 'true';
@@ -20,14 +47,19 @@ function initPasswordProtection() {
     e.preventDefault();
     
     const enteredPassword = passwordInput.value.trim();
+    console.log('🔐 密码验证尝试:', enteredPassword);
+    console.log('🔑 正确密码:', correctPassword);
+    console.log('📝 密码匹配:', enteredPassword === correctPassword);
     
     if (enteredPassword === correctPassword) {
       // 密码正确
+      console.log('✅ 密码正确，开始显示主内容');
       sessionStorage.setItem('authenticated', 'true');
       passwordError.classList.add('hidden');
       showMainContent();
     } else {
       // 密码错误
+      console.log('❌ 密码错误');
       passwordError.classList.remove('hidden');
       passwordInput.value = '';
       passwordInput.focus();
@@ -42,16 +74,19 @@ function initPasswordProtection() {
   
   // 显示主内容
   function showMainContent() {
+    console.log('🚀 开始显示主内容');
     passwordOverlay.style.opacity = '0';
     passwordOverlay.style.transition = 'opacity 0.5s ease-out';
     
     setTimeout(() => {
+      console.log('📦 隐藏密码覆盖层，显示主内容');
       passwordOverlay.classList.add('hidden');
       mainContent.classList.remove('hidden');
       mainContent.style.opacity = '0';
       mainContent.style.transition = 'opacity 0.5s ease-in';
       
       setTimeout(() => {
+        console.log('✨ 主内容显示完成，初始化网站功能');
         mainContent.style.opacity = '1';
         // 初始化主网站功能
         initMainWebsite();
@@ -255,7 +290,7 @@ function loadPhotoGallery() {
   });
   
   // 智能分批加载：优先加载前12张，其余延迟加载
-  const loadPhoto = (fileName, index) => {
+  const loadPhoto = (fileName, index, isPriority = false) => {
     try {
       console.log(`🔄 开始处理图片 ${index + 1}: ${fileName}`);
       
@@ -388,19 +423,7 @@ function loadPhotoGallery() {
       
       photoDiv.appendChild(img);
       
-      // 强制触发图片加载，不等待浏览器懒加载
-      if (img.src && !img.complete) {
-        // 创建一个临时的Image对象来强制加载
-        const forceLoader = new Image();
-        forceLoader.onload = () => {
-          console.log(`🚀 强制加载完成: ${fileName}`);
-          img.src = img.src; // 触发显示
-        };
-        forceLoader.onerror = () => {
-          console.warn(`⚠️ 强制加载失败: ${fileName}`);
-        };
-        forceLoader.src = img.src;
-      }
+      // 简化：直接让浏览器加载，不添加额外机制
     }
     
     // 添加点击放大功能
@@ -410,6 +433,7 @@ function loadPhotoGallery() {
     });
     
     photoGallery.appendChild(photoDiv);
+    return photoDiv; // 返回photoDiv供懒加载使用
     } catch (error) {
       console.error(`❌ 图片处理出错 ${index + 1}: ${fileName}`, error);
       // 即使出错也要更新进度，避免卡住
@@ -428,6 +452,7 @@ function loadPhotoGallery() {
         </div>
       `;
       photoGallery.appendChild(errorDiv);
+      return errorDiv;
     }
   };
   
@@ -530,135 +555,99 @@ function loadPhotoGallery() {
     }
   };
   
-  // Intersection Observer 优化懒加载
-  const setupIntersectionObserver = () => {
+  // 真正的懒加载观察器
+  const observeImage = (photoDiv, fileName, index) => {
+    const img = photoDiv.querySelector('img');
+    if (!img) return;
+    
     const imageObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const img = entry.target;
-          const src = img.dataset.src;
+          const src = img.dataset.src || img.src;
           
-          if (src && !img.src) {
+          if (src && !img.complete) {
+            // 开始加载图片
+            img.loading = 'lazy';
             img.src = src;
-            img.classList.remove('opacity-0');
-            img.classList.add('opacity-100');
-            imageObserver.unobserve(img);
-            console.log(`👁️ 图片进入视口开始加载: ${img.alt}`);
+            
+            img.addEventListener('load', () => {
+              img.classList.add('loaded');
+              imageCache.markAsLoaded(fileName);
+              updateProgress();
+              imageObserver.unobserve(img);
+            }, { once: true });
+            
+            img.addEventListener('error', () => {
+              imageCache.recordLoadError();
+              updateProgress();
+              imageObserver.unobserve(img);
+            }, { once: true });
           }
         }
       });
     }, {
-      rootMargin: '50px', // 提前50px开始加载
+      rootMargin: '100px', // 提前100px开始加载
       threshold: 0.1
     });
     
+    imageObserver.observe(img);
     return imageObserver;
   };
   
   // 注册Service Worker
   registerServiceWorker();
   
-  // 修复加载策略：更激进的并发加载，解决卡住问题
-  console.log(`🚀 修复加载策略：开始加载${photoFiles.length}张图片`);
+  // 优化的分批加载策略
+  console.log(`🚀 开始分批加载${photoFiles.length}张图片`);
   
-  const batchSize = 12; // 增加到每批并发加载12张
-  const batchDelay = 50; // 减少到批次间延迟50ms
+  // 首屏优先加载（前12张）
+  const priorityCount = 12;
+  const batchSize = 4; // 每批加载4张
   
-  // 立即开始加载第一批，不要等待
-  console.log(`📦 立即加载第1批图片 (1-${Math.min(batchSize, photoFiles.length)})`);
-  for (let i = 0; i < Math.min(batchSize, photoFiles.length); i++) {
-    loadPhoto(photoFiles[i], i);
-  }
-  
-  // 继续加载剩余批次
-  for (let batch = 1; batch < Math.ceil(photoFiles.length / batchSize); batch++) {
-    setTimeout(() => {
-      const startIndex = batch * batchSize;
-      const endIndex = Math.min(startIndex + batchSize, photoFiles.length);
-      
-      console.log(`📦 加载第${batch + 1}批图片 (${startIndex + 1}-${endIndex})`);
-      
-      for (let i = startIndex; i < endIndex; i++) {
-        loadPhoto(photoFiles[i], i);
-      }
-    }, batch * batchDelay);
-  }
-  
-  // 添加强制加载检查，确保不会卡住
-  let forceCheckCount = 0;
-  const forceLoadInterval = setInterval(() => {
-    forceCheckCount++;
-    const currentImages = document.querySelectorAll('#photo-gallery img').length;
-    const loadedImages = document.querySelectorAll('#photo-gallery img[data-loaded="true"]').length;
+  const loadBatch = (startIndex, isPriority = false) => {
+    const endIndex = Math.min(startIndex + batchSize, photoFiles.length);
     
-    console.log(`🔍 强制检查 ${forceCheckCount}: 已创建 ${currentImages}/${photoFiles.length}, 已加载 ${loadedImages}`);
-    
-    // 如果5次检查后进度还是很慢，强制触发所有图片
-    if (forceCheckCount >= 5 && loadedImages < photoFiles.length * 0.3) {
-      console.warn(`⚠️ 强制触发所有图片加载，当前进度太慢`);
-      clearInterval(forceLoadInterval);
-      
-      // 强制加载所有未加载的图片
-      document.querySelectorAll('#photo-gallery img:not([data-loaded="true"])').forEach((img, index) => {
-        if (img.src && !img.complete) {
-          const originalSrc = img.src;
-          img.src = '';
-          setTimeout(() => {
-            img.src = originalSrc + '?force=' + Date.now();
-          }, index * 100); // 错开加载时间
+    for (let i = startIndex; i < endIndex; i++) {
+      try {
+        const photoDiv = loadPhoto(photoFiles[i], i, isPriority);
+        if (photoDiv) {
+          // 使用Intersection Observer实现真正的懒加载
+          if (!isPriority && i >= priorityCount) {
+            observeImage(photoDiv, photoFiles[i], i);
+          }
         }
-      });
-    }
-    
-    // 如果所有图片都已创建，停止检查
-    if (currentImages >= photoFiles.length) {
-      clearInterval(forceLoadInterval);
-      console.log(`✅ 所有图片元素已创建完成`);
-    }
-  }, 3000); // 每3秒检查一次
-  
-  console.log('所有照片元素已创建完成');
-  
-  // 全局强制加载：确保所有图片立即开始加载
-  setTimeout(() => {
-    console.log('🚀 开始全局强制加载检查...');
-    const allImages = document.querySelectorAll('#photo-gallery img');
-    
-    allImages.forEach((img, index) => {
-      if (img.src && !img.complete && !img.dataset.forceTriggered) {
-        console.log(`🔥 强制触发图片 ${index + 1}: ${img.alt}`);
-        img.dataset.forceTriggered = 'true';
-        
-        // 强制重新设置src来触发加载
-        const originalSrc = img.src;
-        img.src = '';
-        setTimeout(() => {
-          img.src = originalSrc;
-        }, index * 50); // 错开50ms避免同时请求
+      } catch (error) {
+        console.error(`❌ 加载图片失败 ${i + 1}: ${photoFiles[i]}`, error);
       }
-    });
+    }
     
-    console.log(`✅ 全局强制加载完成，共处理 ${allImages.length} 张图片`);
-  }, 2000); // 2秒后开始强制加载
+    // 继续加载下一批（非优先级图片）
+    if (!isPriority && endIndex < photoFiles.length) {
+      setTimeout(() => loadBatch(endIndex), 200); // 200ms间隔
+    }
+  };
   
-  // 紧急恢复机制：确保所有图片都能被创建
+  // 立即加载首屏图片
+  loadBatch(0, true);
+  
+  // 延迟加载其余图片
+  setTimeout(() => loadBatch(priorityCount), 500);
+  
+  console.log(`✅ 分批加载策略已启动`);
+  
+  // 简单的进度监控
   setTimeout(() => {
     const currentCount = document.querySelectorAll('#photo-gallery > div').length;
-    console.log(`🔍 紧急检查：当前创建了 ${currentCount}/${photoFiles.length} 个图片容器`);
+    const imageCount = document.querySelectorAll('#photo-gallery img').length;
+    const loadedCount = document.querySelectorAll('#photo-gallery img[data-loaded="true"]').length;
+    
+    console.log(`📊 进度检查：容器 ${currentCount}/${photoFiles.length}, 图片 ${imageCount}, 已加载 ${loadedCount}`);
     
     if (currentCount < photoFiles.length) {
-      console.warn(`⚠️ 紧急恢复：缺少 ${photoFiles.length - currentCount} 个图片容器，强制创建`);
-      
-      for (let i = currentCount; i < photoFiles.length; i++) {
-        try {
-          console.log(`🚨 紧急创建图片 ${i + 1}: ${photoFiles[i]}`);
-          loadPhoto(photoFiles[i], i);
-        } catch (error) {
-          console.error(`❌ 紧急创建失败 ${i + 1}: ${photoFiles[i]}`, error);
-        }
-      }
+      console.warn(`⚠️ 还有 ${photoFiles.length - currentCount} 个图片容器未创建`);
     }
-  }, 5000); // 5秒后检查
+  }, 3000); // 3秒后简单检查一次
 }
 
 // 全局图片缓存管理
@@ -847,20 +836,45 @@ function openImageModal(imageSrc, fileName, imageNumber) {
   modal.className = 'fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4';
   modal.style.opacity = '0';
   modal.style.transition = 'opacity 0.3s ease';
+  // 确保模态框不会超出视口
+  modal.style.maxHeight = '100vh';
+  modal.style.maxWidth = '100vw';
+  modal.style.overflow = 'hidden';
   
   // 检查图片是否已缓存
   const isCached = imageCache.isLoaded(fileName);
   const loadingIndicator = isCached ? '' : '<div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50"><div class="text-white text-xl animate-pulse">加载中...</div></div>';
   
   modal.innerHTML = `
-    <div class="relative max-w-4xl max-h-full">
+    <div class="relative w-full h-full">
       ${loadingIndicator}
-      <img src="${imageSrc}" alt="婚纱照 ${imageNumber}" class="max-w-full max-h-full object-contain rounded-lg" style="${isCached ? '' : 'opacity: 0; transition: opacity 0.3s;'}">
-      <div class="absolute top-4 right-4 flex gap-2">
-        <button class="bg-white text-black px-3 py-1 rounded-full text-sm hover:bg-gray-200 transition">❌ 关闭</button>
+      
+      <!-- 图片容器 - 居中显示 -->
+      <div class="flex items-center justify-center w-full h-full p-8">
+        <!-- 图片包装器 - 用于定位关闭按钮 -->
+        <div class="relative inline-block">
+          <!-- 关闭按钮 - 相对于图片定位在右上角 -->
+          <button class="modal-close-btn absolute -top-3 -right-3 px-3 py-1 bg-white bg-opacity-95 hover:bg-opacity-100 text-gray-800 rounded-lg flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-200 text-sm font-medium" style="z-index: 9999 !important;" title="关闭 (ESC)">
+            关闭
+          </button>
+          
+          <img src="${imageSrc}" alt="婚纱照 ${imageNumber}" class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl block" style="${isCached ? '' : 'opacity: 0; transition: opacity 0.3s;'}">
+        </div>
       </div>
-      <div class="absolute bottom-4 left-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded-full text-sm">
+      
+      <!-- 备用关闭按钮 - 固定在屏幕左上角 -->
+      <button class="modal-close-btn-alt fixed top-4 left-4 bg-black bg-opacity-60 hover:bg-opacity-80 text-white px-3 py-2 rounded-lg text-sm transition-all duration-200 backdrop-blur-sm" style="z-index: 9998 !important;" title="关闭">
+        ✕ 关闭
+      </button>
+      
+      <!-- 图片信息 - 固定在底部 -->
+      <div class="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-70 text-white px-4 py-2 rounded-lg text-sm backdrop-blur-sm z-30">
         婚纱照 ${imageNumber} - ${fileName} ${isCached ? '⚡' : ''}
+      </div>
+      
+      <!-- 操作提示 - 调整位置避免与关闭按钮重叠 -->
+      <div class="fixed top-20 right-4 bg-black bg-opacity-50 text-white px-3 py-2 rounded-lg text-xs backdrop-blur-sm z-30">
+        ESC 或双击关闭
       </div>
     </div>
   `;
@@ -874,17 +888,36 @@ function openImageModal(imageSrc, fileName, imageNumber) {
   
   const img = modal.querySelector('img');
   
+  // 图片加载完成后的处理
+  const handleImageLoad = function() {
+    // 隐藏加载指示器，显示图片
+    const loadingDiv = modal.querySelector('.absolute.inset-0');
+    if (loadingDiv) {
+      loadingDiv.remove();
+    }
+    this.style.opacity = '1';
+    imageCache.markAsLoaded(fileName);
+    
+    // 检查图片尺寸，确保不超出视口
+    setTimeout(() => {
+      const imgRect = this.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const viewportWidth = window.innerWidth;
+      
+      // 如果图片太大，调整图片尺寸
+      if (imgRect.height > viewportHeight * 0.8 || imgRect.width > viewportWidth * 0.9) {
+        console.log('调整图片尺寸以适应视口');
+        this.style.maxHeight = '80vh';
+        this.style.maxWidth = '90vw';
+      }
+      
+      // 关闭按钮使用绝对定位，会自动跟随图片容器
+    }, 100);
+  };
+  
   // 如果图片未缓存，监听加载完成
   if (!isCached) {
-    img.addEventListener('load', function() {
-      // 隐藏加载指示器，显示图片
-      const loadingDiv = modal.querySelector('.absolute.inset-0');
-      if (loadingDiv) {
-        loadingDiv.remove();
-      }
-      this.style.opacity = '1';
-      imageCache.markAsLoaded(fileName);
-    });
+    img.addEventListener('load', handleImageLoad);
     
     img.addEventListener('error', function() {
       const loadingDiv = modal.querySelector('.absolute.inset-0');
@@ -892,6 +925,9 @@ function openImageModal(imageSrc, fileName, imageNumber) {
         loadingDiv.innerHTML = '<div class="text-white text-xl">😔 加载失败</div>';
       }
     });
+  } else {
+    // 已缓存的图片也要检查尺寸
+    img.addEventListener('load', handleImageLoad);
   }
   
   // 关闭功能
@@ -905,7 +941,11 @@ function openImageModal(imageSrc, fileName, imageNumber) {
   };
   
   modal.addEventListener('click', (e) => {
-    if (e.target === modal || e.target.textContent.includes('关闭')) {
+    // 点击背景或任何关闭按钮都关闭模态框
+    if (e.target === modal || 
+        e.target.closest('.modal-close-btn') || 
+        e.target.closest('.modal-close-btn-alt') ||
+        e.target.textContent.includes('关闭')) {
       closeModal();
     }
   });
@@ -918,4 +958,36 @@ function openImageModal(imageSrc, fileName, imageNumber) {
     }
   };
   document.addEventListener('keydown', handleEsc);
+  
+  // 双击图片也可以关闭
+  img.addEventListener('dblclick', (e) => {
+    e.stopPropagation();
+    closeModal();
+  });
+  
+  // 确保关闭按钮始终可见
+  setTimeout(() => {
+    const mainCloseBtn = modal.querySelector('.modal-close-btn');
+    const altCloseBtn = modal.querySelector('.modal-close-btn-alt');
+    
+    if (mainCloseBtn) {
+      mainCloseBtn.style.zIndex = '9999';
+      mainCloseBtn.style.position = 'absolute';
+      mainCloseBtn.style.top = '-12px';
+      mainCloseBtn.style.right = '-12px';
+      mainCloseBtn.style.display = 'flex';
+      mainCloseBtn.style.opacity = '1';
+      mainCloseBtn.style.visibility = 'visible';
+      console.log('主关闭按钮已设置 - 图片右上角');
+    }
+    
+    if (altCloseBtn) {
+      altCloseBtn.style.zIndex = '9998';
+      altCloseBtn.style.position = 'fixed';
+      altCloseBtn.style.display = 'flex';
+      altCloseBtn.style.opacity = '1';
+      altCloseBtn.style.visibility = 'visible';
+      console.log('备用关闭按钮已设置');
+    }
+  }, 200);
 }
