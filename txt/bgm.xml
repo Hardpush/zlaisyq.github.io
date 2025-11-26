@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- bgm配置文件 -->
+<configuration>
+  <base>
+	<txt>20241229</txt>
+    <music>流星雨</music>
+  </base>
+    <base>
+	<txt>20250214</txt>
+    <music>偏向</music>
+  </base>
+</configuration>

@@ -168,6 +168,73 @@
   }
 }
 
+/* 导航栏样式 */
+.nav-link {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--love-primary);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* 时间线样式 */
+.timeline-dot {
+  position: relative;
+  z-index: 10;
+}
+
+.timeline-line {
+  background: linear-gradient(180deg, var(--love-primary) 0%, var(--romance-primary) 100%);
+}
+
+/* 祝福卡片样式 */
+.wish-card {
+  transition: all 0.3s ease;
+  border-left: 4px solid transparent;
+}
+
+.wish-card:hover {
+  border-left-color: var(--love-primary);
+  transform: translateY(-2px);
+}
+
+/* 个人介绍卡片 */
+.profile-card {
+  transition: all 0.3s ease;
+}
+
+.profile-card:hover {
+  transform: scale(1.05);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .timeline-container {
+    padding-left: 2rem;
+  }
+  
+  .timeline-line {
+    left: 1rem;
+  }
+  
+  .timeline-dot {
+    left: 0.5rem;
+  }
+}
+
 /* 自定义动画 */
 @keyframes float {
   0%, 100% {

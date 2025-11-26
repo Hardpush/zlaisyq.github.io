@@ -3,52 +3,142 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>张乐与石云青的空间照片墙，记录我们美好空间的珍贵瞬间 - 照片墙</title>
-  <meta name="description" content="张乐与石云青的婚纱照照片墙，记录我们美好婚礼的珍贵瞬间">
-  <meta name="keywords" content="婚纱照,照片墙,婚礼纪念,爱情见证,美好时光">
-  <meta name="author" content="爱的纪念">
+  <title>张乐与石云青 - 爱情空间</title>
+  <meta name="description" content="张乐与石云青的爱情空间，记录我们的恋爱故事、纪念日和美好瞬间">
+  <meta name="keywords" content="张乐,石云青,爱情空间,恋爱记录,纪念日,照片墙,情书信箱">
+  <meta name="author" content="张乐与石云青">
   
   <!-- Open Graph 标签 -->
-  <meta property="og:title" content="我们的一周年纪念">
-  <meta property="og:description" content="记录我们爱情一周年纪念的美好时光">
+  <meta property="og:title" content="张乐与石云青 - 爱情空间">
+  <meta property="og:description" content="记录我们相爱的每一天，每一个美好瞬间">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="">
-  <meta property="og:image" content="https://picsum.photos/seed/anniversary/1200/630.jpg">
+  <meta property="og:image" content="https://picsum.photos/seed/love/1200/630.jpg">
   
   <!-- 外部资源 -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    // 检查Tailwind是否加载成功，如果失败则使用备用配置
-    if (typeof tailwind === 'undefined') {
-      console.warn('Tailwind CDN加载失败，使用备用配置');
-      // 备用的Tailwind配置
-      window.tailwind = {
-        config: {
-          theme: {
-            extend: {
-              colors: {
-                'love': {
-                  100: '#ffe0e6',
-                  500: '#ff8096',
-                  600: '#ff6b84',
-                }
-              }
+    // Tailwind 配置
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            love: {
+              50: '#fff1f2',
+              100: '#ffe4e6',
+              200: '#fecdd3',
+              300: '#fda4af',
+              400: '#fb7185',
+              500: '#f43f5e',
+              600: '#e11d48',
+              700: '#be123c',
+              800: '#9f1239',
+              900: '#881337',
+              950: '#4c0519',
+            },
+            romance: {
+              50: '#faf5ff',
+              100: '#f3e8ff',
+              200: '#e9d5ff',
+              300: '#d8b4fe',
+              400: '#c084fc',
+              500: '#a855f7',
+              600: '#9333ea',
+              700: '#7e22ce',
+              800: '#6b21a8',
+              900: '#581c87',
             }
+          },
+          fontFamily: {
+            romantic: ['Dancing Script', 'cursive', 'sans-serif']
           }
         }
-      };
+      }
     }
   </script>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   
+  <!-- 自定义工具类 -->
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .text-shadow-lg {
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
+      }
+      .glassmorphism {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+      .glassmorphism-dark {
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+      .animate-float {
+        animation: float 6s ease-in-out infinite;
+      }
+      .animate-heartbeat-slow {
+        animation: heartbeat 3s ease-in-out infinite;
+      }
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      14% { transform: scale(1.1); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.1); }
+      70% { transform: scale(1); }
+    }
+    
+    /* 页面切换效果 */
+    html, body {
+      overflow-x: hidden;
+    }
+    
+    /* 使主内容区域可滚动 */
+    #main-content {
+      position: relative;
+      transition: transform 0.5s ease-in-out;
+    }
+    
+    /* 页面模块样式 */
+    section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    
+    /* 渐变效果 */
+    .bg-gradient-love {
+      background: linear-gradient(135deg, #ff6b81 0%, #ff8787 100%);
+    }
+    
+    .text-gradient-love {
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      background-image: linear-gradient(135deg, #ff6b81 0%, #ff8787 100%);
+    }
+  </style>
+  
   <!-- 预加载关键资源 -->
-  <link rel="preload" href="css/main.css" as="style">
   <link rel="preload" href="js/main.js" as="script">
+  <link rel="preload" href="css/main.css" as="style">
   
   <!-- 自定义资源 -->
-  <script src="js/main.js" defer></script>
   <link rel="stylesheet" href="css/main.css">
+  <script src="js/main.js" defer></script>
 </head>
 <body class="font-romantic bg-gray-50 text-gray-800 overflow-x-hidden">
   <!-- 密码验证界面 -->
@@ -99,30 +189,227 @@
     <!-- 粒子背景容器 -->
     <div id="particles-js" class="fixed top-0 left-0 w-full h-full pointer-events-none"></div>
 
-    <!-- 标题区域 -->
-    <div class="pt-24 pb-8 bg-gradient-love/10">
-      <div class="container mx-auto px-4 text-center">
-        <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6 text-shadow-lg">张乐与石云青的婚纱照</h1>
-        <p class="text-xl md:text-2xl text-gray-700 mb-10">每一张照片都是爱的见证</p>
-      </div>
-    </div>
-
-    <!-- 照片墙区域 -->
-    <section class="py-8 md:py-16 bg-gray-50">
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 left-0 right-0 glassmorphism z-40 transition-all duration-300 shadow-md">
       <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-20">
+          <!-- Logo区域 -->
+          <div class="flex items-center space-x-3">
+            <div class="relative">
+              <div class="w-12 h-12 bg-gradient-to-br from-rose-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg">
+                <i class="fa fa-heart text-white text-lg"></i>
+              </div>
+              <div class="absolute -top-1 -right-1 w-4 h-4 bg-rose-500 rounded-full animate-pulse"></div>
+            </div>
+            <div>
+              <span class="text-xl font-bold text-rose-600 font-romantic">张乐与石云青</span>
+              <div class="text-xs text-gray-500">爱情空间</div>
+            </div>
+          </div>
+          
+          <!-- 桌面端导航菜单 -->
+          <div class="hidden lg:flex items-center space-x-1">
+            <a href="#home" class="nav-link group relative px-6 py-3 text-gray-700 hover:text-rose-500 transition-all duration-300 font-medium">
+              <span class="relative z-10">首页</span>
+              <div class="absolute inset-0 bg-rose-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+            </a>
+            <a href="#love-story" class="nav-link group relative px-6 py-3 text-gray-700 hover:text-rose-500 transition-all duration-300 font-medium">
+              <span class="relative z-10">恋爱记录</span>
+              <div class="absolute inset-0 bg-rose-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+            </a>
+            <a href="#anniversary-countdown" class="nav-link group relative px-6 py-3 text-gray-700 hover:text-rose-500 transition-all duration-300 font-medium">
+              <span class="relative z-10">纪念日</span>
+              <div class="absolute inset-0 bg-rose-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+            </a>
+            <a href="#photo-wall" class="nav-link group relative px-6 py-3 text-gray-700 hover:text-rose-500 transition-all duration-300 font-medium">
+              <span class="relative z-10">照片墙</span>
+              <div class="absolute inset-0 bg-rose-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+            </a>
+            <a href="#love-letters" class="nav-link group relative px-6 py-3 text-gray-700 hover:text-rose-500 transition-all duration-300 font-medium">
+              <span class="relative z-10">情书信箱</span>
+              <div class="absolute inset-0 bg-rose-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+            </a>
+          </div>
+          
+          <!-- 移动端菜单按钮 -->
+          <button id="mobile-menu-button" class="lg:hidden p-3 rounded-xl hover:bg-gray-100 transition-colors">
+            <div class="w-6 h-5 relative flex flex-col justify-between">
+              <span class="w-full h-0.5 bg-gray-700 transition-all duration-300"></span>
+              <span class="w-full h-0.5 bg-gray-700 transition-all duration-300"></span>
+              <span class="w-full h-0.5 bg-gray-700 transition-all duration-300"></span>
+            </div>
+          </button>
+        </div>
         
-        <!-- 照片网格容器 -->
-        <div id="photo-gallery" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-          <!-- 照片将通过JavaScript动态加载 -->
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="hidden lg:hidden pb-6">
+          <div class="glassmorphism rounded-2xl p-4 shadow-lg border border-white/20">
+            <a href="#home" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all duration-300">
+              <i class="fa fa-home w-5"></i>
+              <span>首页</span>
+            </a>
+            <a href="#love-story" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all duration-300">
+              <i class="fa fa-book w-5"></i>
+              <span>恋爱记录</span>
+            </a>
+            <a href="#anniversary-countdown" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all duration-300">
+              <i class="fa fa-calendar w-5"></i>
+              <span>纪念日</span>
+            </a>
+            <a href="#photo-wall" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all duration-300">
+              <i class="fa fa-image w-5"></i>
+              <span>照片墙</span>
+            </a>
+            <a href="#love-letters" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all duration-300">
+              <i class="fa fa-envelope w-5"></i>
+              <span>情书信箱</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- 首页横幅 -->
+    <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <!-- 背景图 -->
+      <div class="absolute inset-0 -z-10 bg-gradient-to-b from-rose-50 to-white"></div>
+      
+      <!-- 装饰元素 -->
+      <div class="absolute inset-0 overflow-hidden">
+        <div class="absolute top-[10%] left-[5%] w-32 h-32 bg-rose-100 rounded-full opacity-70 blur-xl"></div>
+        <div class="absolute top-[30%] right-[10%] w-48 h-48 bg-purple-100 rounded-full opacity-60 blur-xl"></div>
+        <div class="absolute bottom-[20%] left-[20%] w-64 h-64 bg-rose-200 rounded-full opacity-50 blur-xl"></div>
+      </div>
+      
+      <!-- 粒子背景容器 -->
+      <div id="particles-js" class="absolute inset-0 -z-10"></div>
+      
+      <!-- 照片展示区域 -->
+      <div class="container mx-auto px-4 py-20 text-center">
+        <div class="max-w-4xl mx-auto">
+          <!-- 合照展示 -->
+          <div class="mb-12">
+            <div class="relative mx-auto max-w-2xl aspect-square overflow-hidden rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
+              <div id="home-photo-container" class="w-full h-full"></div>
+            </div>
+          </div>
+          
+          <div class="mb-8">
+            <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold mb-4 text-rose-600 font-romantic leading-tight text-shadow">
+              张乐 & 石云青
+            </h1>
+            <p class="text-[clamp(1rem,2vw,1.25rem)] text-gray-600 mb-8 max-w-2xl mx-auto">
+              我们的爱情故事，从这里开始...
+            </p>
+          </div>
+          
+          <!-- 按钮组 -->
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+            <a href="#love-story" class="px-8 py-3 bg-rose-500 text-white rounded-full hover:bg-rose-600 transition-all duration-300 font-medium shadow-lg shadow-rose-500/20 hover:shadow-rose-500/30 hover:-translate-y-1">
+              <i class="fa fa-book mr-2"></i> 我们的故事
+            </a>
+            <a href="#photo-wall" class="px-8 py-3 bg-white text-rose-500 border border-rose-200 rounded-full hover:bg-rose-50 transition-all duration-300 font-medium shadow-md hover:shadow-lg hover:-translate-y-1">
+              <i class="fa fa-image mr-2"></i> 照片墙
+            </a>
+          </div>
+          
+          <!-- 装饰性爱心 -->
+          <div class="flex justify-center space-x-2">
+            <div class="animate-bounce-slow">
+              <i class="fa fa-heart text-rose-400"></i>
+            </div>
+            <div class="animate-bounce-slow delay-100">
+              <i class="fa fa-heart text-rose-500"></i>
+            </div>
+            <div class="animate-bounce-slow delay-200">
+              <i class="fa fa-heart text-rose-600"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 滚动提示 -->
+      <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <a href="#love-story" class="flex flex-col items-center text-gray-500 hover:text-rose-500 transition-colors">
+          <span class="mb-2 text-sm font-medium">向下滚动</span>
+          <i class="fa fa-angle-down text-xl"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- 恋爱记录模块 -->
+    <section id="love-story" class="min-h-screen flex items-center justify-center py-12 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold mb-4 text-gray-800 font-romantic">恋爱记录</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">我们的故事，从这里开始...</p>
+          <div class="w-20 h-1 bg-rose-500 mx-auto mt-6 rounded-full"></div>
+        </div>
+        
+        <!-- 恋爱记录内容 -->
+        <div id="love-story-container" class="max-w-5xl mx-auto">
+          <!-- 内容将通过JavaScript动态加载 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 纪念日倒计时模块 -->
+    <section id="anniversary-countdown" class="min-h-screen flex items-center justify-center py-12 bg-gradient-to-b from-rose-50 to-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold mb-4 text-gray-800 font-romantic">纪念日倒计时</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">我们已经在一起的每一天</p>
+          <div class="w-20 h-1 bg-rose-500 mx-auto mt-6 rounded-full"></div>
+        </div>
+        
+        <!-- 倒计时内容 -->
+        <div id="countdown-container" class="max-w-4xl mx-auto text-center">
+          <!-- 内容将通过JavaScript动态加载 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 照片墙模块 -->
+    <section id="photo-wall" class="min-h-screen flex items-center justify-center py-12 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold mb-4 text-gray-800 font-romantic">照片墙</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">记录我们美好的瞬间</p>
+          <div class="w-20 h-1 bg-rose-500 mx-auto mt-6 rounded-full"></div>
+        </div>
+        
+        <!-- 照片墙内容 -->
+        <div id="photo-wall-container" class="max-w-6xl mx-auto">
+          <!-- 内容将通过JavaScript动态加载 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 情书信箱模块 -->
+    <section id="love-letters" class="min-h-screen flex items-center justify-center py-12 bg-gradient-to-b from-rose-50 to-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold mb-4 text-gray-800 font-romantic">情书信箱</h2>
+          <p class="text-gray-600 max-w-2xl mx-auto">每一封信，都是我们爱的见证</p>
+          <div class="w-20 h-1 bg-rose-500 mx-auto mt-6 rounded-full"></div>
+        </div>
+        
+        <!-- 情书信箱内容 -->
+        <div id="love-letters-container" class="max-w-6xl mx-auto">
+          <!-- 内容将通过JavaScript动态加载 -->
         </div>
       </div>
     </section>
 
     <!-- 页脚 -->
-    <footer class="bg-gray-900 text-white py-8">
-      <div class="container mx-auto px-4 text-center">
-        <h2 class="text-xl font-bold mb-2">张乐与石云青的空间</h2>
-        <p class="text-gray-400">© 2025 爱的纪念 | 时光不老，我们不散</p>
+    <footer class="py-8 bg-rose-900 text-white text-center">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+          <div class="text-xl font-bold font-romantic">张乐 & 石云青</div>
+          <div class="h-6 w-px bg-rose-600"></div>
+          <div>我们的爱情故事</div>
+        </div>
+        <div class="mt-4 text-rose-300">© 2024 版权所有</div>
       </div>
     </footer>
   </div> <!-- 主网站内容结束 -->
