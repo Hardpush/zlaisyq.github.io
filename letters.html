@@ -46,12 +46,14 @@
             transform: rotateX(-45deg);
         }
         
+        /* 日期显示样式 */
         .envelope-date {
-            font-size: 18px;
-            font-weight: bold;
-            color: #8b4513;
-            margin-bottom: 10px;
             text-align: center;
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 15px;
+            display: block;
+            opacity: 1;
         }
         
         .envelope-title {
@@ -257,20 +259,94 @@
             tryNextFormat();
         }
 
-        // 加载所有信封（模拟数据，实际需要通过服务器获取）
+        // 加载所有信封，动态获取txt文件夹中的所有情书文件
         function loadEnvelopes() {
-            // 模拟的文件列表，实际应该通过后端API获取
-            const files = [
-                { name: '20241229.txt', date: '2024-12-29', title: '冬日告白' },
-                { name: '20250214.txt', date: '2025-02-14', title: '情人节快乐' }
-            ];
-
             const container = document.getElementById('envelopes-container');
+            container.innerHTML = ''; // 清空容器
             
-            files.forEach(file => {
-                const envelope = createEnvelope(file);
-                container.appendChild(envelope);
-            });
+            // 尝试获取txt目录下的所有文件
+            fetch('txt/')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('无法获取目录内容，尝试备选方案');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    // 解析HTML响应，提取.txt文件
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const links = doc.querySelectorAll('a[href$=".txt"]');
+                    
+                    const files = Array.from(links)
+                        .map(link => link.getAttribute('href'))
+                        .filter(name => name !== 'bgm.xml') // 排除bgm.xml文件
+                        .map(name => {
+                            // 从文件名中提取日期并格式化
+                            const dateStr = name.replace('.txt', '');
+                            const year = dateStr.slice(0, 4);
+                            const month = dateStr.slice(4, 6);
+                            const day = dateStr.slice(6, 8);
+                            const formattedDate = `${year}-${month}-${day}`;
+                            
+                            return {
+                                name: name,
+                                date: formattedDate,
+                                title: `情书_${formattedDate}` // 默认标题
+                            };
+                        })
+                        .sort((a, b) => new Date(b.date) - new Date(a.date)); // 按日期降序排列
+                    
+                    // 创建并添加所有信封
+                    files.forEach(file => {
+                        const envelope = createEnvelope(file);
+                        container.appendChild(envelope);
+                    });
+                })
+                .catch(err => {
+                    console.log('获取目录内容失败:', err);
+                    // 备选方案：使用预定义的文件列表（保留原有的硬编码方式作为后备）
+                    const fallbackFiles = [
+                        { name: '20241229.txt', date: '2024-12-29', title: '冬日告白' },
+                        { name: '20250214.txt', date: '2025-02-14', title: '情人节快乐' }
+                    ];
+                    
+                    // 尝试添加可能存在的其他文件（基于目录结构）
+                    const possibleFiles = [
+                        '20241116.txt', '20241121.txt', '20250223.txt', '20250307.txt',
+                        '20250501.txt', '20250506.txt', '20250517.txt', '20250519.txt',
+                        '20250520.txt', '20250521.txt', '20250607.txt', '20250622.txt',
+                        '20250629.txt', '20250816.txt', '20250829.txt', '20250912.txt',
+                        '20250914.txt', '20250915.txt', '20251019.txt', '20251102.txt',
+                        '20251107.txt', '20251116.txt'
+                    ];
+                    
+                    possibleFiles.forEach(filename => {
+                        // 检查文件是否已在fallbackFiles中
+                        if (!fallbackFiles.some(file => file.name === filename)) {
+                            const dateStr = filename.replace('.txt', '');
+                            const year = dateStr.slice(0, 4);
+                            const month = dateStr.slice(4, 6);
+                            const day = dateStr.slice(6, 8);
+                            const formattedDate = `${year}-${month}-${day}`;
+                            
+                            fallbackFiles.push({
+                                name: filename,
+                                date: formattedDate,
+                                title: `情书_${formattedDate}`
+                            });
+                        }
+                    });
+                    
+                    // 按日期降序排序
+                    fallbackFiles.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    
+                    // 创建并添加所有信封
+                    fallbackFiles.forEach(file => {
+                        const envelope = createEnvelope(file);
+                        container.appendChild(envelope);
+                    });
+                });
         }
 
         // 创建信封元素
@@ -278,6 +354,7 @@
             const envelopeDiv = document.createElement('div');
             envelopeDiv.className = 'envelope';
             envelopeDiv.dataset.file = file.name;
+            envelopeDiv.dataset.date = file.date;
             
             envelopeDiv.innerHTML = `
                 <div class="envelope-top"></div>
@@ -285,9 +362,13 @@
                 <div class="envelope-title">${file.title}</div>
             `;
             
+            // 简化点击事件处理，移除可能导致时序问题的延迟
             envelopeDiv.addEventListener('click', function() {
                 const fileName = this.dataset.file;
-                showLetterContent(fileName, file.date);
+                const date = this.dataset.date;
+                
+                // 直接显示信内容
+                showLetterContent(fileName, date);
             });
             
             return envelopeDiv;
@@ -295,13 +376,17 @@
 
         // 返回信封列表
         document.getElementById('back-to-list').addEventListener('click', function() {
-            document.getElementById('letter-content-container').style.display = 'none';
-            document.getElementById('envelopes-container').style.display = 'flex';
+            const contentContainer = document.getElementById('letter-content-container');
+            const envelopesContainer = document.getElementById('envelopes-container');
+            
+            // 直接切换显示，移除可能导致时序问题的动画
+            contentContainer.style.display = 'none';
+            envelopesContainer.style.display = 'flex';
         });
 
-        // 显示信的内容
+        // 显示信的内容 - 简化实现，确保内容加载正常
         function showLetterContent(fileName, date) {
-            // 隐藏信封列表，显示信内容
+            // 直接切换显示，移除可能导致时序问题的动画
             document.getElementById('envelopes-container').style.display = 'none';
             const contentContainer = document.getElementById('letter-content-container');
             contentContainer.style.display = 'block';
@@ -309,18 +394,28 @@
             // 设置日期
             document.getElementById('letter-date').textContent = date;
             
+            // 显示加载状态
+            const letterContent = document.getElementById('letter-content');
+            letterContent.textContent = '正在加载信件内容...';
+            
             // 加载对应的背景音乐
             loadMusicForTxtFile(fileName);
             
             // 加载信的内容
             fetch(`txt/${fileName}`)
-                .then(response => response.text())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('文件加载失败');
+                    }
+                    return response.text();
+                })
                 .then(content => {
-                    document.getElementById('letter-content').textContent = content;
+                    // 直接设置内容，移除淡入效果
+                    letterContent.textContent = content;
                 })
                 .catch(err => {
-                    console.log('加载文件失败:', err);
-                    document.getElementById('letter-content').textContent = '加载信件内容失败';
+                    console.error('加载文件失败:', err);
+                    letterContent.textContent = '加载信件内容失败，请稍后重试';
                 });
         }
     </script>

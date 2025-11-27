@@ -1491,40 +1491,7 @@ function handleImageError(event, imagePath) {
   });
 }
 
-// Tailwind配置
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        love: {
-          100: '#ffe6ea',
-          200: '#ffccd5',
-          300: '#ffb3c0',
-          400: '#ff99ab',
-          500: '#ff8096',
-          600: '#ff6681',
-          700: '#ff4d6d',
-          800: '#ff3358',
-          900: '#ff1a43',
-        },
-        romance: {
-          100: '#f0e6ff',
-          200: '#e1ccff',
-          300: '#d3b3ff',
-          400: '#c499ff',
-          500: '#b680ff',
-          600: '#a766ff',
-          700: '#994dff',
-          800: '#8a33ff',
-          900: '#7c1aff',
-        }
-      },
-      fontFamily: {
-        romantic: ['Segoe UI', 'Roboto', 'sans-serif'],
-      },
-    },
-  }
-}
+
 
 // 页面加载完成后执行
 // 计算从特定日期到今天的天数和下次纪念日倒计时
