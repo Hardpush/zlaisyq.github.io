@@ -9,21 +9,27 @@ const CONFIG = {
     title: '张乐与石云青的爱情空间',
     subtitle: '我们的爱情故事，时光见证',
     coupleName: '张乐 & 石云青',
-    // 在一起的日期（用于纪念日倒计时）
-    togetherDate: '2020-03-15',
+    // 每年的纪念日日期
+    anniversaryDate: '11-16',
+    // 第一个纪念日年份
+    firstAnniversaryYear: 2024,
   },
   
   // 音乐配置
   music: {
+    // 音乐功能开关
+    enable: true,
+    // 是否自动播放
+    autoPlay: false,
     // 首页背景音乐
     mainTheme: {
       title: '流星雨',
-      src: 'https://music.163.com/song/media/outer/url?id=1396502436.mp3',
+      src: '/music/流星雨.ogg',
     },
     // 情书信箱背景音乐配置文件路径
     bgmConfigPath: 'txt/bgm.xml',
-    // 音乐API基础URL
-    musicApiBase: 'https://music.163.com/song/media/outer/url?id=',
+    // 音乐API基础URL（已使用本地音乐文件）
+    musicApiBase: ''
   },
   
   // 照片配置
@@ -516,81 +522,82 @@ function renderLoveStoryTimeline(data) {
   });
 }
 
-// 初始化纪念日倒计时
+// 重写纪念日倒计时功能，使用更简单可靠的实现
 function initAnniversaryCountdown() {
-  const countdownSection = document.getElementById('anniversary-countdown');
-  if (!countdownSection) {
-    // 创建纪念日倒计时区域
-    const mainContent = document.getElementById('main-content');
-    if (!mainContent) return;
-    
-    const section = document.createElement('section');
-    section.id = 'anniversary-countdown';
-    section.className = 'py-20 bg-gradient-to-r from-purple-100 to-rose-100';
-    section.innerHTML = `
-      <div class="container mx-auto px-4">
-        <h2 class="text-4xl font-bold text-center mb-4 text-purple-600">我们的纪念日</h2>
-        <p class="text-xl text-center mb-12 text-gray-600">执子之手，与子偕老</p>
-        <div class="max-w-3xl mx-auto">
-          <div id="countdown-display" class="grid grid-cols-4 gap-4 text-center"></div>
-          <div class="text-center mt-8 text-gray-700">
-            <p id="together-date">我们从 ${CONFIG.site.togetherDate} 开始在一起</p>
-          </div>
-        </div>
-      </div>
-    `;
-    
-    // 插入到恋爱记录之后
-    const loveStorySection = document.getElementById('love-story');
-    if (loveStorySection) {
-      mainContent.insertBefore(section, loveStorySection.nextSibling);
-    } else {
-      mainContent.appendChild(section);
-    }
+  console.log('🔍 开始初始化纪念日倒计时功能...');
+  
+  // 获取页面中已有的纪念日倒计时容器
+  const countdownContainer = document.getElementById('countdown-container');
+  if (!countdownContainer) {
+    console.error('❌ 无法找到倒计时容器元素');
+    return;
   }
   
-  // 计算并显示倒计时
-  updateCountdown();
+  // 创建倒计时显示内容
+  countdownContainer.innerHTML = `
+    <div class="glassmorphism rounded-2xl p-8 max-w-2xl mx-auto">
+      <!-- 倒计时显示区域 -->
+      <div class="text-4xl md:text-5xl font-bold text-rose-600 my-8">
+        <span id="days-count">123</span> 天 
+        <span id="hours-count">45</span> 时 
+        <span id="minutes-count">30</span> 分 
+        <span id="seconds-count">15</span> 秒
+      </div>
+      
+      <!-- 纪念日信息 -->
+      <div class="mt-8 text-gray-600">
+        <p>我们的纪念日: <span class="font-semibold text-rose-500">${CONFIG.site.anniversaryDate}</span></p>
+        <p class="mt-2">第一个纪念日: <span class="font-semibold text-rose-500">${CONFIG.site.firstAnniversaryYear}年</span></p>
+      </div>
+    </div>
+  `;
+  
+  console.log('✅ 纪念日倒计时内容已添加到页面');
+  
+  // 直接更新时间
+  updateCountdownSimple();
   
   // 每秒更新一次
-  setInterval(updateCountdown, 1000);
-  
-  console.log('⏰ 纪念日倒计时初始化完成');
+  setInterval(updateCountdownSimple, 1000);
+  console.log('⏰ 纪念日倒计时功能初始化完成');
 }
 
-// 更新倒计时显示
-function updateCountdown() {
-  const togetherDate = new Date(CONFIG.site.togetherDate);
-  const now = new Date();
-  const diffTime = Math.abs(now - togetherDate);
+// 简单版本的更新倒计时函数
+function updateCountdownSimple() {
+  console.log('⏰ updateCountdownSimple函数被调用');
   
-  // 计算天、时、分、秒
-  const days = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((diffTime % (1000 * 60)) / 1000);
+  // 计算从2024年11月16日到今天的时间差
+  const startDate = new Date('2024-11-16');
+  const today = new Date();
   
-  const countdownDisplay = document.getElementById('countdown-display');
-  if (!countdownDisplay) return;
+  // 计算时间差（毫秒）
+  const timeDiff = today - startDate;
   
-  // 创建倒计时组件
-  countdownDisplay.innerHTML = '';
+  // 转换为天数、小时、分钟和秒
+  const totalSeconds = Math.floor(timeDiff / 1000);
+  const days = Math.floor(totalSeconds / (24 * 60 * 60));
+  const hours = Math.floor((totalSeconds % (24 * 60 * 60)) / (60 * 60));
+  const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
+  const seconds = totalSeconds % 60;
   
-  const createCountdownItem = (value, label) => {
-    const item = document.createElement('div');
-    item.className = 'bg-white rounded-lg shadow-lg p-4 transform transition-transform duration-300 hover:scale-105';
-    item.innerHTML = `
-      <div class="text-4xl font-bold text-purple-600">${String(value).padStart(2, '0')}</div>
-      <div class="text-gray-500 mt-2">${label}</div>
-    `;
-    return item;
-  };
+  console.log('⏰ 倒计时计算结果:', days, '天', hours, '时', minutes, '分', seconds, '秒');
   
-  countdownDisplay.appendChild(createCountdownItem(days, '天'));
-  countdownDisplay.appendChild(createCountdownItem(hours, '时'));
-  countdownDisplay.appendChild(createCountdownItem(minutes, '分'));
-  countdownDisplay.appendChild(createCountdownItem(seconds, '秒'));
+  // 直接更新各个元素
+  const daysElement = document.getElementById('days-count');
+  const hoursElement = document.getElementById('hours-count');
+  const minutesElement = document.getElementById('minutes-count');
+  const secondsElement = document.getElementById('seconds-count');
+  
+  if (daysElement) daysElement.textContent = days;
+  if (hoursElement) hoursElement.textContent = hours;
+  if (minutesElement) minutesElement.textContent = minutes;
+  if (secondsElement) secondsElement.textContent = seconds;
+  
+  console.log('✅ 倒计时数字已更新');
 }
+
+// 倒计时功能已经在initMainWebsite中被调用，不再需要单独的DOMContentLoaded事件监听器
+console.log('✅ 倒计时功能已准备就绪，将在网站初始化时被调用');
 
 // 加载照片墙
 function loadPhotoGallery() {
@@ -1520,10 +1527,55 @@ tailwind.config = {
 }
 
 // 页面加载完成后执行
+// 计算从特定日期到今天的天数和下次纪念日倒计时
+function calculateDaysTogether() {
+  const startDate = new Date(`${CONFIG.site.firstAnniversaryYear}-${CONFIG.site.anniversaryDate}`);
+  const today = new Date();
+  
+  // 设置时间为同一天的开始，避免时间部分影响计算
+  startDate.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
+  
+  // 计算毫秒差并转换为天数（在一起的天数）
+  const timeDiff = today - startDate;
+  const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+  
+  // 计算下次纪念日
+  const [month, day] = CONFIG.site.anniversaryDate.split('-');
+  let nextAnniversaryYear = today.getFullYear();
+  let nextAnniversary = new Date(nextAnniversaryYear, month - 1, day);
+  nextAnniversary.setHours(0, 0, 0, 0);
+  
+  // 如果今年的纪念日已过，则计算明年的
+  if (today > nextAnniversary) {
+    nextAnniversaryYear += 1;
+    nextAnniversary = new Date(nextAnniversaryYear, month - 1, day);
+    nextAnniversary.setHours(0, 0, 0, 0);
+  }
+  
+  // 计算到下次纪念日的天数
+  const daysUntilNext = Math.ceil((nextAnniversary - today) / (1000 * 3600 * 24));
+  
+  // 找到显示元素并更新文本
+  const infoElement = document.getElementById('anniversary-info');
+  if (infoElement) {
+    infoElement.textContent = `我们的纪念日: 11-16，第一个纪念日: 2024年，已经在一起 ${daysDiff} 天，距离下次纪念日还有 ${daysUntilNext} 天`;
+  }
+  
+  return { daysTogether: daysDiff, daysUntilNext: daysUntilNext };
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   // 重置全局缓存（防止刷新页面时状态残留）
   imageCache.loadedImages.clear();
   console.log('🔄 全局缓存已清空，开始新的会话');
+  
+  // 直接初始化纪念日倒计时功能，不依赖于密码验证
+  console.log('🎯 直接初始化纪念日倒计时功能');
+  initAnniversaryCountdown();
+  
+  // 计算并显示在一起的天数
+  calculateDaysTogether();
   
   // 初始化密码保护
   initPasswordProtection();
@@ -1873,6 +1925,11 @@ function loadLetterMusic(fileName) {
 
 // 初始化音乐播放器
 function initMusicPlayer() {
+  // 检查音乐功能是否启用
+  if (!CONFIG.music.enable) {
+    console.log('🎵 音乐功能已禁用');
+    return;
+  }
   // 创建音乐播放器组件
   const player = document.createElement('div');
   player.id = 'music-player';
@@ -1888,7 +1945,7 @@ function initMusicPlayer() {
       </div>
     </div>
     <audio id="background-music" loop>
-      <source src="${CONFIG.music.mainTheme.src}" type="audio/mpeg">
+      <source src="${CONFIG.music.mainTheme.src}" type="audio/ogg">
     </audio>
   `;
   
@@ -1936,15 +1993,17 @@ function initMusicPlayer() {
     }
   });
   
-  // 自动尝试播放（注意：浏览器可能会阻止自动播放）
-  setTimeout(() => {
-    audio.play().then(() => {
-      appState.setMusicPlaying(true);
-      musicIcon.className = 'fas fa-pause';
-    }).catch(err => {
-      console.log('自动播放失败，请手动点击播放按钮:', err);
-    });
-  }, 3000);
+  // 根据配置决定是否自动尝试播放
+  if (CONFIG.music.autoPlay) {
+    setTimeout(() => {
+      audio.play().then(() => {
+        appState.setMusicPlaying(true);
+        musicIcon.className = 'fas fa-pause';
+      }).catch(err => {
+        console.log('自动播放失败，请手动点击播放按钮:', err);
+      });
+    }, 3000);
+  }
   
   console.log('🎵 音乐播放器初始化完成');
 }
@@ -1956,9 +2015,10 @@ function initNavigation() {
   const mobileMenu = document.getElementById('mobile-menu');
   const mainContent = document.getElementById('main-content');
   let currentPageIndex = 0;
+  let isProgrammaticScroll = false; // 标记是否为程序触发的滚动
   
-  // 定义所有页面
-  const pages = ['#hero', '#love-story', '#anniversary-countdown', '#photo-wall', '#love-letters'];
+  // 定义所有页面（修正首页ID）
+  const pages = ['#home', '#love-story', '#anniversary-countdown', '#photo-wall', '#love-letters'];
   
   // 移动端菜单切换
   if (mobileMenuBtn && mobileMenu) {
@@ -1997,8 +2057,14 @@ function initNavigation() {
   function navigateToPage(index) {
     if (index < 0 || index >= pages.length) return;
     
-    const offset = -index * 100;
-    mainContent.style.transform = `translateY(${offset}vh)`;
+    isProgrammaticScroll = true; // 标记为程序触发的滚动
+    
+    // 直接滚动到目标页面，而不是使用transform
+    const targetElement = document.querySelector(pages[index]);
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: 'smooth' });
+    }
+    
     currentPageIndex = index;
     
     // 更新活动导航项
@@ -2006,7 +2072,47 @@ function initNavigation() {
     
     // 记录当前页面到appState
     appState.currentPage = pages[index];
+    
+    // 重置标记，允许用户滚动再次触发更新
+    setTimeout(() => {
+      isProgrammaticScroll = false;
+    }, 1000); // 给平滑滚动足够的时间完成
   }
+  
+  // 监听用户滚动事件，更新页面状态
+  let lastScrollPosition = 0;
+  let scrollTimeout;
+  
+  function handleUserScroll() {
+    // 如果是程序触发的滚动，则不处理
+    if (isProgrammaticScroll) return;
+    
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      const scrollPosition = window.scrollY;
+      const windowHeight = window.innerHeight;
+      
+      // 计算当前页面索引
+      const newIndex = Math.max(0, Math.min(Math.round(scrollPosition / windowHeight), pages.length - 1));
+      
+      if (newIndex !== currentPageIndex) {
+        // 更新页面状态，但不使用transform（让自然滚动保持）
+        currentPageIndex = newIndex;
+        updateActiveNavItem(pages[newIndex]);
+        appState.currentPage = pages[newIndex];
+        
+        // 可选：如果希望在用户滚动后自动对齐到页面顶部
+        // isProgrammaticScroll = true;
+        // window.scrollTo({ top: newIndex * windowHeight, behavior: 'smooth' });
+        // setTimeout(() => { isProgrammaticScroll = false; }, 1000);
+      }
+      
+      lastScrollPosition = scrollPosition;
+    }, 150);
+  }
+  
+  // 添加滚动事件监听器
+  window.addEventListener('scroll', handleUserScroll);
   
   // 更新活动导航项
   function updateActiveNavItem(activeId) {

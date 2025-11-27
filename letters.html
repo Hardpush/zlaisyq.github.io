@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>情书信箱 - 张乐与右云青的爱情空间</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/fonts/font-awesome.min.css">
+    <style>
+        /* 信封样式 */
+        .envelope {
+            width: 250px;
+            height: 180px;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            position: relative;
+            margin: 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
+        }
+        
+        .envelope:hover {
+            transform: translateY(-10px) rotateY(5deg);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .envelope-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(135deg, #fcb69f 0%, #ffecd2 100%);
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            transition: transform 0.3s ease;
+            transform-origin: top;
+        }
+        
+        .envelope:hover .envelope-top {
+            transform: rotateX(-45deg);
+        }
+        
+        .envelope-date {
+            font-size: 18px;
+            font-weight: bold;
+            color: #8b4513;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .envelope-title {
+            font-size: 14px;
+            color: #5c3a21;
+            text-align: center;
+        }
+        
+        #envelopes-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: #f43f5e;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(244, 63, 94, 0.3);
+        }
+        
+        .back-button:hover {
+            background: #e11d48;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
+        }
+        
+        /* 信内容页面样式 */
+        #letter-content-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        #letter-content {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #333;
+            white-space: pre-wrap;
+            font-family: 'Dancing Script', cursive, SimSun, serif;
+        }
+        
+        #letter-date {
+            font-size: 24px;
+            color: #f43f5e;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-md fixed top-0 w-full z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-2">
+                    <div class="h-10 w-10 rounded-full bg-rose-500 flex items-center justify-center text-white font-bold">
+                        张
+                    </div>
+                    <span class="text-xl font-bold text-gray-800">张乐与右云青</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-rose-500 transition-colors">首页</a>
+                    <a href="index.html#love-story" class="text-gray-600 hover:text-rose-500 transition-colors">恋爱记录</a>
+                    <a href="index.html#anniversary" class="text-gray-600 hover:text-rose-500 transition-colors">纪念日</a>
+                    <a href="index.html#photo-wall" class="text-gray-600 hover:text-rose-500 transition-colors">照片墙</a>
+                    <a href="letters.html" class="text-rose-500 font-medium">情书信箱</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 返回按钮 -->
+    <button class="back-button" onclick="window.location.href='index.html'">
+        <i class="fa fa-arrow-left mr-2"></i>返回首页
+    </button>
+
+    <!-- 页面标题 -->
+    <div class="container mx-auto px-4 pt-28 pb-8">
+        <div class="text-center mb-16">
+            <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold mb-4 text-gray-800 font-romantic">情书信箱</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">这里珍藏着我们的每一封情书，记录着我们的爱情点滴</p>
+            <div class="w-20 h-1 bg-rose-500 mx-auto mt-6 rounded-full"></div>
+        </div>
+    </div>
+
+    <!-- 信封列表容器 -->
+    <div id="envelopes-container">
+        <!-- 信封将通过JavaScript动态加载 -->
+    </div>
+
+    <!-- 信内容容器（默认隐藏） -->
+    <div id="letter-content-container">
+        <button id="back-to-list" class="mb-4 px-4 py-2 bg-rose-500 text-white rounded-lg hover:bg-rose-600 transition-colors">
+            <i class="fa fa-arrow-left mr-2"></i>返回信封列表
+        </button>
+        <h3 id="letter-date"></h3>
+        <div id="letter-content"></div>
+    </div>
+
+    <!-- 音频元素 -->
+    <audio id="bgm" loop></audio>
+
+    <!-- 加载主JavaScript -->
+    <script src="js/main.js"></script>
+    <script>
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 加载bgm配置
+            loadBgmFromXml();
+            
+            // 加载所有信封
+            loadEnvelopes();
+        });
+
+        let bgmConfig = {};
+        
+        // 从bgm.xml加载背景音乐配置
+        function loadBgmFromXml() {
+            fetch('txt/bgm.xml')
+                .then(response => response.text())
+                .then(data => {
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(data, 'text/xml');
+                    const bases = xmlDoc.querySelectorAll('configuration base');
+                    
+                    // 解析配置，建立txt文件与音乐的映射关系
+                    bases.forEach(base => {
+                        const txtFile = base.querySelector('txt').textContent;
+                        const musicName = base.querySelector('music').textContent;
+                        bgmConfig[txtFile] = musicName;
+                    });
+                    
+                    console.log('BGM配置加载完成:', bgmConfig);
+                })
+                .catch(err => console.log('加载bgm.xml失败:', err));
+        }
+        
+        // 根据txt文件加载对应的背景音乐
+        function loadMusicForTxtFile(fileName) {
+            const audio = document.getElementById('bgm');
+            
+            // 提取文件名（不包含扩展名）
+            const fileBaseName = fileName.replace('.txt', '');
+            
+            // 查找对应的音乐，如果没有配置则使用默认的'流星雨'
+            const musicName = bgmConfig[fileBaseName] || '流星雨';
+            
+            // 暂停当前播放
+            audio.pause();
+            audio.currentTime = 0;
+            
+            // 尝试不同的音乐格式
+            const possibleFormats = ['ogg', 'mgg'];
+            let formatIndex = 0;
+            
+            function tryNextFormat() {
+                if (formatIndex >= possibleFormats.length) {
+                    console.log('无法找到可用的音乐格式');
+                    return;
+                }
+                
+                const format = possibleFormats[formatIndex];
+                const musicPath = `music/${musicName}.${format}`;
+                
+                // 检查文件是否存在（通过预加载）
+                const tempAudio = new Audio();
+                tempAudio.addEventListener('canplaythrough', () => {
+                    // 文件存在且可以播放
+                    audio.src = musicPath;
+                    audio.play().catch(err => console.log('音频播放失败:', err));
+                });
+                
+                tempAudio.addEventListener('error', () => {
+                    // 文件不存在或无法播放，尝试下一种格式
+                    formatIndex++;
+                    tryNextFormat();
+                });
+                
+                // 设置src触发加载
+                tempAudio.src = musicPath;
+            }
+            
+            // 开始尝试加载音乐
+            tryNextFormat();
+        }
+
+        // 加载所有信封（模拟数据，实际需要通过服务器获取）
+        function loadEnvelopes() {
+            // 模拟的文件列表，实际应该通过后端API获取
+            const files = [
+                { name: '20241229.txt', date: '2024-12-29', title: '冬日告白' },
+                { name: '20250214.txt', date: '2025-02-14', title: '情人节快乐' }
+            ];
+
+            const container = document.getElementById('envelopes-container');
+            
+            files.forEach(file => {
+                const envelope = createEnvelope(file);
+                container.appendChild(envelope);
+            });
+        }
+
+        // 创建信封元素
+        function createEnvelope(file) {
+            const envelopeDiv = document.createElement('div');
+            envelopeDiv.className = 'envelope';
+            envelopeDiv.dataset.file = file.name;
+            
+            envelopeDiv.innerHTML = `
+                <div class="envelope-top"></div>
+                <div class="envelope-date">${file.date}</div>
+                <div class="envelope-title">${file.title}</div>
+            `;
+            
+            envelopeDiv.addEventListener('click', function() {
+                const fileName = this.dataset.file;
+                showLetterContent(fileName, file.date);
+            });
+            
+            return envelopeDiv;
+        }
+
+        // 返回信封列表
+        document.getElementById('back-to-list').addEventListener('click', function() {
+            document.getElementById('letter-content-container').style.display = 'none';
+            document.getElementById('envelopes-container').style.display = 'flex';
+        });
+
+        // 显示信的内容
+        function showLetterContent(fileName, date) {
+            // 隐藏信封列表，显示信内容
+            document.getElementById('envelopes-container').style.display = 'none';
+            const contentContainer = document.getElementById('letter-content-container');
+            contentContainer.style.display = 'block';
+            
+            // 设置日期
+            document.getElementById('letter-date').textContent = date;
+            
+            // 加载对应的背景音乐
+            loadMusicForTxtFile(fileName);
+            
+            // 加载信的内容
+            fetch(`txt/${fileName}`)
+                .then(response => response.text())
+                .then(content => {
+                    document.getElementById('letter-content').textContent = content;
+                })
+                .catch(err => {
+                    console.log('加载文件失败:', err);
+                    document.getElementById('letter-content').textContent = '加载信件内容失败';
+                });
+        }
+    </script>
+</body>
+</html>

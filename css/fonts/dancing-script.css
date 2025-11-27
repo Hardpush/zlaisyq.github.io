@@ -1,0 +1,16 @@
+/* Dancing Script 字体定义 */
+@font-face {
+  font-family: 'Dancing Script';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Dancing Script Regular'), local('DancingScript-Regular');
+  /* 字体文件将在实际环境中提供 */
+}
+
+@font-face {
+  font-family: 'Dancing Script';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Dancing Script Bold'), local('DancingScript-Bold');
+  /* 字体文件将在实际环境中提供 */
+}

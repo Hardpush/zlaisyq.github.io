@@ -1,0 +1,27 @@
+/* Font Awesome 图标库 - 简化本地版本 */
+@font-face {
+  font-family: 'FontAwesome';
+  src: local('FontAwesome');
+  /* 字体文件将在实际环境中提供 */
+}
+
+.fa {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 基础图标样式 - 实际使用时可以根据需要添加更多图标 */
+.fa-music:before { content: "\f001"; }
+.fa-heart:before { content: "\f004"; }
+.fa-play:before { content: "\f04b"; }
+.fa-pause:before { content: "\f04c"; }
+.fa-arrow-right:before { content: "\f061"; }
+.fa-arrow-left:before { content: "\f060"; }
+.fa-photo:before, .fa-image:before, .fa-picture-o:before { content: "\f03e"; }
+.fa-envelope:before { content: "\f0e0"; }
+.fa-clock-o:before { content: "\f017"; }
+.fa-calendar:before { content: "\f073"; }
