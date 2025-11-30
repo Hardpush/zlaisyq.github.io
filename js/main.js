@@ -109,46 +109,50 @@ const loveStoryData = [
   }
 ];
 
-// 初始化首页照片展示
+// 初始化首页全屏背景图片
 function initHomePhoto() {
-  const container = document.getElementById('home-photo-container');
-  if (!container) {
-    console.log('🔍 未找到首页照片容器');
+  // 获取背景容器
+  const backgroundContainer = document.getElementById('home-background-container');
+  if (!backgroundContainer) {
+    console.log('🔍 未找到首页背景容器');
     return;
   }
   
-  // 使用第一张照片作为首页展示照片
-  if (photoMetadata && photoMetadata.length > 0) {
-    // 直接使用指定的固定图片路径
-    const photoPath = "images/1/IMG_20241208_110014.jpg";
-    
-    console.log(`🏠 正在加载首页照片: ${photoPath}`);
-    
-    // 创建图片元素
-    const img = document.createElement('img');
-    img.src = photoPath;
-    img.alt = '我们的照片';
-    img.className = 'w-full h-full object-cover';
-    img.style.transition = 'opacity 1s ease-in-out';
-    img.style.opacity = '0';
-    
-    // 图片加载完成后显示
-    img.onload = () => {
-      console.log(`✅ 首页照片加载成功: IMG_20241208_110014.jpg`);
-      img.style.opacity = '1';
-      container.setAttribute('aria-label', '首页照片已加载');
-    };
-    
-    img.onerror = () => {
-      console.error(`❌ 首页照片加载失败: ${photoPath}`);
-      container.innerHTML = '<div class="flex items-center justify-center w-full h-full text-gray-400">照片加载失败</div>';
-    };
-    
-    // 清空容器并添加图片
-    container.innerHTML = '';
-    container.appendChild(img);
-  } else {
-    console.error('📷 没有可用的照片数据');
+  // 使用固定的背景图片路径
+  const photoPath = "images/1/IMG_20241208_110014.jpg";
+  
+  console.log(`🏠 正在加载首页背景图片: ${photoPath}`);
+  
+  // 创建背景图片元素
+  const img = document.createElement('img');
+  img.src = photoPath;
+  img.alt = '我们的照片背景';
+  img.className = 'w-full h-full object-cover';
+  img.style.transition = 'opacity 1.5s ease-in-out';
+  img.style.opacity = '0';
+  img.style.objectPosition = 'center'; // 确保图片居中显示
+  
+  // 图片加载完成后显示
+  img.onload = () => {
+    console.log(`✅ 首页背景图片加载成功: IMG_20241208_110014.jpg`);
+    img.style.opacity = '1';
+    backgroundContainer.setAttribute('aria-label', '首页背景图片已加载');
+  };
+  
+  img.onerror = () => {
+    console.error(`❌ 首页背景图片加载失败: ${photoPath}`);
+    // 设置备选背景颜色
+    backgroundContainer.style.backgroundColor = '#fecdd3';
+  };
+  
+  // 清空容器并添加背景图片
+  backgroundContainer.innerHTML = '';
+  backgroundContainer.appendChild(img);
+  
+  // 为了兼容性，也为旧的照片容器设置一个备用内容
+  const oldContainer = document.getElementById('home-photo-container');
+  if (oldContainer) {
+    oldContainer.innerHTML = '<div class="hidden">照片已移至背景</div>';
   }
 }
 

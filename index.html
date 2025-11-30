@@ -273,68 +273,75 @@
       </div>
     </nav>
 
-    <!-- 首页横幅 -->
+    <!-- 首页横幅 - 修改为全屏背景图片模式 -->
     <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden" role="banner" aria-labelledby="home-title">
-      <!-- 背景图 -->
-      <div class="absolute inset-0 -z-10 bg-gradient-to-b from-rose-50 to-white"></div>
-      
-      <!-- 装饰元素 -->
-      <div class="absolute inset-0 overflow-hidden">
-        <div class="absolute top-[10%] left-[5%] w-32 h-32 bg-rose-100 rounded-full opacity-70 blur-xl"></div>
-        <div class="absolute top-[30%] right-[10%] w-48 h-48 bg-purple-100 rounded-full opacity-60 blur-xl"></div>
-        <div class="absolute bottom-[20%] left-[20%] w-64 h-64 bg-rose-200 rounded-full opacity-50 blur-xl"></div>
+      <!-- 全屏背景图片容器 -->
+      <div id="home-background-container" class="absolute inset-0 -z-20 w-full h-full">
+        <!-- 背景图片将通过JavaScript动态加载 -->
       </div>
       
-      <!-- 粒子背景容器 -->
-      <div id="particles-js" class="absolute inset-0 -z-10"></div>
+      <!-- 黑色渐变遮罩，提高文字可读性 -->
+      <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/50 to-black/20"></div>
       
-      <!-- 照片展示区域 -->
-      <div class="container mx-auto px-4 py-20 text-center">
-        <div class="max-w-4xl mx-auto">
-          <!-- 合照展示 -->
-          <div class="mb-12">
-            <div class="relative mx-auto max-w-2xl aspect-square overflow-hidden rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
-              <div id="home-photo-container" class="w-full h-full" aria-live="polite" aria-label="主页照片加载中"></div>
-            </div>
-          </div>
+      <!-- 粒子背景容器 -->
+      <div id="particles-js" class="absolute inset-0 -z-5"></div>
+      
+      <!-- 内容区域 -->
+      <div class="container mx-auto px-4 py-20 text-center text-white">
+        <!-- 标题 -->
+        <div class="mb-16">
+          <h1 id="home-title" class="text-[clamp(2.5rem,5vw,4rem)] font-bold mb-4 text-white font-romantic leading-tight text-shadow-lg">
+            张乐 & 石云青
+          </h1>
+          <p class="text-[clamp(1rem,2vw,1.25rem)] text-white/90 mb-8 max-w-2xl mx-auto">
+            我们的爱情故事，从这里开始...
+          </p>
+        </div>
+        
+        <!-- 按钮入口组 - 所有功能按钮叠加在背景图上 -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-4xl mx-auto mb-12">
+          <!-- 恋爱记录按钮 -->
+          <a href="#love-story" class="glassmorphism hover:bg-white/60 backdrop-blur-md px-6 py-5 rounded-xl transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex flex-col items-center justify-center aspect-square" role="button">
+            <i class="fa fa-book text-3xl text-rose-600 mb-3" aria-hidden="true"></i>
+            <span class="text-gray-800 font-romantic text-xl">恋爱记录</span>
+          </a>
           
-          <div class="mb-8">
-            <h1 id="home-title" class="text-[clamp(2.5rem,5vw,4rem)] font-bold mb-4 text-rose-600 font-romantic leading-tight text-shadow">
-              张乐 & 石云青
-            </h1>
-            <p class="text-[clamp(1rem,2vw,1.25rem)] text-gray-600 mb-8 max-w-2xl mx-auto">
-              我们的爱情故事，从这里开始...
-            </p>
-          </div>
+          <!-- 纪念日按钮 -->
+          <a href="#anniversary-countdown" class="glassmorphism hover:bg-white/60 backdrop-blur-md px-6 py-5 rounded-xl transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex flex-col items-center justify-center aspect-square" role="button">
+            <i class="fa fa-calendar text-3xl text-rose-600 mb-3" aria-hidden="true"></i>
+            <span class="text-gray-800 font-romantic text-xl">纪念日</span>
+          </a>
           
-          <!-- 按钮组 -->
-          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-            <a href="#love-story" class="px-8 py-3 bg-rose-500 text-white rounded-full hover:bg-rose-600 transition-all duration-300 font-medium shadow-lg shadow-rose-500/20 hover:shadow-rose-500/30 hover:-translate-y-1" role="button">
-              <i class="fa fa-book mr-2" aria-hidden="true"></i> 我们的故事
-            </a>
-            <a href="#photo-wall" class="px-8 py-3 bg-white text-rose-500 border border-rose-200 rounded-full hover:bg-rose-50 transition-all duration-300 font-medium shadow-md hover:shadow-lg hover:-translate-y-1" role="button">
-              <i class="fa fa-image mr-2" aria-hidden="true"></i> 照片墙
-            </a>
-          </div>
+          <!-- 照片墙按钮 -->
+          <a href="#photo-wall" class="glassmorphism hover:bg-white/60 backdrop-blur-md px-6 py-5 rounded-xl transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex flex-col items-center justify-center aspect-square" role="button">
+            <i class="fa fa-image text-3xl text-rose-600 mb-3" aria-hidden="true"></i>
+            <span class="text-gray-800 font-romantic text-xl">照片墙</span>
+          </a>
           
-          <!-- 装饰性爱心 -->
-          <div class="flex justify-center space-x-2">
-            <div class="animate-bounce-slow">
-              <i class="fa fa-heart text-rose-400"></i>
-            </div>
-            <div class="animate-bounce-slow delay-100">
-              <i class="fa fa-heart text-rose-500"></i>
-            </div>
-            <div class="animate-bounce-slow delay-200">
-              <i class="fa fa-heart text-rose-600"></i>
-            </div>
+          <!-- 情书信箱按钮 -->
+          <a href="letters.html" class="glassmorphism hover:bg-white/60 backdrop-blur-md px-6 py-5 rounded-xl transition-all duration-300 font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex flex-col items-center justify-center aspect-square" role="button">
+            <i class="fa fa-envelope text-3xl text-rose-600 mb-3" aria-hidden="true"></i>
+            <span class="text-gray-800 font-romantic text-xl">情书信箱</span>
+          </a>
+        </div>
+        
+        <!-- 装饰性爱心 -->
+        <div class="flex justify-center space-x-2">
+          <div class="animate-bounce-slow">
+            <i class="fa fa-heart text-white/80"></i>
+          </div>
+          <div class="animate-bounce-slow delay-100">
+            <i class="fa fa-heart text-white"></i>
+          </div>
+          <div class="animate-bounce-slow delay-200">
+            <i class="fa fa-heart text-white/80"></i>
           </div>
         </div>
       </div>
       
       <!-- 滚动提示 -->
       <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <a href="#love-story" class="flex flex-col items-center text-gray-500 hover:text-rose-500 transition-colors" aria-label="向下滚动到恋爱记录部分">
+        <a href="#love-story" class="flex flex-col items-center text-white/80 hover:text-white transition-colors" aria-label="向下滚动到恋爱记录部分">
           <span class="mb-2 text-sm font-medium">向下滚动</span>
           <i class="fa fa-angle-down text-xl" aria-hidden="true"></i>
         </a>
