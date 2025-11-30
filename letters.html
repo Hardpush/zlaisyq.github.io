@@ -2,19 +2,20 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>情书信箱 - 张乐与右云青的爱情空间</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/fonts/font-awesome.min.css">
     <style>
-        /* 信封样式 */
+        /* 信封样式 - 响应式优化 */
         .envelope {
-            width: 250px;
+            width: 100%;
+            max-width: 250px;
             height: 180px;
             background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
             position: relative;
-            margin: 20px;
+            margin: 15px auto;
             cursor: pointer;
             border-radius: 8px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
@@ -26,7 +27,7 @@
             perspective: 1000px;
         }
         
-        .envelope:hover {
+        .envelope:hover, .envelope:active {
             transform: translateY(-10px) rotateY(5deg);
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
@@ -63,16 +64,19 @@
             text-align: center;
         }
         
+        /* 容器布局 - 响应式优化 */
         #envelopes-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 30px;
+            gap: 20px;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            padding-top: 80px;
         }
         
+        /* 返回按钮样式 - 移动优化 */
         .back-button {
             position: fixed;
             top: 20px;
@@ -87,19 +91,25 @@
             transition: all 0.3s ease;
             z-index: 1000;
             box-shadow: 0 2px 8px rgba(244, 63, 94, 0.3);
+            min-height: 44px;
+            min-width: 44px;
+            touch-action: manipulation;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .back-button:hover {
+        .back-button:hover, .back-button:active {
             background: #e11d48;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
         }
         
-        /* 信内容页面样式 */
+        /* 信内容页面样式 - 响应式优化 */
         #letter-content-container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 40px;
+            max-width: 100%;
+            margin: 20px;
+            padding: 20px;
             background: white;
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
@@ -107,7 +117,7 @@
         }
         
         #letter-content {
-            font-size: 18px;
+            font-size: 16px;
             line-height: 1.8;
             color: #333;
             white-space: pre-wrap;
@@ -115,11 +125,67 @@
         }
         
         #letter-date {
-            font-size: 24px;
+            font-size: 20px;
             color: #f43f5e;
             margin-bottom: 20px;
             text-align: center;
             font-weight: bold;
+        }
+        
+        /* 移动端优化 */
+        @media (max-width: 768px) {
+            #envelopes-container {
+                padding: 15px;
+                padding-top: 80px;
+                gap: 15px;
+            }
+            
+            .envelope {
+                max-width: 240px;
+                margin: 10px auto;
+            }
+            
+            #letter-content-container {
+                padding: 20px 15px;
+                margin: 15px;
+            }
+            
+            #letter-content {
+                font-size: 16px;
+                line-height: 1.6;
+            }
+            
+            .back-button {
+                top: 15px;
+                left: 15px;
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #envelopes-container {
+                padding: 10px;
+                padding-top: 70px;
+                gap: 10px;
+            }
+            
+            .envelope {
+                max-width: 100%;
+                height: auto;
+                aspect-ratio: 1.4/1;
+                min-height: 150px;
+                margin: 8px auto;
+            }
+            
+            .envelope-date {
+                font-size: 1rem;
+                margin-bottom: 10px;
+            }
+            
+            #letter-date {
+                font-size: 18px;
+            }
         }
     </style>
 </head>
@@ -132,7 +198,7 @@
                     <div class="h-10 w-10 rounded-full bg-rose-500 flex items-center justify-center text-white font-bold">
                         张
                     </div>
-                    <span class="text-xl font-bold text-gray-800">张乐与右云青</span>
+                    <span class="text-xl font-bold text-gray-800">张乐与石云青</span>
                 </div>
                 <div class="hidden md:flex space-x-8">
                     <a href="index.html" class="text-gray-600 hover:text-rose-500 transition-colors">首页</a>
@@ -176,8 +242,10 @@
     <!-- 音频元素 -->
     <audio id="bgm" loop></audio>
 
-    <!-- 加载主JavaScript -->
-    <script src="js/main.js"></script>
+    <!-- 加载简化版JavaScript -->
+    <script src="js/main_simplified.js" type="module"></script>
+    
+    <!-- 测试区域已移除 -->
     <script>
         // 页面加载完成后执行
         document.addEventListener('DOMContentLoaded', function() {
@@ -201,18 +269,28 @@
                     
                     // 解析配置，建立txt文件与音乐的映射关系
                     bases.forEach(base => {
-                        const txtFile = base.querySelector('txt').textContent;
-                        const musicName = base.querySelector('music').textContent;
-                        bgmConfig[txtFile] = musicName;
+                        try {
+                            const txtFile = base.querySelector('txt').textContent.replace('./', '');
+                            const musicName = base.querySelector('music').textContent.replace('./', '');
+                            bgmConfig[txtFile] = musicName;
+                        } catch (e) {
+                            console.warn('解析BGM配置项失败:', e);
+                        }
                     });
                     
                     console.log('BGM配置加载完成:', bgmConfig);
                 })
-                .catch(err => console.log('加载bgm.xml失败:', err));
+                .catch(err => {
+                    console.log('加载bgm.xml失败:', err);
+                    // 即使失败也继续执行，不影响主要功能
+                });
         }
         
         // 根据txt文件加载对应的背景音乐
         function loadMusicForTxtFile(fileName) {
+            // 确保文件名不包含./前缀
+            fileName = fileName.replace('./', '');
+            
             const audio = document.getElementById('bgm');
             
             // 提取文件名（不包含扩展名）
@@ -225,8 +303,8 @@
             audio.pause();
             audio.currentTime = 0;
             
-            // 尝试不同的音乐格式
-            const possibleFormats = ['ogg', 'mgg'];
+            // 尝试标准音乐格式，移除不常见的mgg格式
+            const possibleFormats = ['ogg', 'mp3', 'wav'];
             let formatIndex = 0;
             
             function tryNextFormat() {
@@ -242,8 +320,12 @@
                 const tempAudio = new Audio();
                 tempAudio.addEventListener('canplaythrough', () => {
                     // 文件存在且可以播放
+                    console.log('找到可用音乐:', musicPath);
                     audio.src = musicPath;
-                    audio.play().catch(err => console.log('音频播放失败:', err));
+                    audio.play().catch(err => {
+                        console.log('音频播放需要用户交互:', err);
+                        // 不使用alert，避免打扰用户
+                    });
                 });
                 
                 tempAudio.addEventListener('error', () => {
@@ -280,8 +362,15 @@
                     const links = doc.querySelectorAll('a[href$=".txt"]');
                     
                     const files = Array.from(links)
-                        .map(link => link.getAttribute('href'))
+                        .map(link => {
+                            // 重要：彻底移除./前缀，使用正则表达式确保完全匹配
+                            const href = link.getAttribute('href');
+                            const cleanHref = href.replace(/^\.\//, ''); // 使用正则表达式移除开头的./
+                            console.log(`原始链接: ${href} -> 清理后: ${cleanHref}`);
+                            return cleanHref;
+                        })
                         .filter(name => name !== 'bgm.xml') // 排除bgm.xml文件
+                        .filter(name => name.endsWith('.txt')) // 确保是.txt文件
                         .map(name => {
                             // 从文件名中提取日期并格式化
                             const dateStr = name.replace('.txt', '');
@@ -293,14 +382,19 @@
                             return {
                                 name: name,
                                 date: formattedDate,
-                                title: `情书_${formattedDate}` // 默认标题
+                                title: formattedDate // 仅显示日期
                             };
                         })
                         .sort((a, b) => new Date(b.date) - new Date(a.date)); // 按日期降序排列
                     
+                    console.log('加载到的文件列表:', files);
+                    
                     // 创建并添加所有信封
                     files.forEach(file => {
-                        const envelope = createEnvelope(file);
+                        // 确保文件名不包含./前缀
+                        const safeFile = {...file};
+                        safeFile.name = safeFile.name.replace(/^\.\//, '');
+                        const envelope = createEnvelope(safeFile);
                         container.appendChild(envelope);
                     });
                 })
@@ -334,7 +428,7 @@
                             fallbackFiles.push({
                                 name: filename,
                                 date: formattedDate,
-                                title: `情书_${formattedDate}`
+                                title: formattedDate
                             });
                         }
                     });
@@ -342,8 +436,12 @@
                     // 按日期降序排序
                     fallbackFiles.sort((a, b) => new Date(b.date) - new Date(a.date));
                     
+                    console.log('使用备用文件列表:', fallbackFiles);
+                    
                     // 创建并添加所有信封
                     fallbackFiles.forEach(file => {
+                        // 确保文件名不包含./前缀
+                        file.name = file.name.replace(/^\.\//, '');
                         const envelope = createEnvelope(file);
                         container.appendChild(envelope);
                     });
@@ -352,15 +450,21 @@
 
         // 创建信封元素
         function createEnvelope(file) {
+            // 双重确保文件名不包含./前缀
+            const cleanFileName = file.name.replace(/^\.\//, '');
+            const cleanTitle = file.title.replace(/^\.\//, ''); // 确保标题也不包含./前缀
+            
             const envelopeDiv = document.createElement('div');
             envelopeDiv.className = 'envelope';
-            envelopeDiv.dataset.file = file.name;
+            envelopeDiv.dataset.file = cleanFileName;
             envelopeDiv.dataset.date = file.date;
+            
+            console.log(`创建信封: 文件名=${cleanFileName}, 日期=${file.date}, 标题=${cleanTitle}`);
             
             envelopeDiv.innerHTML = `
                 <div class="envelope-top"></div>
                 <div class="envelope-date">${file.date}</div>
-                <div class="envelope-title">${file.title}</div>
+                <div class="envelope-title">${cleanTitle}</div>
             `;
             
             // 简化点击事件处理，移除可能导致时序问题的延迟
@@ -368,8 +472,12 @@
                 const fileName = this.dataset.file;
                 const date = this.dataset.date;
                 
+                // 确保文件名不包含./前缀
+                const safeFileName = fileName.replace(/^\.\//, '');
+                console.log(`打开信封: ${safeFileName}`);
+                
                 // 直接显示信内容
-                showLetterContent(fileName, date);
+                showLetterContent(safeFileName, date);
             });
             
             return envelopeDiv;
@@ -387,6 +495,10 @@
 
         // 显示信的内容 - 简化实现，确保内容加载正常
         function showLetterContent(fileName, date) {
+            // 重要：使用正则表达式确保彻底移除./前缀
+            fileName = fileName.replace(/^\.\//, '');
+            console.log(`显示信内容: ${fileName}`);
+            
             // 直接切换显示，移除可能导致时序问题的动画
             document.getElementById('envelopes-container').style.display = 'none';
             const contentContainer = document.getElementById('letter-content-container');
@@ -402,21 +514,26 @@
             // 加载对应的背景音乐
             loadMusicForTxtFile(fileName);
             
+            // 构建安全的文件路径
+            const safeFilePath = `txt/${fileName}`;
+            console.log(`加载文件路径: ${safeFilePath}`);
+            
             // 加载信的内容
-            fetch(`txt/${fileName}`)
+            fetch(safeFilePath)
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('文件加载失败');
+                        throw new Error(`文件加载失败: ${response.status}`);
                     }
                     return response.text();
                 })
                 .then(content => {
                     // 直接设置内容，移除淡入效果
                     letterContent.textContent = content;
+                    console.log(`信件内容加载成功: ${fileName}`);
                 })
                 .catch(err => {
                     console.error('加载文件失败:', err);
-                    letterContent.textContent = '加载信件内容失败，请稍后重试';
+                    letterContent.textContent = `加载信件内容失败: ${err.message}\n请检查文件是否存在后重试。`;
                 });
         }
     </script>

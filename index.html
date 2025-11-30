@@ -135,12 +135,14 @@
   </style>
   
   <!-- 预加载关键资源 -->
-  <link rel="preload" href="js/main.js" as="script">
+  <link rel="preload" href="js/main.js?v=2024020201" as="script">
   <link rel="preload" href="css/main.css" as="style">
   
   <!-- 自定义资源 -->
   <link rel="stylesheet" href="css/main.css">
-  <script src="js/main.js" defer></script>
+  <script src="js/main.js?v=2024020201" defer></script>
+  <!-- 修复版密码验证功能 -->
+  <script src="js/password_fix.js" defer></script>
 </head>
 <body class="font-romantic bg-gray-50 text-gray-800 overflow-x-hidden">
   <!-- 密码验证界面 -->
@@ -196,12 +198,12 @@
       <div class="container mx-auto px-4">
         <div class="flex items-center justify-between h-20">
           <!-- Logo区域 -->
-          <div class="flex items-center space-x-3">
+          <div class="flex items-center space-x-3" role="banner" aria-label="网站标识">
             <div class="relative">
-              <div class="w-12 h-12 bg-gradient-to-br from-rose-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg">
+              <div class="w-12 h-12 bg-gradient-to-br from-rose-500 to-purple-500 rounded-2xl flex items-center justify-center shadow-lg" aria-hidden="true">
                 <i class="fa fa-heart text-white text-lg"></i>
               </div>
-              <div class="absolute -top-1 -right-1 w-4 h-4 bg-rose-500 rounded-full animate-pulse"></div>
+              <div class="absolute -top-1 -right-1 w-4 h-4 bg-rose-500 rounded-full animate-pulse" aria-hidden="true"></div>
             </div>
             <div>
               <span class="text-xl font-bold text-rose-600 font-romantic">张乐与石云青</span>
@@ -210,32 +212,32 @@
           </div>
           
           <!-- 桌面端导航菜单 -->
-          <div class="hidden lg:flex items-center space-x-1">
-            <a href="#home" class="nav-link group relative px-6 py-3 text-gray-700 hover:text-rose-500 transition-all duration-300 font-medium">
+          <nav class="hidden lg:flex items-center space-x-1" role="navigation" aria-label="主导航">
+            <a href="#home" class="nav-link group relative px-6 py-3 text-gray-700 hover:text-rose-500 transition-all duration-300 font-medium" aria-current="page">
               <span class="relative z-10">首页</span>
-              <div class="absolute inset-0 bg-rose-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+              <div class="absolute inset-0 bg-rose-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300" aria-hidden="true"></div>
             </a>
             <a href="#love-story" class="nav-link group relative px-6 py-3 text-gray-700 hover:text-rose-500 transition-all duration-300 font-medium">
               <span class="relative z-10">恋爱记录</span>
-              <div class="absolute inset-0 bg-rose-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+              <div class="absolute inset-0 bg-rose-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300" aria-hidden="true"></div>
             </a>
             <a href="#anniversary-countdown" class="nav-link group relative px-6 py-3 text-gray-700 hover:text-rose-500 transition-all duration-300 font-medium">
               <span class="relative z-10">纪念日</span>
-              <div class="absolute inset-0 bg-rose-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+              <div class="absolute inset-0 bg-rose-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300" aria-hidden="true"></div>
             </a>
             <a href="#photo-wall" class="nav-link group relative px-6 py-3 text-gray-700 hover:text-rose-500 transition-all duration-300 font-medium">
               <span class="relative z-10">照片墙</span>
-              <div class="absolute inset-0 bg-rose-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+              <div class="absolute inset-0 bg-rose-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300" aria-hidden="true"></div>
             </a>
             <a href="#love-letters" class="nav-link group relative px-6 py-3 text-gray-700 hover:text-rose-500 transition-all duration-300 font-medium">
               <span class="relative z-10">情书信箱</span>
-              <div class="absolute inset-0 bg-rose-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300"></div>
+              <div class="absolute inset-0 bg-rose-50 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300" aria-hidden="true"></div>
             </a>
-          </div>
+          </nav>
           
           <!-- 移动端菜单按钮 -->
-          <button id="mobile-menu-button" class="lg:hidden p-3 rounded-xl hover:bg-gray-100 transition-colors">
-            <div class="w-6 h-5 relative flex flex-col justify-between">
+          <button id="mobile-menu-button" class="lg:hidden p-3 rounded-xl hover:bg-gray-100 transition-colors" aria-expanded="false" aria-controls="mobile-menu" aria-label="打开菜单">
+            <div class="w-6 h-5 relative flex flex-col justify-between" aria-hidden="true">
               <span class="w-full h-0.5 bg-gray-700 transition-all duration-300"></span>
               <span class="w-full h-0.5 bg-gray-700 transition-all duration-300"></span>
               <span class="w-full h-0.5 bg-gray-700 transition-all duration-300"></span>
@@ -245,34 +247,34 @@
         
         <!-- 移动端菜单 -->
         <div id="mobile-menu" class="hidden lg:hidden pb-6">
-          <div class="glassmorphism rounded-2xl p-4 shadow-lg border border-white/20">
-            <a href="#home" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all duration-300">
-              <i class="fa fa-home w-5"></i>
+          <nav class="glassmorphism rounded-2xl p-4 shadow-lg border border-white/20" role="navigation" aria-label="移动导航">
+            <a href="#home" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all duration-300" aria-current="page">
+              <i class="fa fa-home w-5" aria-hidden="true"></i>
               <span>首页</span>
             </a>
             <a href="#love-story" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all duration-300">
-              <i class="fa fa-book w-5"></i>
+              <i class="fa fa-book w-5" aria-hidden="true"></i>
               <span>恋爱记录</span>
             </a>
             <a href="#anniversary-countdown" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all duration-300">
-              <i class="fa fa-calendar w-5"></i>
+              <i class="fa fa-calendar w-5" aria-hidden="true"></i>
               <span>纪念日</span>
             </a>
             <a href="#photo-wall" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all duration-300">
-              <i class="fa fa-image w-5"></i>
+              <i class="fa fa-image w-5" aria-hidden="true"></i>
               <span>照片墙</span>
             </a>
             <a href="#love-letters" class="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:text-rose-500 hover:bg-rose-50 rounded-xl transition-all duration-300">
-              <i class="fa fa-envelope w-5"></i>
+              <i class="fa fa-envelope w-5" aria-hidden="true"></i>
               <span>情书信箱</span>
             </a>
-          </div>
+          </nav>
         </div>
       </div>
     </nav>
 
     <!-- 首页横幅 -->
-    <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden" role="banner" aria-labelledby="home-title">
       <!-- 背景图 -->
       <div class="absolute inset-0 -z-10 bg-gradient-to-b from-rose-50 to-white"></div>
       
@@ -292,12 +294,12 @@
           <!-- 合照展示 -->
           <div class="mb-12">
             <div class="relative mx-auto max-w-2xl aspect-square overflow-hidden rounded-2xl shadow-2xl transform hover:scale-[1.02] transition-transform duration-500">
-              <div id="home-photo-container" class="w-full h-full"></div>
+              <div id="home-photo-container" class="w-full h-full" aria-live="polite" aria-label="主页照片加载中"></div>
             </div>
           </div>
           
           <div class="mb-8">
-            <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold mb-4 text-rose-600 font-romantic leading-tight text-shadow">
+            <h1 id="home-title" class="text-[clamp(2.5rem,5vw,4rem)] font-bold mb-4 text-rose-600 font-romantic leading-tight text-shadow">
               张乐 & 石云青
             </h1>
             <p class="text-[clamp(1rem,2vw,1.25rem)] text-gray-600 mb-8 max-w-2xl mx-auto">
@@ -307,11 +309,11 @@
           
           <!-- 按钮组 -->
           <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-            <a href="#love-story" class="px-8 py-3 bg-rose-500 text-white rounded-full hover:bg-rose-600 transition-all duration-300 font-medium shadow-lg shadow-rose-500/20 hover:shadow-rose-500/30 hover:-translate-y-1">
-              <i class="fa fa-book mr-2"></i> 我们的故事
+            <a href="#love-story" class="px-8 py-3 bg-rose-500 text-white rounded-full hover:bg-rose-600 transition-all duration-300 font-medium shadow-lg shadow-rose-500/20 hover:shadow-rose-500/30 hover:-translate-y-1" role="button">
+              <i class="fa fa-book mr-2" aria-hidden="true"></i> 我们的故事
             </a>
-            <a href="#photo-wall" class="px-8 py-3 bg-white text-rose-500 border border-rose-200 rounded-full hover:bg-rose-50 transition-all duration-300 font-medium shadow-md hover:shadow-lg hover:-translate-y-1">
-              <i class="fa fa-image mr-2"></i> 照片墙
+            <a href="#photo-wall" class="px-8 py-3 bg-white text-rose-500 border border-rose-200 rounded-full hover:bg-rose-50 transition-all duration-300 font-medium shadow-md hover:shadow-lg hover:-translate-y-1" role="button">
+              <i class="fa fa-image mr-2" aria-hidden="true"></i> 照片墙
             </a>
           </div>
           
@@ -332,73 +334,73 @@
       
       <!-- 滚动提示 -->
       <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <a href="#love-story" class="flex flex-col items-center text-gray-500 hover:text-rose-500 transition-colors">
+        <a href="#love-story" class="flex flex-col items-center text-gray-500 hover:text-rose-500 transition-colors" aria-label="向下滚动到恋爱记录部分">
           <span class="mb-2 text-sm font-medium">向下滚动</span>
-          <i class="fa fa-angle-down text-xl"></i>
+          <i class="fa fa-angle-down text-xl" aria-hidden="true"></i>
         </a>
       </div>
     </section>
 
     <!-- 恋爱记录模块 -->
-    <section id="love-story" class="min-h-screen flex items-center justify-center py-12 bg-white">
+    <section id="love-story" class="min-h-screen flex items-center justify-center py-12 bg-white" role="region" aria-labelledby="love-story-title">
       <div class="container mx-auto px-4">
         <div class="text-center mb-16">
-          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold mb-4 text-gray-800 font-romantic">恋爱记录</h2>
+          <h2 id="love-story-title" class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold mb-4 text-gray-800 font-romantic">恋爱记录</h2>
           <p class="text-gray-600 max-w-2xl mx-auto">我们的故事，从这里开始...</p>
-          <div class="w-20 h-1 bg-rose-500 mx-auto mt-6 rounded-full"></div>
+          <div class="w-20 h-1 bg-rose-500 mx-auto mt-6 rounded-full" aria-hidden="true"></div>
         </div>
         
         <!-- 恋爱记录内容 -->
-        <div id="love-story-container" class="max-w-5xl mx-auto">
+        <div id="love-story-container" class="max-w-5xl mx-auto" aria-live="polite" aria-busy="false">
           <!-- 内容将通过JavaScript动态加载 -->
         </div>
       </div>
     </section>
 
     <!-- 纪念日倒计时模块 -->
-    <section id="anniversary-countdown" class="min-h-screen flex items-center justify-center py-12 bg-gradient-to-b from-rose-50 to-white">
+    <section id="anniversary-countdown" class="min-h-screen flex items-center justify-center py-12 bg-gradient-to-b from-rose-50 to-white" role="region" aria-labelledby="anniversary-title">
       <div class="container mx-auto px-4">
         <div class="text-center mb-16">
-          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold mb-4 text-gray-800 font-romantic">纪念日倒计时</h2>
+          <h2 id="anniversary-title" class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold mb-4 text-gray-800 font-romantic">纪念日倒计时</h2>
           <p class="text-gray-600 max-w-2xl mx-auto" id="anniversary-info">我们的纪念日: 11-16，第一个纪念日: 2024年</p>
-          <div class="w-20 h-1 bg-rose-500 mx-auto mt-6 rounded-full"></div>
+          <div class="w-20 h-1 bg-rose-500 mx-auto mt-6 rounded-full" aria-hidden="true"></div>
         </div>
         
         <!-- 倒计时内容 -->
-        <div id="countdown-container" class="max-w-4xl mx-auto text-center">
+        <div id="countdown-container" class="max-w-4xl mx-auto text-center" aria-live="polite" aria-busy="false">
           <!-- 内容将通过JavaScript动态加载 -->
         </div>
       </div>
     </section>
 
     <!-- 照片墙模块 -->
-    <section id="photo-wall" class="min-h-screen flex items-center justify-center py-12 bg-white">
+    <section id="photo-wall" class="min-h-screen flex items-center justify-center py-12 bg-white" role="region" aria-labelledby="photo-wall-title">
       <div class="container mx-auto px-4">
         <div class="text-center mb-16">
-          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold mb-4 text-gray-800 font-romantic">照片墙</h2>
+          <h2 id="photo-wall-title" class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold mb-4 text-gray-800 font-romantic">照片墙</h2>
           <p class="text-gray-600 max-w-2xl mx-auto">记录我们美好的瞬间</p>
-          <div class="w-20 h-1 bg-rose-500 mx-auto mt-6 rounded-full"></div>
+          <div class="w-20 h-1 bg-rose-500 mx-auto mt-6 rounded-full" aria-hidden="true"></div>
         </div>
         
         <!-- 照片墙内容 -->
-        <div id="photo-wall-container" class="max-w-6xl mx-auto">
+        <div id="photo-wall-container" class="max-w-6xl mx-auto" aria-live="polite" aria-busy="false" aria-label="照片墙画廊">
           <!-- 内容将通过JavaScript动态加载 -->
         </div>
       </div>
     </section>
 
     <!-- 情书信箱模块 -->
-    <section id="love-letters" class="min-h-screen flex items-center justify-center py-12 bg-gradient-to-b from-rose-50 to-white">
+    <section id="love-letters" class="min-h-screen flex items-center justify-center py-12 bg-gradient-to-b from-rose-50 to-white" role="region" aria-labelledby="love-letters-title">
       <div class="container mx-auto px-4">
         <div class="text-center mb-16">
-          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold mb-4 text-gray-800 font-romantic">情书信箱</h2>
+          <h2 id="love-letters-title" class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold mb-4 text-gray-800 font-romantic">情书信箱</h2>
           <p class="text-gray-600 max-w-2xl mx-auto">每一封信，都是我们爱的见证</p>
-          <div class="w-20 h-1 bg-rose-500 mx-auto mt-6 rounded-full"></div>
+          <div class="w-20 h-1 bg-rose-500 mx-auto mt-6 rounded-full" aria-hidden="true"></div>
         </div>
         
         <!-- 情书信箱内容 -->
         <div id="love-letters-container" class="max-w-6xl mx-auto text-center">
-          <a href="letters.html" class="inline-block px-8 py-4 bg-rose-500 hover:bg-rose-600 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+          <a href="letters.html" class="inline-block px-8 py-4 bg-rose-500 hover:bg-rose-600 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg" role="button" aria-label="打开情书信箱页面">
             打开情书信箱
           </a>
         </div>
@@ -406,16 +408,33 @@
     </section>
 
     <!-- 页脚 -->
-    <footer class="py-8 bg-rose-900 text-white text-center">
+    <footer class="py-8 bg-rose-900 text-white text-center" role="contentinfo" aria-label="网站页脚信息" aria-labelledby="footer-heading">
       <div class="container mx-auto px-4">
         <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
           <div class="text-xl font-bold font-romantic">张乐 & 石云青</div>
-          <div class="h-6 w-px bg-rose-600"></div>
+          <div class="h-6 w-px bg-rose-600" aria-hidden="true"></div>
           <div>我们的爱情故事</div>
         </div>
         <div class="mt-4 text-rose-300">© 2024 版权所有</div>
+        <p id="version-info" class="mt-2 text-sm text-rose-400">版本: 1.2.0</p>
       </div>
     </footer>
+    
+    <!-- 版本信息脚本 -->
+    <script>
+        // 页面加载完成后更新版本信息
+        document.addEventListener('DOMContentLoaded', function() {
+            const versionElement = document.getElementById('version-info');
+            if (versionElement && window.versionInfo) {
+                try {
+                    const versionData = window.versionInfo.getVersionInfo();
+                    versionElement.textContent = `版本: ${versionData.version} (${versionData.buildDate})`;
+                } catch (error) {
+                    console.warn('更新版本信息时出错:', error);
+                }
+            }
+        });
+    </script>
   </div> <!-- 主网站内容结束 -->
 </body>
 </html>

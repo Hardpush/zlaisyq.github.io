@@ -11,6 +11,30 @@
   --transition-slow: 500ms;
   --border-radius: 0.5rem;
   --border-radius-lg: 1rem;
+  /* 新增字体和阴影变量 */
+  --font-sans: 'Inter', sans-serif;
+  --font-romantic: 'Dancing Script', cursive;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+/* 基础重置和样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--gray-900);
+  background-color: #ffffff;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 16px;
 }
 
 /* 备用Tailwind样式定义，防止CDN加载失败 */
@@ -123,14 +147,127 @@
   .md\:text-2xl { font-size: 1.5rem; line-height: 2rem; }
   .md\:py-16 { padding-top: 4rem; padding-bottom: 4rem; }
   .md\:gap-6 { gap: 1.5rem; }
+  
+  /* 响应式设计 - 平板和手机额外优化 */
+  .grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .w-16 {
+    width: 12rem;
+  }
+  
+  .h-16 {
+    height: 12rem;
+  }
+  
+  /* 首页横幅优化 */
+  #home {
+    min-height: auto;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+  
+  /* 照片展示容器优化 */
+  .max-w-2xl {
+    max-width: 100%;
+  }
+  
+  /* 按钮组优化 */
+  .flex-col.sm\:flex-row {
+    flex-direction: column;
+  }
+  
+  /* 导航优化 */
+  #mobile-menu {
+    position: fixed;
+    top: 4rem;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+  }
+  
+  /* 页脚优化 */
+  footer {
+    padding: 2rem 1rem;
+  }
 }
 
 @media (max-width: 640px) {
   .sm\:text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+  
+  /* 响应式设计 - 手机小屏幕额外优化 */
+  .grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+  
+  .w-16 {
+    width: 100%;
+    max-width: 16rem;
+  }
+  
+  .h-16 {
+    height: auto;
+    aspect-ratio: 1/1;
+  }
+  
+  /* 文字大小优化 */
+  h1, h2, h3 {
+    line-height: 1.2;
+  }
+  
+  /* 间距优化 */
+  section > div.container > div.text-center {
+    margin-bottom: 3rem;
+  }
+  
+  /* 照片墙容器优化 */
+  #photo-wall-container {
+    gap: 1rem;
+  }
 }
 
 @media (min-width: 1024px) {
   .lg\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  
+  /* 响应式设计 - 大屏幕额外优化 */
+  .max-w-5xl {
+    max-width: 7xl;
+  }
+  
+  /* 大屏幕布局优化 */
+  #love-story-container, #countdown-container {
+    max-width: 5xl;
+  }
+}
+
+/* 横竖屏适配 */
+@media (orientation: landscape) and (max-width: 768px) {
+  section {
+    min-height: auto !important;
+    padding: 2rem 0;
+  }
+  
+  #home-photo-container {
+    max-height: 70vh;
+    overflow: hidden;
+  }
+  
+  #home-photo-container img {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* 高分辨率屏幕优化 */
+@media (-webkit-device-pixel-ratio: 2), (resolution: 192dpi) {
+  /* 优化高DPI屏幕上的字体渲染 */
+  body {
+    -webkit-font-smoothing: subpixel-antialiased;
+  }
 }
 
 .container { width: 100%; margin-left: auto; margin-right: auto; padding-left: 1rem; padding-right: 1rem; }
@@ -271,6 +408,7 @@
 /* 全局样式补充 */
 html {
   scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* 图片优化样式 */
@@ -281,7 +419,44 @@ img {
 
 /* 移除懒加载的opacity限制，让图片正常显示 */
 
-
+/* 移动设备优化 */
+@media (max-width: 768px) {
+  /* 触摸目标优化 */
+  button, a, .btn, .nav-link {
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+  }
+  
+  /* 修复移动端点击延迟 */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  /* 调整移动设备内容间距 */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  /* 调整移动端内容间距 */
+  section {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+  
+  /* 优化卡片触摸反馈 */
+  .card, .nav-item, .btn {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .card:active, .nav-item:active, .btn:active {
+    transform: scale(0.98);
+  }
+}
 
 /* 模态框样式优化 */
 .modal-content {

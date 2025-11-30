@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>照片墙测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        #photo-wall {
+            margin-top: 30px;
+        }
+        #photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .photo-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .photo-item:hover {
+            transform: translateY(-5px);
+        }
+        .photo-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        .photo-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 10px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        .photo-item:hover .photo-overlay {
+            transform: translateY(0);
+        }
+        .status-message {
+            text-align: center;
+            padding: 20px;
+            background: #e8f4f8;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        .error {
+            color: #d32f2f;
+        }
+        .success {
+            color: #388e3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>照片墙测试页面</h1>
+        
+        <div id="photo-wall">
+            <h2>测试照片墙</h2>
+            <div id="photo-gallery"></div>
+        </div>
+        
+        <div id="status-message" class="status-message">
+            加载中...
+        </div>
+    </div>
+
+    <script>
+        // 使用与实际文件匹配的元数据
+        const photoMetadata = [
+            { filename: '2024-06-02 101407.jpg', date: '2024-06-02', location: '旅行记忆' },
+            { filename: '2024-07-08 182110.jpg', date: '2024-07-08', location: '约会时光' },
+            { filename: '2024-07-21 192151.jpg', date: '2024-07-21', location: '浪漫晚餐' },
+            { filename: '2024-07-23 023743.jpg', date: '2024-07-23', location: '星空下' },
+            { filename: '2024-07-29 080728.jpg', date: '2024-07-29', location: '周末旅行' },
+            { filename: '2024-11-16 183146.jpg', date: '2024-11-16', location: '周年纪念' },
+            { filename: '2024-12-01 162950.png', date: '2024-12-01', location: '冬日漫步' },
+            { filename: '2024-12-20 175031.png', date: '2024-12-20', location: '圣诞节前' },
+            { filename: '2024-12-31 140928.jpg', date: '2024-12-31', location: '跨年' },
+            { filename: '2025-01-30 234953.jpg', date: '2025-01-30', location: '生日庆祝' },
+            { filename: '2025-02-01 222615.jpg', date: '2025-02-01', location: '情人节预热' },
+            { filename: '2025-02-02 184935.jpg', date: '2025-02-02', location: '美好瞬间' }
+        ];
+
+        // 格式化日期
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}年${month}月${day}日`;
+        }
+
+        // 处理图片加载错误
+        function handleImageError(event, imagePath) {
+            const img = event.target;
+            console.error('图片加载失败:', imagePath);
+            
+            // 显示错误占位符
+            img.style.background = '#f8f8f8';
+            img.style.display = 'flex';
+            img.style.alignItems = 'center';
+            img.style.justifyContent = 'center';
+            img.alt = '图片加载失败';
+        }
+
+        // 初始化照片墙
+        function initPhotoWall() {
+            console.log('开始初始化照片墙...');
+            const photoGallery = document.getElementById('photo-gallery');
+            const statusMessage = document.getElementById('status-message');
+            
+            if (!photoGallery) {
+                statusMessage.textContent = '错误: 未找到照片墙容器';
+                statusMessage.className = 'status-message error';
+                return;
+            }
+            
+            let loadedCount = 0;
+            let errorCount = 0;
+            
+            // 清空现有内容
+            photoGallery.innerHTML = '';
+            
+            // 加载照片
+            photoMetadata.forEach((photo, index) => {
+                // 使用直接的文件路径，与实际文件系统匹配
+                const photoPath = `images/2/${photo.filename}`;
+                
+                const photoItem = document.createElement('div');
+                photoItem.className = 'photo-item';
+                
+                const img = document.createElement('img');
+                img.src = photoPath;
+                img.alt = `${photo.location} - ${formatDate(photo.date)}`;
+                img.loading = 'lazy';
+                
+                // 图片加载成功处理
+                img.onload = function() {
+                    loadedCount++;
+                    console.log(`✅ 图片加载成功: ${photo.filename}`);
+                    updateStatus();
+                };
+                
+                // 图片加载失败处理
+                img.onerror = function() {
+                    errorCount++;
+                    handleImageError(event, photoPath);
+                    console.error(`❌ 图片加载失败: ${photo.filename}`);
+                    updateStatus();
+                };
+                
+                const overlay = document.createElement('div');
+                overlay.className = 'photo-overlay';
+                overlay.innerHTML = `
+                    <div>${formatDate(photo.date)}</div>
+                    <div>${photo.location}</div>
+                `;
+                
+                photoItem.appendChild(img);
+                photoItem.appendChild(overlay);
+                photoGallery.appendChild(photoItem);
+            });
+            
+            // 更新状态显示
+            function updateStatus() {
+                const total = photoMetadata.length;
+                const completed = loadedCount + errorCount;
+                
+                if (completed === total) {
+                    if (errorCount === 0) {
+                        statusMessage.textContent = `成功: 所有 ${total} 张照片加载完成`;
+                        statusMessage.className = 'status-message success';
+                    } else {
+                        statusMessage.textContent = `完成: ${loadedCount} 张成功, ${errorCount} 张失败`;
+                        statusMessage.className = 'status-message error';
+                    }
+                } else {
+                    statusMessage.textContent = `加载中: ${completed}/${total} 张 (${loadedCount}成功, ${errorCount}失败)`;
+                }
+            }
+            
+            console.log('照片墙初始化完成');
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('页面加载完成，准备初始化照片墙');
+            initPhotoWall();
+        });
+    </script>
+</body>
+</html>
