@@ -6,6 +6,7 @@ const loveLettersModule = {
     this.config = config;
     this.letterData = [];
     this.letterAudio = null;
+    this.scrollPosition = 0; // 添加滚动位置记忆
     this.displayLettersList();
     this.setupEventListeners();
   },
@@ -90,6 +91,9 @@ const loveLettersModule = {
   
   // 打开情书模态框
   openLetterModal(letterId) {
+    // 直接保存当前滚动位置
+    this.scrollPosition = window.scrollY;
+    
     // 停止当前播放的音乐
     this.stopLetterMusic();
     
@@ -115,6 +119,9 @@ const loveLettersModule = {
     modal.setAttribute('role', 'dialog');
     modal.setAttribute('aria-modal', 'true');
     modal.setAttribute('aria-labelledby', 'letter-title');
+    
+    // 禁止背景滚动
+    document.body.style.overflow = 'hidden';
     
     modal.innerHTML = `
       <div class="bg-white rounded-lg max-w-2xl w-full max-h-[80vh] overflow-auto p-6 relative animate-zoom-in">
@@ -179,7 +186,7 @@ const loveLettersModule = {
         <p>亲爱的，</p>
         <p>今天是我们在一起的第365天，时间过得真快。回想起我们相识的点点滴滴，心中充满了感激和幸福。</p>
         <p>记得那天在咖啡厅，你不小心撞到了我，咖啡洒在我的衬衫上。你紧张得不知所措，一直道歉，那样子真的很可爱。也就是从那天开始，我们的故事拉开了序幕。</p>
-        <p>这一年来，我们一起经历了很多：一起看日出日落，一起旅行，一起度过那些平凡却温馨的日子。有欢笑，也有泪水，但每一刻都让我更加确定，你就是我想要共度一生的人。</p>
+        <p>这一年来，我们一起经历了很多：一起看日出日落，一起旅行，一起度过那些平凡却温馨的日子。有欢笑，也有泪水，但每一刻都让我更加确定，你就是我想要共度生命的人。</p>
         <p>谢谢你一直以来的陪伴和包容，谢谢你在我失落时给予鼓励，在我开心时与我分享。我爱你，不只是今天，而是每一天。</p>
         <p>永远爱你的，<br>恋人A</p>
       `,
@@ -201,46 +208,49 @@ const loveLettersModule = {
       `,
       'letter4': `
         <p>亲爱的，</p>
-        <p>在过去的一年里，感谢有你的陪伴。这一年，我们一起经历了许多难忘的时刻，也一起成长了许多。</p>
-        <p>记得我们一起度过的第一个生日，你为我准备了惊喜派对，那是我过得最开心的一个生日。还有我们一起去海边旅行，看日出日落，那些美好的回忆我会永远珍藏。</p>
-        <p>谢谢你在我遇到困难时给予支持和鼓励，谢谢你在我生病时细心照顾，谢谢你的爱和包容。因为有你，我的生活变得更加丰富多彩，也让我明白了什么是真正的幸福。</p>
-        <p>新的一年，我希望我们能够继续携手前行，共同创造更多美好的回忆。</p>
-        <p>爱你的，<br>恋人B</p>
+        <p>圣诞节快乐！在这个特别的日子，我想对你说声谢谢。</p>
+        <p>谢谢你在过去的一年里一直陪伴在我边，谢谢你的爱和关怀。有你的日子，每一天都充满了阳光和温暖。</p>
+        <p>记得去年的圣诞节，我们一起装饰圣诞树，一起做了一顿丰盛的晚餐。虽然很简单，但却充满了幸福的味道。</p>
+        <p>新的一年就要来了，我希望我们能够继续相爱，继续陪伴在彼此的边。不管未来会遇到什么困难，我们都要一起面对。</p>
+        <p>永远爱你的，<br>恋人B</p>
       `,
       'letter5': `
         <p>亲爱的，</p>
-        <p>新的一年即将到来，我有很多期许想要和你分享。</p>
-        <p>我希望我们能够更加珍惜彼此，学会更好地沟通和理解。我希望我们能够一起去更多的地方旅行，看更多的风景，体验更多的文化。我希望我们能够共同成长，共同进步，为了我们的未来而努力。</p>
-        <p>最重要的是，我希望我们的感情能够一直这样甜蜜幸福，无论遇到什么困难，都能一起面对，一起克服。</p>
-        <p>新的一年，新的开始，让我们一起迎接美好的未来吧！</p>
+        <p>明天就是新年了，站在岁末年初的节点上，我不禁思绪万千。</p>
+        <p>过去的一年，我们一起经历了很多。有欢笑，有泪水，有成功，也有失败。但最重要的是，我们一直在一起，相互支持，相互鼓励。</p>
+        <p>新的一年，我有很多期许。我希望我们的感情能够更加稳固，希望我们都能够在工作和生活中取得更大的进步，希望我们能够一起去更多的地方，看更多的风景。</p>
+        <p>最重要的是，我希望我们能够一直这样相爱下去，直到永远。</p>
         <p>永远爱你的，<br>恋人A</p>
       `,
       'letter6': `
         <p>亲爱的，</p>
-        <p>还记得我们第一次见面的场景吗？那天你穿着一件浅蓝色的连衣裙，笑容如花，一下子就吸引了我的目光。</p>
-        <p>我们的相识是那么的偶然，却又是那么的必然。从那一刻起，我就知道你是一个特别的人，值得我用一生去珍惜。</p>
-        <p>回忆起我们在一起的点点滴滴，心中充满了感激。谢谢你走进我的生活，让我的生命变得更加完整和美好。</p>
-        <p>我会永远记得那个让我心动的瞬间，也会永远记得我们一起走过的每一段路程。</p>
-        <p>爱你的，<br>恋人B</p>
+        <p>今天整理旧物时，翻到了一张我们第一次见面时的照片。看着照片中青涩的我们，我不禁想起了那个美好的午后。</p>
+        <p>那天阳光很好，我在图书馆看书，你坐在我对面。你专注的样子很吸引人，我时不时地偷偷看。后来你发现了，对我笑了笑，那个笑容真的很温暖。</p>
+        <p>从那以后，我们经常在图书馆偶遇，渐渐地熟悉了起来。现在回想起来，那真是一段美好的时光。</p>
+        <p>谢谢你出现在我的生命中，谢谢你给我带来那么多的快乐和幸福。</p>
+        <p>永远爱你的，<br>恋人B</p>
       `
     };
     
-    return contents[letter.id] || '<p>这是一封充满爱的信...</p>';
+    return contents[letter.id] || '<p>情书内容暂时无法加载</p>';
   },
   
-  // 关闭情书模态框
-  closeLetterModal() {
-    const modal = document.getElementById('letter-modal');
-    if (modal) {
-      // 停止播放音乐
-      this.stopLetterMusic();
-      
-      // 添加淡出动画
-      modal.style.opacity = '0';
-      setTimeout(() => {
-        modal.remove();
-      }, 300);
-    }
+  // 加载情书背景音乐
+  loadLetterMusic(letterId) {
+    const audio = new Audio();
+    audio.volume = 0.3;
+    
+    // 模拟不同情书对应不同音乐
+    const musicUrls = [
+      'https://music.163.com/song/media/outer/url?id=1399528493.mp3',
+      'https://music.163.com/song/media/outer/url?id=1400085118.mp3',
+      'https://music.163.com/song/media/outer/url?id=1399528493.mp3'
+    ];
+    
+    const musicIndex = (parseInt(letterId.replace('letter', '')) - 1) % musicUrls.length;
+    audio.src = musicUrls[musicIndex];
+    
+    return audio;
   },
   
   // 停止情书音乐
@@ -249,7 +259,30 @@ const loveLettersModule = {
       this.letterAudio.pause();
       this.letterAudio = null;
     }
+  },
+  
+  // 关闭情书模态框
+  closeLetterModal() {
+    const modal = document.getElementById('letter-modal');
+    if (!modal) return;
+    
+    // 停止音乐
+    this.stopLetterMusic();
+    
+    // 恢复背景滚动
+    document.body.style.overflow = '';
+    
+    // 移除模态框
+    if (modal.parentNode) {
+      modal.parentNode.removeChild(modal);
+    }
+    
+    // 直接恢复滚动位置 - 使用最简单直接的方法
+    setTimeout(() => {
+      window.scrollTo(0, this.scrollPosition);
+    }, 10);
   }
 };
 
+// 导出模块
 export default loveLettersModule;

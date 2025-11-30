@@ -483,23 +483,34 @@
             return envelopeDiv;
         }
 
-        // 返回信封列表
+        // 返回信封列表 - 修改为直接滚动恢复
         document.getElementById('back-to-list').addEventListener('click', function() {
             const contentContainer = document.getElementById('letter-content-container');
             const envelopesContainer = document.getElementById('envelopes-container');
             
-            // 直接切换显示，移除可能导致时序问题的动画
+            // 直接切换显示
             contentContainer.style.display = 'none';
             envelopesContainer.style.display = 'flex';
+            
+            // 添加直接滚动位置恢复
+            if (window.scrollPositionToRestore) {
+                setTimeout(() => {
+                    window.scrollTo(0, window.scrollPositionToRestore);
+                }, 10);
+            }
         });
 
-        // 显示信的内容 - 简化实现，确保内容加载正常
+        // 显示信的内容 - 修改为保存滚动位置
         function showLetterContent(fileName, date) {
             // 重要：使用正则表达式确保彻底移除./前缀
             fileName = fileName.replace(/^\.\//, '');
             console.log(`显示信内容: ${fileName}`);
             
-            // 直接切换显示，移除可能导致时序问题的动画
+            // 保存当前滚动位置到window对象，使其在返回时可访问
+            window.scrollPositionToRestore = window.scrollY;
+            console.log('保存滚动位置:', window.scrollPositionToRestore);
+            
+            // 直接切换显示
             document.getElementById('envelopes-container').style.display = 'none';
             const contentContainer = document.getElementById('letter-content-container');
             contentContainer.style.display = 'block';
@@ -527,7 +538,7 @@
                     return response.text();
                 })
                 .then(content => {
-                    // 直接设置内容，移除淡入效果
+                    // 直接设置内容
                     letterContent.textContent = content;
                     console.log(`信件内容加载成功: ${fileName}`);
                 })
