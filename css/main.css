@@ -745,3 +745,31 @@ img {
 - 关闭浏览器后需要重新输入
 - 建议使用有意义的密码
 */
+
+/* 首页背景图片容器 - 确保充满整个section */
+#home-background-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#home-background-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 手机端背景图片调整 */
+@media (max-width: 768px) {
+  #home-background-container img {
+    object-position: center center;
+  }
+}
+
+/* 桌面端背景图片调整 */
+@media (min-width: 769px) {
+  #home-background-container img {
+    object-position: center 30%;
+  }
+}
