@@ -130,7 +130,7 @@ function initHomePhoto() {
   img.className = 'w-full h-full object-cover';
   img.style.transition = 'opacity 1.5s ease-in-out';
   img.style.opacity = '0';
-  img.style.objectPosition = 'center 20%'; // 调整位置，让上半部分(人物)更完整显示
+  img.style.objectPosition = 'center 40%'; // 进一步调整位置，让人物部分在手机屏幕上显示更完整
   // 移除粉色背景，让图片自然充满屏幕
   
   // 图片加载完成后显示
