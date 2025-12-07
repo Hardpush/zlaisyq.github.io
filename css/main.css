@@ -170,7 +170,7 @@ body {
   
   /* 首页横幅优化 */
   #home {
-    min-height: 100vh;
+    min-height: calc(100vh - 6rem) !important;
     padding-top: 6rem;
     padding-bottom: 3rem;
   }
@@ -238,7 +238,7 @@ body {
   }
   
   #home {
-    min-height: 100vh;
+    min-height: calc(100vh - 5.5rem) !important;
     padding-top: 5.5rem;
     padding-bottom: 2.5rem;
   }
@@ -469,6 +469,7 @@ img {
   }
   
   #home {
+    min-height: calc(100vh - 6rem) !important;
     padding-top: 6rem !important;
     padding-bottom: 3rem !important;
   }
