@@ -130,13 +130,6 @@ function initHomePhoto() {
   img.className = 'w-full h-full object-cover';
   img.style.transition = 'opacity 1.5s ease-in-out';
   img.style.opacity = '0';
-  img.style.objectFit = 'cover';
-  img.style.width = '100%';
-  img.style.height = '100%';
-  img.style.display = 'block';
-  // 根据设备宽度调整图片位置，确保在手机上显示完整
-  const isMobile = window.innerWidth <= 768;
-  img.style.objectPosition = isMobile ? 'center center' : 'center 40%';
   
   // 图片加载完成后显示
   img.onload = () => {
