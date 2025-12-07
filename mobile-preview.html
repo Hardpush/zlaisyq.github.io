@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>手机端预览 - 修复展示</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #f5f5f5;
+    }
+    
+    .preview-container {
+      max-width: 430px;
+      margin: 20px auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      overflow: hidden;
+      font-size: 12px;
+    }
+    
+    .status-bar {
+      background: #333;
+      color: white;
+      padding: 4px 10px;
+      font-size: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 20px;
+    }
+    
+    .device-frame {
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .device-frame iframe {
+      width: 100%;
+      height: 800px;
+      border: none;
+    }
+    
+    .info-box {
+      background: #e3f2fd;
+      padding: 15px;
+      margin: 20px;
+      border-radius: 8px;
+      border-left: 4px solid #2196F3;
+    }
+    
+    .info-box h3 {
+      color: #1976D2;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    
+    .info-box p {
+      color: #424242;
+      line-height: 1.6;
+      font-size: 12px;
+    }
+    
+    .code-block {
+      background: #f5f5f5;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      overflow-x: auto;
+      color: #d4574e;
+    }
+  </style>
+</head>
+<body>
+  <div style="max-width: 900px; margin: 0 auto; padding: 20px;">
+    <h1 style="text-align: center; color: #333; margin-bottom: 20px;">🎯 首页手机端显示修复说明</h1>
+    
+    <div class="info-box">
+      <h3>✅ 修复内容</h3>
+      <p><strong>问题：</strong> 手机端首页显示不完整，主要内容被固定导航栏遮挡</p>
+      <p><strong>解决方案：</strong> 为section元素添加响应式顶部padding，为固定导航栏留出空间</p>
+    </div>
+    
+    <div class="info-box">
+      <h3>📝 修改详情</h3>
+      <p><strong>1. index.html - 增加手机端媒体查询</strong></p>
+      <div class="code-block">
+@media (max-width: 768px) {<br/>
+&nbsp;&nbsp;section {<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;padding-top: 6rem;  /* 为导航栏留出空间 */<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;padding-bottom: 3rem;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;min-height: auto;<br/>
+&nbsp;&nbsp;}<br/>
+}
+      </div>
+      
+      <p><strong>2. css/main.css - 平板和手机优化</strong></p>
+      <div class="code-block">
+@media (max-width: 768px) {<br/>
+&nbsp;&nbsp;section { padding-top: 6rem; }<br/>
+}<br/>
+<br/>
+@media (max-width: 640px) {<br/>
+&nbsp;&nbsp;section { padding-top: 5.5rem; }<br/>
+}
+      </div>
+    </div>
+    
+    <div class="info-box">
+      <h3>📱 响应式断点</h3>
+      <p>
+        <strong>桌面端 (≥768px):</strong> padding: 2rem 0 (默认)<br/>
+        <strong>平板/手机 (768px以下):</strong> padding-top: 6rem<br/>
+        <strong>超小屏幕 (≤640px):</strong> padding-top: 5.5rem
+      </p>
+    </div>
+    
+    <div class="info-box">
+      <h3>🧪 测试方法</h3>
+      <p>1. 用浏览器F12打开开发者工具</p>
+      <p>2. 点击设备切换模式（Ctrl+Shift+M / Cmd+Shift+M）</p>
+      <p>3. 选择iPhone 12或其他手机设备进行预览</p>
+      <p>4. 刷新页面查看"张乐 & 石云青"标题是否完整显示</p>
+    </div>
+    
+    <div class="info-box" style="background: #f3e5f5; border-left-color: #9C27B0;">
+      <h3 style="color: #7B1FA2;">💡 关键改进</h3>
+      <ul style="margin-left: 15px; color: #424242;">
+        <li>✓ 首页主标题现在完全可见</li>
+        <li>✓ 副标题"我们的爱情故事，从这里开始..."能够正确显示</li>
+        <li>✓ 所有section都能避开导航栏遮挡</li>
+        <li>✓ 适配所有手机屏幕尺寸 (320px - 768px)</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

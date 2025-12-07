@@ -122,6 +122,21 @@
       box-sizing: border-box;
     }
     
+    /* 手机端适配 - 为固定导航栏留出空间 */
+    @media (max-width: 768px) {
+      section {
+        min-height: auto;
+        padding-top: 6rem;
+        padding-bottom: 3rem;
+      }
+      
+      #home {
+        min-height: 100vh;
+        padding-top: 6rem;
+        padding-bottom: 3rem;
+      }
+    }
+    
     /* 渐变效果 */
     .bg-gradient-love {
       background: linear-gradient(135deg, #ff6b81 0%, #ff8787 100%);

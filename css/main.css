@@ -161,11 +161,18 @@ body {
     height: 12rem;
   }
   
+  /* 所有section增加顶部padding为导航栏留出空间 (导航栏高度h-20 = 80px + padding 20px) */
+  section {
+    padding-top: 6rem;
+    padding-bottom: 3rem;
+    min-height: auto;
+  }
+  
   /* 首页横幅优化 */
   #home {
-    min-height: auto;
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    min-height: 100vh;
+    padding-top: 6rem;
+    padding-bottom: 3rem;
   }
   
   /* 照片展示容器优化 */
@@ -223,6 +230,19 @@ body {
     margin-bottom: 3rem;
   }
   
+  /* 所有section增加顶部padding为导航栏留出空间 - 超小屏幕*/
+  section {
+    padding-top: 5.5rem;
+    padding-bottom: 2.5rem;
+    min-height: auto;
+  }
+  
+  #home {
+    min-height: 100vh;
+    padding-top: 5.5rem;
+    padding-bottom: 2.5rem;
+  }
+  
   /* 照片墙容器优化 */
   #photo-wall-container {
     gap: 1rem;
@@ -247,7 +267,7 @@ body {
 @media (orientation: landscape) and (max-width: 768px) {
   section {
     min-height: auto !important;
-    padding: 2rem 0;
+    padding: 5rem 0 2rem 0;
   }
   
   #home-photo-container {
@@ -442,9 +462,14 @@ img {
     padding-right: 1rem;
   }
   
-  /* 调整移动端内容间距 */
+  /* 调整移动端内容间距 - 但保持导航栏空间 */
   section {
-    padding-top: 3rem !important;
+    padding-top: 6rem !important;
+    padding-bottom: 3rem !important;
+  }
+  
+  #home {
+    padding-top: 6rem !important;
     padding-bottom: 3rem !important;
   }
   
@@ -452,13 +477,11 @@ img {
   .card, .nav-item, .btn {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
-  
+
   .card:active, .nav-item:active, .btn:active {
     transform: scale(0.98);
   }
-}
-
-/* 模态框样式优化 */
+}/* 模态框样式优化 */
 .modal-content {
   max-height: 90vh;
   overflow-y: auto;
