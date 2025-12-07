@@ -69,9 +69,10 @@
         text-shadow: 0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
       }
       .glassmorphism {
-        background: rgba(255, 255, 255, 0.8);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0);
+        backdrop-filter: blur(0px);
+        -webkit-backdrop-filter: blur(0px);
+        border: none;
       }
       .glassmorphism-dark {
         background: rgba(0, 0, 0, 0.7);
@@ -281,7 +282,7 @@
       </div>
       
       <!-- 黑色渐变遮罩，提高文字可读性 -->
-      <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/50 to-black/20"></div>
+      <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/30 to-black/10"></div>
       
       <!-- 粒子背景容器 -->
       <div id="particles-js" class="absolute inset-0 -z-5"></div>
