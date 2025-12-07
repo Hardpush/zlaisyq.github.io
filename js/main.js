@@ -127,11 +127,11 @@ function initHomePhoto() {
   const img = document.createElement('img');
   img.src = photoPath;
   img.alt = '我们的照片背景';
-  img.className = 'w-full h-full object-contain';
+  img.className = 'w-full h-full object-cover';
   img.style.transition = 'opacity 1.5s ease-in-out';
   img.style.opacity = '0';
-  img.style.objectPosition = 'center'; // 确保图片居中显示
-  img.style.backgroundColor = '#fecdd3'; // 添加背景色，确保图片未覆盖区域也美观
+  img.style.objectPosition = 'center 20%'; // 调整位置，让上半部分(人物)更完整显示
+  // 移除粉色背景，让图片自然充满屏幕
   
   // 图片加载完成后显示
   img.onload = () => {
