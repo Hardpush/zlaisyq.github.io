@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>恋爱记录 - 张乐与石云青的爱情空间</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/fonts/font-awesome.min.css">
+    <link href="css/fonts/dancing-script.css" rel="stylesheet">
+    <style>
+        /* 浪漫背景图 */
+        body {
+            background-image: url('images/2/2025-02-01 222922.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+        
+        /* 半透明遮罩 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: -1;
+        }
+        
+        /* 时间线样式 */
+        .timeline-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-top: 100px;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #f43f5e 0%, #a855f7 100%);
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 60px;
+            width: 100%;
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: auto;
+            margin-right: 50%;
+            padding-right: 40px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 50%;
+            padding-left: 40px;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #f43f5e 0%, #a855f7 100%);
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 0 0 4px rgba(244, 63, 94, 0.2);
+            z-index: 10;
+        }
+        
+        .timeline-content {
+            width: 45%;
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        /* 图片样式 */
+        .timeline-image {
+            width: 45%;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .timeline-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .timeline-image:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        /* 图片位置控制 */
+        .timeline-item:nth-child(odd) .timeline-image {
+            margin-left: 50%;
+            padding-left: 40px;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-image {
+            margin-right: 50%;
+            padding-right: 40px;
+        }
+        
+        .timeline-date {
+            display: inline-block;
+            background: linear-gradient(135deg, #f43f5e 0%, #a855f7 100%);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .timeline-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 12px;
+            font-family: 'Dancing Script', cursive;
+        }
+        
+        .timeline-text {
+            color: #6b7280;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+        
+        .timeline-mood {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #f43f5e;
+            font-size: 14px;
+            margin-top: 12px;
+        }
+        
+        /* 返回按钮样式 */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: #f43f5e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(244, 63, 94, 0.3);
+            min-height: 44px;
+            min-width: 44px;
+            touch-action: manipulation;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-button:hover {
+            background: #e11d48;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
+        }
+        
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .timeline-container {
+                padding: 15px;
+                padding-top: 80px;
+            }
+            
+            .timeline-line {
+                left: 20px;
+            }
+            
+            .timeline-dot {
+                left: 20px;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                margin-left: 50px;
+                margin-right: 0;
+                padding-left: 30px;
+                padding-right: 20px;
+                width: calc(100% - 50px);
+            }
+            
+            .timeline-content {
+                padding: 20px;
+            }
+            
+            .timeline-image {
+                display: none;
+            }
+            
+            .timeline-title {
+                font-size: 20px;
+            }
+            
+            .timeline-text {
+                font-size: 15px;
+            }
+            
+            .back-button {
+                top: 15px;
+                left: 15px;
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .timeline-container {
+                padding: 10px;
+                padding-top: 70px;
+            }
+            
+            .timeline-line {
+                left: 15px;
+            }
+            
+            .timeline-dot {
+                left: 15px;
+                width: 16px;
+                height: 16px;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                margin-left: 40px;
+                width: calc(100% - 40px);
+                padding-left: 20px;
+                padding-right: 15px;
+            }
+            
+            .timeline-content {
+                padding: 16px;
+            }
+            
+            .timeline-title {
+                font-size: 18px;
+            }
+            
+            .timeline-text {
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .timeline-item {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+        .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+        .timeline-item:nth-child(6) { animation-delay: 0.6s; }
+        .timeline-item:nth-child(7) { animation-delay: 0.7s; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-md fixed top-0 w-full z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-2">
+                    <div class="h-10 w-10 rounded-full bg-rose-500 flex items-center justify-center text-white font-bold">
+                        张
+                    </div>
+                    <span class="text-xl font-bold text-gray-800">张乐与石云青</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-rose-500 transition-colors">首页</a>
+                    <a href="love-story.html" class="text-rose-500 font-medium">恋爱记录</a>
+                    <a href="index.html#anniversary-countdown" class="text-gray-600 hover:text-rose-500 transition-colors">纪念日</a>
+                    <a href="index.html#photo-wall" class="text-gray-600 hover:text-rose-500 transition-colors">照片墙</a>
+                    <a href="letters.html" class="text-gray-600 hover:text-rose-500 transition-colors">情书信箱</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 返回按钮 -->
+    <button class="back-button" onclick="window.location.href='index.html'">
+        <i class="fa fa-arrow-left mr-2"></i>返回首页
+    </button>
+
+    <!-- 音乐播放器 -->
+    <div id="music-player" class="fixed bottom-4 right-4 z-40 bg-white bg-opacity-90 backdrop-blur-sm p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110">
+        <button id="music-play-btn" class="w-12 h-12 rounded-full flex items-center justify-center text-gray-800 hover:text-rose-500 transition-colors" title="播放/暂停音乐">
+            <i class="fas fa-music text-xl"></i>
+        </button>
+    </div>
+    
+    <!-- 音频元素 -->
+    <audio id="background-music" loop>
+        <source src="music/流星雨.ogg" type="audio/ogg">
+        <source src="music/流星雨.mp3" type="audio/mpeg">
+        您的浏览器不支持音频播放。
+    </audio>
+
+    <!-- 页面标题 -->
+    <div class="container mx-auto px-4 pt-28 pb-8">
+        <div class="text-center mb-16">
+            <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold mb-4 text-gray-800 font-romantic">恋爱记录</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">我们的故事，从这里开始...</p>
+            <div class="w-20 h-1 bg-rose-500 mx-auto mt-6 rounded-full"></div>
+        </div>
+    </div>
+
+    <!-- 时间线容器 -->
+    <div class="timeline-container" id="timeline-container">
+        <div class="timeline-line"></div>
+        <!-- 时间线项目将通过JavaScript动态加载 -->
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // 音乐播放器功能
+        function initMusicPlayer() {
+            console.log('🎵 开始初始化音乐播放器...');
+            
+            const audio = document.getElementById('background-music');
+            const playBtn = document.getElementById('music-play-btn');
+            
+            if (!audio || !playBtn) {
+                console.error('❌ 音乐播放器元素未找到');
+                return;
+            }
+            
+            // 设置音量
+            audio.volume = 0.3;
+            
+            // 播放状态管理
+            let isPlaying = false;
+            
+            // 播放/暂停功能
+            playBtn.addEventListener('click', () => {
+                if (isPlaying) {
+                    audio.pause();
+                    playBtn.innerHTML = '<i class="fas fa-music text-xl"></i>';
+                    console.log('⏸️  音乐已暂停');
+                } else {
+                    audio.play().then(() => {
+                        playBtn.innerHTML = '<i class="fas fa-pause text-xl"></i>';
+                        console.log('▶️  音乐已开始播放');
+                    }).catch(err => {
+                        console.error('❌ 音乐播放失败:', err);
+                    });
+                }
+                isPlaying = !isPlaying;
+            });
+            
+            // 添加键盘快捷键（M键）
+            document.addEventListener('keydown', (e) => {
+                if (e.key.toLowerCase() === 'm' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                    playBtn.click();
+                }
+            });
+            
+            // 添加加载完成事件监听
+            audio.addEventListener('loadedmetadata', () => {
+                console.log('🎵 音乐文件已加载完成');
+            });
+            
+            // 添加错误事件监听
+            audio.addEventListener('error', (err) => {
+                console.error('🎵 音乐加载失败:', err);
+                playBtn.title = '音乐加载失败，请检查文件路径';
+            });
+            
+            // 添加循环播放结束事件
+            audio.addEventListener('ended', () => {
+                console.log('🔄 音乐循环播放');
+                audio.currentTime = 0;
+                audio.play();
+            });
+            
+            console.log('✅ 音乐播放器初始化完成');
+        }
+        
+        // 页面加载完成后初始化音乐播放器
+        document.addEventListener('DOMContentLoaded', () => {
+            initMusicPlayer();
+        });
+        
+        // 恋爱记录数据
+        const loveStoryData = [
+            {
+                id: 1, 
+                date: '2024-11-2', 
+                title: '初次相识', 
+                content: '在亲人的介绍下，初次相识，不情不愿的加了互相的联系方式<br>青青妈："小伙子很优秀，长得也不错……",<br>青青哥："这个你信我，这个真可以……"<br>在两小时的软磨硬泡下，有了以下故事', // 修改这里 
+                mood: '甜蜜', 
+                image: 'images/DSC09155.jpg' 
+            },
+            {
+                id: 2,
+                date: '2024-11-15',
+                title: '初次相见/第一次约会',
+                content: '全家制造机会，为了让我们见上一面，所以在下了班后的一个普通的周五晚上，我们见面啦！<br>青青内心os："哎呀，好尴尬呀，该说点什么缓解这个尴尬的气氛呢"。<br>"本人比照片要好看些"，"话不多"。<br>"哇！居然给我买了鲜花，em……小伙子挺上道，看来没少谈恋爱"。<br>"他怎么吃了我的螺蛳粉？"<br>他好像喜欢我，等会探探口风"。<br>"他看起来情绪很稳定"。<br>"开车的样子还挺好看"',
+                mood: '兴奋',
+                image: 'images/2/2022-05-06 132354.jpg'
+            },
+            {
+                id: 3,
+                date: '2024-11-16',
+                title: '我们在一起啦',
+                content: '第一次和你出去玩，青青同学非常准时的在早上8点化了漂亮的妆和小张见面，小张提前做好了攻略，加分！还用保温杯装好了温水，依旧加分，经过一天的相处，我们发现彼此很合拍，一起玩密室（又菜又爱玩，还玩不明白的两个人）一起看电影（有趣，虽然压根看电影，你懂的啦！）重头戏来啦，被表白啦，意料之中，但是没想到还有第二波，有心啦亲爱的小张',
+                mood: '幸福',
+                image: 'images/2/2022-12-25 171145.jpg'
+            },
+            {
+                id: 4,
+                date: '2024-12-29',
+                title: '我们结婚了',
+                content: '这一天，我们终于成为了夫妻！<br>从初次相遇到今天，短短57天，我们经历了相识、相知、相爱<br>在亲朋好友的见证下，我们许下了一生的承诺<br>青青："我愿意，无论贫穷还是富有，无论健康还是疾病，我都会一直陪在你身边"<br>张乐："我愿意，我会用我的一生去爱你、保护你、照顾你"<br>从此，我们将携手共度余生，无论风雨，无论晴天',
+                mood: '感动',
+                image: 'images/2/2023-07-02 004956.jpg'
+            }
+        ];
+
+        // 格式化日期
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const year = date.getFullYear();
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            return `${year}年${month}月${day}日`;
+        }
+
+        // 获取心情图标
+        function getMoodIcon(mood) {
+            const moodIcons = {
+                '甜蜜': 'fa-heart',
+                '兴奋': 'fa-star',
+                '幸福': 'fa-smile-o',
+                '浪漫': 'fa-moon',
+                '理解': 'fa-handshake-o',
+                '激动': 'fa-diamond',
+                '感动': 'fa-sun'
+            };
+            return moodIcons[mood] || 'fa-heart';
+        }
+
+        // 渲染时间线
+        function renderTimeline() {
+            const container = document.getElementById('timeline-container');
+            
+            loveStoryData.forEach((item, index) => {
+                const timelineItem = document.createElement('div');
+                timelineItem.className = 'timeline-item';
+                
+                // 构建内容HTML
+                let html = `
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">${formatDate(item.date)}</div>
+                        <div class="timeline-title">${item.title}</div>
+                        <div class="timeline-text">${item.content}</div>
+                        <div class="timeline-mood">
+                            <i class="fa ${getMoodIcon(item.mood)}"></i>
+                            <span>${item.mood}</span>
+                        </div>
+                    </div>
+                `;
+                
+                // 如果有图片，添加图片元素
+                if (item.image) {
+                    html += `
+                        <div class="timeline-image">
+                            <img src="${item.image}" alt="${item.title}" loading="lazy">
+                        </div>
+                    `;
+                }
+                
+                timelineItem.innerHTML = html;
+                container.appendChild(timelineItem);
+            });
+        }
+
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            renderTimeline();
+        });
+    </script>
+</body>
+</html>

@@ -1,10 +1,10 @@
 # 创建一个简单的HTTP服务器
 $listener = New-Object System.Net.HttpListener
-$listener.Prefixes.Add('http://localhost:8000/')
+$listener.Prefixes.Add('http://localhost:8001/')
 $listener.Start()
 
-Write-Host "Server running: http://localhost:8000"
-Write-Host "Visit http://localhost:8000/index.html to view the website"
+Write-Host "Server running: http://localhost:8001"
+Write-Host "Visit http://localhost:8001/index.html to view the website"
 Write-Host "Press Ctrl+C to stop server"
 
 try {
