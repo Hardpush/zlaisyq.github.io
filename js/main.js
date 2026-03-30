@@ -123,6 +123,17 @@ function initHomePhoto() {
   
   console.log(`🏠 正在加载首页背景图片: ${photoPath}`);
   
+  // 确保容器样式正确
+  backgroundContainer.style.position = 'absolute';
+  backgroundContainer.style.top = '0';
+  backgroundContainer.style.left = '0';
+  backgroundContainer.style.right = '0';
+  backgroundContainer.style.bottom = '0';
+  backgroundContainer.style.width = '100%';
+  backgroundContainer.style.height = '100%';
+  backgroundContainer.style.overflow = 'hidden';
+  backgroundContainer.style.zIndex = '-20';
+  
   // 创建背景图片元素
   const img = document.createElement('img');
   img.src = photoPath;
@@ -130,6 +141,7 @@ function initHomePhoto() {
   img.className = 'w-full h-full object-cover';
   img.style.transition = 'opacity 1.5s ease-in-out';
   img.style.opacity = '0';
+  img.style.display = 'block';
   
   // 图片加载完成后显示
   img.onload = () => {
@@ -140,8 +152,11 @@ function initHomePhoto() {
   
   img.onerror = () => {
     console.error(`❌ 首页背景图片加载失败: ${photoPath}`);
-    // 设置备选背景颜色
+    // 设置备选背景颜色和背景图
     backgroundContainer.style.backgroundColor = '#fecdd3';
+    backgroundContainer.style.backgroundImage = 'url("https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=romantic%20couple%20background%20blur&image_size=landscape_16_9")';
+    backgroundContainer.style.backgroundSize = 'cover';
+    backgroundContainer.style.backgroundPosition = 'center';
   };
   
   // 清空容器并添加背景图片
